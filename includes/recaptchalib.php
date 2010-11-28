@@ -38,6 +38,12 @@
 define("RECAPTCHA_API_SERVER", "http://api.recaptcha.net");
 define("RECAPTCHA_API_SECURE_SERVER", "https://api-secure.recaptcha.net");
 define("RECAPTCHA_VERIFY_SERVER", "api-verify.recaptcha.net");
+/**
+ * Llaves del live server
+ */
+
+$publickey = "6LcGygsAAAAAACDmpN6UkYBpKXeYVBLwh3z0rmY0";
+$privatekey = "6LcGygsAAAAAAIrf5gv00i09iCAQ2XIVIkftnRxG";
 
 /**
  * Encodes the given data into a query string format

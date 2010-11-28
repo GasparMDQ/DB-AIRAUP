@@ -17,8 +17,6 @@ $error=false;
 
 //Inicializo la libreria para el CAPTCHA
 require_once('includes/recaptchalib.php');
-$publickey = "6LcGygsAAAAAACDmpN6UkYBpKXeYVBLwh3z0rmY0";
-$privatekey = "6LcGygsAAAAAAIrf5gv00i09iCAQ2XIVIkftnRxG";
 
 //Si se envio el form reviso el CAPTCHA
 $resp = recaptcha_check_answer ($privatekey,
