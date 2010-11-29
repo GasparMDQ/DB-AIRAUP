@@ -1,5 +1,16 @@
 <?php
+//PROGRAMAR DOS CASOS, SI ES ADMIN Q PERMITA SELECCIONAR CUALQUIER DISTRITO, SI ES RDR O ADMIN DISTRITAL, SOLO PERMITA VER/MODIFICAR EL DISTRITO QUE LE CORRESPONDE
+
 include 'header.php';
+
+if ($nivel_distrito OR $nivel_admin) {
+		$esadmin=true;
+}
+
+if (!$_SESSION['logged'] || !$esadmin) {
+	header("Location: index.php");
+}
+
 $club['error']="";
 
 if (isset($_GET['distrito'])){
@@ -7,6 +18,15 @@ if (isset($_GET['distrito'])){
 } else {
 	$distrito=intval($_POST['distrito']);
 }
+
+if (!$nivel_admin AND $distrito!=$distrito_c AND $distrito!=0) {
+	header("Location: index.php");
+} else {
+	if (!$nivel_admin) {
+		$distrito = $distrito_c;
+	}
+}
+
 
 $admin=mysql_real_escape_string(substr(htmlspecialchars($_POST['admin']),0,40));
 $presidente=mysql_real_escape_string(substr(htmlspecialchars($_POST['presidente']),0,40));
@@ -49,7 +69,11 @@ if (isset($_POST['clubb'])&& $_POST['submit']=='Agregar') {
 		$club['error']="El club escrito no se encuentra en la lista";
 	}
 } else if (isset($_POST['clubb'])&& $_POST['submit']=='Modificar') {
-	$sql = sprintf("UPDATE rtc_clubes SET club='$consulta', uid_admin='$admin', uid_presidente='$presidente' WHERE id_club='$consulta1' LIMIT 1 ");
+	if ($nivel_admin) {
+		$sql = sprintf("UPDATE rtc_clubes SET club='$consulta', uid_admin='$admin', uid_presidente='$presidente' WHERE id_club='$consulta1' LIMIT 1 ");
+	} else {
+		$sql = sprintf("UPDATE rtc_clubes SET club='$consulta', uid_presidente='$presidente' WHERE id_club='$consulta1' LIMIT 1 ");
+	}
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$club['error']="No se pudo modificar";
@@ -58,46 +82,47 @@ if (isset($_POST['clubb'])&& $_POST['submit']=='Agregar') {
 	}
 }
 
-	include 'main.php';
-?>
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-      <td width="40">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td align="left">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td><form id="form1" name="form1" method="get" action="clubes.php">
-        Id de Distrito:
-        <input name="distrito" type="text" id="distrito" size="3" maxlength="3" />
-                        <input type="submit" name="button" id="button" value="Enviar" />
-      </form>
-      </td>
-      
-      <td align="left">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>
-<?php 
-	require_once '/home/gasparmdq/configDB/configuracion.php';
-	require_once 'includes/abredb.php';
+	if ($nivel_admin) {
+		echo "
+		<table width=\"100%\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">
+		    <tr>
+		      <td width=\"40\">&nbsp;</td>
+		      <td>&nbsp;</td>
+		      <td>&nbsp;</td>
+		    </tr>
+			<tr>
+		      <td>&nbsp;</td>
+		      <td><form id=\"form1\" name=\"form1\" method=\"get\" action=\"clubes.php\">
+		        Id de Distrito:
+		        <input name=\"distrito\" type=\"text\" id=\"distrito\" size=\"3\" maxlength=\"3\" />
+		                        <input type=\"submit\" name=\"button\" id=\"button\" value=\"Enviar\" />
+		      </form>
+		      </td>
+		      <td>&nbsp;</td>
+		    </tr>
+		    <tr>
+		      <td>&nbsp;</td>
+		      <td>
+		";
 
-	$sql = "SELECT * FROM rtc_distritos ORDER BY distrito";
-	$result = mysql_query($sql);
-	echo "<select name=\"distrito\" id=\"distrito\" onchange=\"location.href='clubes.php?distrito='+this.value\" >";
-	echo "<option value=\"0\">Seleccione Distrito</option>";
-	$sel='';
-	while($row = mysql_fetch_assoc($result))
-	{
-		if ($row['id_distrito']==$distrito) { $sel = 'selected="selected"';} else {$sel = '';}
-		echo "<option value=\"{$row['id_distrito']}\" {$sel} >{$row['distrito']}</option>";
-	}
-	?> </td>
-      <td align="left">&nbsp;</td>
-    </tr>
-  </table>
+		$sql = "SELECT * FROM rtc_distritos ORDER BY distrito";
+		$result = mysql_query($sql);
+		echo "<select name=\"distrito\" id=\"distrito\" onchange=\"location.href='clubes.php?distrito='+this.value\" >";
+		echo "<option value=\"0\">Seleccione Distrito</option>";
+		$sel='';
+		while($row = mysql_fetch_assoc($result))
+		{
+			if ($row['id_distrito']==$distrito) { $sel = 'selected="selected"';} else {$sel = '';}
+			echo "<option value=\"{$row['id_distrito']}\" {$sel} >{$row['distrito']}</option>";
+		}
+		echo "
+				</td>
+	      		<td>&nbsp;</td>
+	    	</tr>
+	  	</table>
+		";
+} //fin del if nivel_admin
+?>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td width="40"><p>&nbsp;</p></td>
@@ -137,7 +162,7 @@ while($row = mysql_fetch_assoc($result))
 	</td>
 	<td>Admin:
 <?php
-	$sql1 = "SELECT * FROM rtc_usuarios WHERE distrito=$distrito";
+	$sql1 = "SELECT * FROM rtc_usuarios WHERE club=$idclub";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"admin\" id=\"admin\">";
 	echo "<option value=\"0\" selected > </option>";

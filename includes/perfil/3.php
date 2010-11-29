@@ -82,7 +82,7 @@ if (isset($_POST['enviar'])) {
       <td><h1>Perfil Institucional de <?php echo $usuario['user_id'];?> </h1></td>
       <td align="left">&nbsp;</td>
       <td align="left">&nbsp;</td>
-      <td align="left"><img src="../images/socios_perfil.png" alt="Socios" width="48" height="48" hspace="0" vspace="0" border="0" align="right" /></td>
+      <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td>&nbsp;</td>

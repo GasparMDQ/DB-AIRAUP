@@ -1,34 +1,73 @@
 <?php
-$idclub=intval($_GET['club']);
 require_once '/home/gasparmdq/configDB/configuracion.php';
 require_once 'abredb.php';
 
+$idclub=intval($_GET['club']);
+
 $sql = "SELECT * FROM rtc_clubes WHERE id_club = '$idclub'";
 $result = mysql_query($sql);
-$row = mysql_fetch_assoc($result)
+$row = mysql_fetch_assoc($result);
+
+$idd= $row['id_distrito'];
+$sqld = "SELECT * FROM rtc_distritos WHERE id_distrito = '$idd'";
+$resultd = mysql_query($sqld);
+$rowd = mysql_fetch_assoc($resultd);
+
 ?>
-<table width="75%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table class="tabla_clubes_detalles">
+<tr>
+    	<th valign="bottom"><h1>Rotaract Club <?php echo $row['club'];?></h1></th>
+    <th valign="bottom" align="right"><h2>Distrito <?php echo $rowd['distrito'];?></h2></th>
+  </tr>
 	<tr>
-    	<th>Rotaract Club <?php echo $row['club'];?></th>
-        <th>&nbsp;</th>
-	</tr>
-	<tr>
-    	<td>Presidente <?php
+    	<td><h3>Presidente</h3></td>
+        <td align="right"><?php
 			$presi= $row['uid_presidente'];
 			$sqls = "SELECT * FROM rtc_usuarios WHERE uid = '$presi' LIMIT 1";
 			$results = mysql_query($sqls);
 			$rows = mysql_fetch_assoc($results);
 			if ($rows) {
-				echo $rows['nombre']." ".$rows['apellido'];
+				echo "<h3>".$rows['nombre']." ".$rows['apellido']."</h3>";
 			} else {
 				echo "no informado";
 			}
 			?></td>
-        <td>&nbsp;</td>
+	</tr>
+	<tr bgcolor="#555555">
+	  <td valign="top">D&iacute;a y hora de reuni&oacute;n</td>
+	  <td align="right" valign="top">&nbsp;</td>
+  </tr>
+	<tr>
+	  <td valign="top">Direcci&oacute;n</td>
+	  <td align="right" valign="top"><?php
+			if ($row['direccion']!='') {
+				echo $row['direccion'];
+			} else {
+				echo "no informada";
+			}
+			?></td>
+  </tr>
+	<tr  bgcolor="#555555">
+	  <td valign="top">E-mail:</td>
+	  <td align="right" valign="top"><?php
+			if ($row['email']!='') {
+				echo $row['email'];
+			} else {
+				echo "no informado";
+			}
+			?></td>
+  </tr>
+</table>
+<table class="tabla_clubes_detalles_socios">
+	<tr>
+    	<td colspan="2"><h2>Directorio</h2></td>
+    </tr>
+	<tr>
+    	<td>Socios</td>
+        <td>Ficha</td>
 	</tr>
 	<tr>
-    	<td valign="top">Socios</td>
-    	<td align="right">
+		<td>
 		<?php
 			$clubtmp = $row['id_club'];
 			$sqls = "SELECT * FROM rtc_usuarios WHERE club = '$clubtmp' ORDER BY nombre, apellido";
@@ -37,15 +76,17 @@ $row = mysql_fetch_assoc($result)
 			while($rows = mysql_fetch_assoc($results))
 			{
 				if ($rows['perfil_publico']){
-					echo $rows['nombre']." ".$rows['apellido']."<br />";
+					echo "<a href=\"javascript:fichaSocio(".$rows['uid'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
 				} else {
 					$ocultos = $ocultos +1;
 				}
-			}
-			if ($ocultos) {
-				echo "y ".$ocultos." socios con perfil privado";
-			}
-		?>		</td>
+			} ?>
+		</td>
+		<td><div id="ficha_socio"></div></td>
 	</tr>
-    
+	<?php if ($ocultos) { ?>
+	<tr>
+		<td colspan="2"><?php echo "y ".$ocultos." socios con datos privados"; ?></td>
+		</tr>
+	<?php }	?>
 </table>

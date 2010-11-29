@@ -88,7 +88,6 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 		$usuario['error']="Se modificaron los datos del usuario ".$usuario['var']." y se agregaron a las tablas correspondientes.";
 	}
 }
-	include 'main.php';
 ?>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>

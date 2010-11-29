@@ -308,12 +308,14 @@ if (isset($_POST['otroclub'])&& $club['var']=='-1' && $_POST['otroclub']!='') {
 	}
 }
 
-if (isset($_POST['perfil_publico'])) {
+if ((isset($_POST['perfil_publico'])) AND ($error==false)) {
 	$perfil['var'] = 1;
-} else if (!isset($_POST['enviar'])) {
-	$perfil['var'] = $usuario['perfil_publico'];
-	} else {
-		$perfil['var'] = 0;
+} else {
+	if ((isset($_POST['perfil_publico_verifica'])) AND ($error==false)) {
+			$perfil['var'] = 0;
+		} else {
+			$perfil['var'] = $usuario['perfil_publico'];
+		}
 	}
 
 //Si estan todas las variables, se procede a modificarlos datos ingresados.
@@ -373,7 +375,7 @@ if ($error==false) {
       <td>&nbsp;</td>
       <td><h1>Perfil Personal de <?php echo $usuario['user_id'];?> </h1></td>
       <td align="left">&nbsp;</td>
-      <td align="left"><img src="../images/socios_perfil.png" alt="Socios" width="48" height="48" hspace="0" vspace="0" border="0" align="right" /></td>
+      <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -680,7 +682,8 @@ if ($distrito['var'] == '0') {
     <tr>
       <td width="40">&nbsp;</td>
       <td>Perfil público:</td>
-      <td align="left">        <input title="Elija si sus datos seran publicos o privados" name="perfil_publico" type="checkbox" id="perfil_publico" value="1" <?php if ($perfil['var']=='1') { echo "checked=\"checked\"";}  ?>/>        </td>
+      <td align="left">        <input title="Elija si sus datos seran publicos o privados" name="perfil_publico" type="checkbox" id="perfil_publico" value="1" <?php if ($perfil['var']=='1') { echo "checked=\"checked\"";}  ?>/>
+      <input name="perfil_publico_verifica" type="hidden" id="perfil_publico_verifica" value="1" /></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

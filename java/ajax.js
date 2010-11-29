@@ -21,3 +21,8 @@ function getClubDetalle(idclub){
 	var dataString = 'includes/detalleclub.php?club='+idclub;
 	$("#detalleclubes").load(dataString);
 }
+
+function fichaSocio(idsocio){
+	var dataString = 'includes/fichasocio.php?socio='+idsocio;
+	$("#ficha_socio").load(dataString);
+}
