@@ -39,7 +39,7 @@ $club_socio=mysql_real_escape_string(substr(htmlspecialchars($_POST['suid']),0,4
 
 
 if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
-	$sql = sprintf("UPDATE rtc_usuarios SET club='0' WHERE uid='$club_socio' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_usuarios SET club='0', distrito='0' WHERE uid='$club_socio' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ($result == false) {
 		$club_error = "El socio no pudo ser dado de baja";

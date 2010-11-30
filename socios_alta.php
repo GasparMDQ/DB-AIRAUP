@@ -335,11 +335,11 @@ if ($error==false) {
 		$ape = mysql_real_escape_string($apellido['var']); $tdni = mysql_real_escape_string($tipodni['var']); $dni = mysql_real_escape_string($numerodni['var']);
 		$ocu = mysql_real_escape_string($ocupacion['var']); $dire = mysql_real_escape_string($direccion['var']); $ciud = mysql_real_escape_string($ciudad['var']);
 		$ociud = mysql_real_escape_string($otra_ciud['var']); $zip = mysql_real_escape_string($codigopostal['var']);
-		$prov = mysql_real_escape_string($provincia['var']); mysql_real_escape_string($oprov = $otra_prov['var']); mysql_real_escape_string($pai = $pais['var']);
+		$prov = mysql_real_escape_string($provincia['var']); $oprov = mysql_real_escape_string($otra_prov['var']); $pai = mysql_real_escape_string($pais['var']);
 		$opai = mysql_real_escape_string($otro_pais['var']); $tel = mysql_real_escape_string($numerodetel['var']);
 		$cel = mysql_real_escape_string($numerodecel['var']); $prog = mysql_real_escape_string($programari['var']);
 		$oprog = mysql_real_escape_string($otroprograma['var']); $dist = mysql_real_escape_string($distrito['var']);
-		$odist = mysql_real_escape_string($otrodistrito['var']); $clu = mysql_real_escape_string($club['var']; $oclu = mysql_real_escape_string($otroclub['var']);
+		$odist = mysql_real_escape_string($otrodistrito['var']); $clu = mysql_real_escape_string($club['var']); $oclu = mysql_real_escape_string($otroclub['var']);
 		$per = mysql_real_escape_string($perfil['var']);
 		$fdn =  date_format( date_create($anio.'-'.$mes.'-'.$dia['var']),'Y-m-d');
 		$fdc =  date('c');
