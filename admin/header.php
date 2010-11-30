@@ -21,14 +21,14 @@ if (!isset($_SESSION['uid']) ) {
 	session_defaults();
 }
 ?>
-<div id="container">
+<div id="container_admin">
   <div id="header">
     <h1><img src="../images/logo_color_rtc.png" title="Logo Rotaract" alt="Logo Rotaract" width="56" height="56" />&nbsp;&nbsp;Administración BD A.I.R.A.U.P.&nbsp;&nbsp;<img src="../images/2.0.png" title="Web 2.0" alt="web 2.0" width="48" height="48" /></h1>
 <!-- end #header --></div>
   <div id="acceso">
     <?php include '../includes/acceso.php'; ?>
   </div>
-  <div id="mainContent">
+  <div id="mainContent_admin">
 
 <?php 
 
@@ -56,7 +56,7 @@ if ($_SESSION['logged']) {
 		$nivel_distrito=true;
 	}
 	//Verifica si el user es MIEMBRO DEL CLUB
-	$sql_p = "SELECT * FROM rtc_clubes WHERE (uid_presidente = '$uid_c' OR uid_admin = '$uid_c') AND id_club = '$distrito_c' LIMIT 1";
+	$sql_p = "SELECT * FROM rtc_clubes WHERE (uid_presidente = '$uid_c' OR uid_admin = '$uid_c') AND id_club = '$club_c' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_num_rows($result_p);
 	if ($row_p) {

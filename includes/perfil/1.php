@@ -325,16 +325,16 @@ if ($error==false) {
 
 
 
-		$uid = mysql_real_escape_string($userid['var']); $em = $email['var']; $nom = $nombre['var'];
-		$ape = $apellido['var']; $tdni = $tipodni['var']; $dni = $numerodni['var'];
-		$ocu = $ocupacion['var']; $dire = $direccion['var']; $ciud = $ciudad['var'];
-		$ociud = $otra_ciud['var']; $zip = $codigopostal['var'];
-		$prov = $provincia['var']; $oprov = $otra_prov['var']; $pai = $pais['var'];
-		$opai = $otro_pais['var']; $tel = $numerodetel['var'];
-		$cel = $numerodecel['var']; $prog = $programari['var'];
-		$oprog = $otroprograma['var']; $dist = $distrito['var'];
-		$odist = $otrodistrito['var']; $clu = $club['var']; $oclu = $otroclub['var'];
-		$per = $perfil['var'];
+		$uid = mysql_real_escape_string($userid['var']); $em = mysql_real_escape_string($email['var']); $nom = mysql_real_escape_string($nombre['var']);
+		$ape = mysql_real_escape_string($apellido['var']); $tdni = mysql_real_escape_string($tipodni['var']); $dni = mysql_real_escape_string($numerodni['var']);
+		$ocu = mysql_real_escape_string($ocupacion['var']); $dire = mysql_real_escape_string($direccion['var']); $ciud = mysql_real_escape_string($ciudad['var']);
+		$ociud = mysql_real_escape_string($otra_ciud['var']); $zip = mysql_real_escape_string($codigopostal['var']);
+		$prov = mysql_real_escape_string($provincia['var']); $oprov = mysql_real_escape_string($otra_prov['var']); $pai = mysql_real_escape_string($pais['var']);
+		$opai = mysql_real_escape_string($otro_pais['var']); $tel = mysql_real_escape_string($numerodetel['var']);
+		$cel = mysql_real_escape_string($numerodecel['var']); $prog = mysql_real_escape_string($programari['var']);
+		$oprog = mysql_real_escape_string($otroprograma['var']); $dist = mysql_real_escape_string($distrito['var']);
+		$odist = mysql_real_escape_string($otrodistrito['var']); $clu = mysql_real_escape_string($club['var']); $oclu = mysql_real_escape_string($otroclub['var']);
+		$per = mysql_real_escape_string($perfil['var']);
 		$fdn =  date_format( date_create($anio.'-'.$mes.'-'.$dia['var']),'Y-m-d');
 		$fdm =  date('c');
 		$sql = sprintf("UPDATE rtc_usuarios SET email = '$em', nombre = '$nom', apellido = '$ape', fecha_de_nacimiento = '$fdn', tipo_de_documento = '$tdni', numero_de_documento = '$dni', ocupacion = '$ocu', direccion = '$dire', ciudad = '$ciud', ociudad = '$ociud', codigo_postal = '$zip', provincia = '$prov', oprovincia = '$oprov', pais = '$pai', opais = '$opai', telefono = '$tel', celular = '$cel', programa_ri = '$prog', oprograma = '$oprog', distrito = '$dist', odistrito = '$odist', club = '$clu', oclub = '$oclu', fecha_de_modificacion = '$fdm', perfil_publico = '$per' WHERE user_id='$uid'");

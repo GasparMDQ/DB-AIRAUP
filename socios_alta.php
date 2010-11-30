@@ -33,7 +33,7 @@ if (!$resp->is_valid) {
 
 //Recupero de variables y verificacion de que esten todas. En caso de que alguna falte, se el indicador de error la marca.
 if (isset($_POST['user_id']) && $_POST['user_id']!='') {
-	$userid['var']=substr(htmlspecialchars($_POST['user_id']),0,40);
+	$userid['var']=substr(htmlspecialchars($_POST['user_id']),0,32);
 //Verifico que el usuario no exista
 	$username = mysql_real_escape_string($userid['var']);
 	$sql = sprintf("SELECT * FROM rtc_usuarios WHERE " . "user_id = \"$username\" LIMIT 1");
@@ -331,16 +331,16 @@ if ($error==false) {
 			session_defaults();
 		}
 //ACA VA SQL PARA AGREGAR EL REGISTRO
-		$uid = mysql_real_escape_string($userid['var']); $em = $email['var']; $nom = $nombre['var'];
-		$ape = $apellido['var']; $tdni = $tipodni['var']; $dni = $numerodni['var'];
-		$ocu = $ocupacion['var']; $dire = $direccion['var']; $ciud = $ciudad['var'];
-		$ociud = $otra_ciud['var']; $zip = $codigopostal['var'];
-		$prov = $provincia['var']; $oprov = $otra_prov['var']; $pai = $pais['var'];
-		$opai = $otro_pais['var']; $tel = $numerodetel['var'];
-		$cel = $numerodecel['var']; $prog = $programari['var'];
-		$oprog = $otroprograma['var']; $dist = $distrito['var'];
-		$odist = $otrodistrito['var']; $clu = $club['var']; $oclu = $otroclub['var'];
-		$per = $perfil['var'];
+		$uid = mysql_real_escape_string($userid['var']); $em = mysql_real_escape_string($email['var']); $nom = mysql_real_escape_string($nombre['var']);
+		$ape = mysql_real_escape_string($apellido['var']); $tdni = mysql_real_escape_string($tipodni['var']); $dni = mysql_real_escape_string($numerodni['var']);
+		$ocu = mysql_real_escape_string($ocupacion['var']); $dire = mysql_real_escape_string($direccion['var']); $ciud = mysql_real_escape_string($ciudad['var']);
+		$ociud = mysql_real_escape_string($otra_ciud['var']); $zip = mysql_real_escape_string($codigopostal['var']);
+		$prov = mysql_real_escape_string($provincia['var']); mysql_real_escape_string($oprov = $otra_prov['var']); mysql_real_escape_string($pai = $pais['var']);
+		$opai = mysql_real_escape_string($otro_pais['var']); $tel = mysql_real_escape_string($numerodetel['var']);
+		$cel = mysql_real_escape_string($numerodecel['var']); $prog = mysql_real_escape_string($programari['var']);
+		$oprog = mysql_real_escape_string($otroprograma['var']); $dist = mysql_real_escape_string($distrito['var']);
+		$odist = mysql_real_escape_string($otrodistrito['var']); $clu = mysql_real_escape_string($club['var']; $oclu = mysql_real_escape_string($otroclub['var']);
+		$per = mysql_real_escape_string($perfil['var']);
 		$fdn =  date_format( date_create($anio.'-'.$mes.'-'.$dia['var']),'Y-m-d');
 		$fdc =  date('c');
 		$fdm =  date('c');
@@ -348,6 +348,7 @@ if ($error==false) {
 		$faa =  date('c');
 		$cla = hash('sha512', $uid.$clave['var'].'1s3a3l7t');
 		$sql = sprintf("INSERT INTO rtc_usuarios (user_id, clave, email, nombre, apellido, fecha_de_nacimiento, tipo_de_documento, numero_de_documento, ocupacion, direccion, ciudad, ociudad, codigo_postal, provincia, oprovincia, pais, opais, telefono, celular, programa_ri, oprograma, distrito, odistrito, club, oclub, fecha_de_creacion, fecha_de_modificacion, fecha_ultimo_acceso, fecha_acceso_actual, perfil_publico) VALUES ('$uid', '$cla', '$em', '$nom', '$ape', '$fdn', '$tdni', '$dni', '$ocu', '$dire', '$ciud', '$ociud', '$zip', '$prov', '$oprov', '$pai', '$opai', '$tel', '$cel', '$prog', '$oprog', '$dist', '$odist', '$clu', '$oclu', '$fdc', '$fdm', '$fua', '$faa', '$per')");
+		echo "PASAME LO QUE SIGUE: ".$sql."<br />";
 		$result = mysql_query($sql);
 //ENVIO DE MAIL CON CONFIRMACION DE ALTA Y DATOS DE USUARIO
 		$cuerpo = "<html><head><title>Base de Datos AIRAUP - Alta de ".$nom." ".$ape.".</title></head><body><h3>Bienvenido a la Base de Datos de A.I.R.A.U.P.</h3><p>Tu nombre de usuario es: <strong>".$uid."</strong><br>Tu password es: <strong>".$clave['var']."</strong></p><p>Los mismos te sirven para acceder a todos nuestros recursos y a tu perfil, donde podes actualizar tus datos personales y rotaractianos.</p><p>Esperamos que este recurso te sea de mucha utilidad!</p><p align=\"right\">Geek Team<br>RRHH AIRAUP</p></body></html>";

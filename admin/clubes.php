@@ -84,7 +84,7 @@ if (isset($_POST['clubb'])&& $_POST['submit']=='Agregar') {
 
 	if ($nivel_admin) {
 		echo "
-		<table width=\"100%\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">
+		<table>
 		    <tr>
 		      <td width=\"40\">&nbsp;</td>
 		      <td>&nbsp;</td>
@@ -123,12 +123,12 @@ if (isset($_POST['clubb'])&& $_POST['submit']=='Agregar') {
 		";
 } //fin del if nivel_admin
 ?>
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table>
     <tr>
       <td width="40"><p>&nbsp;</p></td>
       <td>&nbsp;</td>
-      <td align="left"><?php echo $club['error']; ?></td>
-    </tr>
+      <td align="left" colspan="3"><?php echo $club['error']; ?></td>
+  </tr>
 <?php
 
 $sql = "SELECT * FROM rtc_clubes WHERE id_distrito = $distrito ORDER BY club";
@@ -139,12 +139,12 @@ while($row = mysql_fetch_assoc($result))
     <tr>
       <td>&nbsp;</td>
       <td> <?php echo $row['club']; ?>	  </td>
-      <td align="left"><form action="clubes.php" method="post">
+      <td align="left"> <form action="clubes.php" method="post">
           <input name="clubb" type="text" id="clubb" value="<?php echo $row['club'];  ?>" size="20" maxlength="80" />
           <input name="idclubb" id="idclubb" type="hidden" value="<?php echo $row['id_club'];  ?>" />
    	    <input type="hidden" name="distrito" id="distrito" value="<?php echo $distrito;  ?>" />
 	</td>
-	<td>Presidente:
+	<td>P:
 <?php
 	$idclub=$row['id_club'];
 	$sql1 = "SELECT * FROM rtc_usuarios WHERE club=$idclub";
@@ -158,9 +158,8 @@ while($row = mysql_fetch_assoc($result))
 		echo "<option value=\"{$rowtmp['uid']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
-?>
-	</td>
-	<td>Admin:
+?>	</td>
+	<td>A:
 <?php
 	$sql1 = "SELECT * FROM rtc_usuarios WHERE club=$idclub";
 	$resultado = mysql_query($sql1);
@@ -173,8 +172,7 @@ while($row = mysql_fetch_assoc($result))
 		echo "<option value=\"{$rowtmp['uid']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
-?>
-	</td><td>
+?>	</td><td>
           <input type="submit" name="submit" id="submit" value="Modificar" />
           <input type="submit" name="submit" id="submit" value="Borrar" />
       </form></td>
@@ -185,7 +183,7 @@ while($row = mysql_fetch_assoc($result))
 	if ($distrito!='0') {
 ?>
 
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <table>
     <tr>
       <td width="40"><p>&nbsp;</p></td>
       <td>&nbsp;</td>
@@ -234,13 +232,6 @@ while($row = mysql_fetch_assoc($result))
 
 <?php 
 }
-?>
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-      <td colspan="3" align="center"><form action="index.php" method="post">
-        <input type="submit" name="submit" id="submit" value="Volver" />
-      </form></tr>
-  </table>
 
-<?php include 'footer.php';?>
+include 'footer.php';?>
 

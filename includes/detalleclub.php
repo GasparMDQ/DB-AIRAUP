@@ -70,7 +70,7 @@ $rowd = mysql_fetch_assoc($resultd);
 		<td>
 		<?php
 			$clubtmp = $row['id_club'];
-			$sqls = "SELECT * FROM rtc_usuarios WHERE club = '$clubtmp' ORDER BY nombre, apellido";
+			$sqls = "SELECT * FROM rtc_usuarios WHERE club = '$clubtmp' ORDER BY apellido, nombre";
 			$results = mysql_query($sqls);
 			$ocultos = 0;
 			while($rows = mysql_fetch_assoc($results))

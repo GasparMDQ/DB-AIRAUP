@@ -46,7 +46,7 @@ if ($_SESSION['logged']) { ?>
 <?php } else { ?>
 	<div id="userdiv">
 		<form id="login" name="formulario_login" method="post" action="/procesa/login.php">
-        	Usuario:<input name="user" type="text" id="user" size="10" maxlength="20" />
+        	Usuario:<input name="user" type="text" id="user" size="10" maxlength="32" />
 	        Contraseña:<input name="pass" type="password" id="pass" size="10" maxlength="16" />
 	        <input type="submit" name="entrar" id="entrar" value="Entrar" />
 	        <input type="button" name="registro" id="registro"  value="Registrarse" onclick="window.location = '/socios_alta.php';">
