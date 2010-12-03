@@ -8,12 +8,20 @@ body {
 	color: #000000;
 }
 
+/*
+OVERRIDES
+*/
+.datoprivado {
+	color:#FF0000 !important;
+}
+
+
 /* Tips for Elastic layouts 
 1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
 2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
 3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust based on your final font sizing.
 */
-.body #container {
+#container {
 	width: 56em;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
 /*	background: #ede7cf; */
 	background: #323232;
@@ -21,7 +29,7 @@ body {
 	border: 1px solid #000000;
 	text-align: left; /* this overrides the text-align: center on the body element. */
 }
-.body #container_admin {
+#container_admin {
 	width: 72em;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
 /*	background: #ede7cf; */
 	background: #323232;
@@ -30,15 +38,15 @@ body {
 	text-align: left; /* this overrides the text-align: center on the body element. */
 }
 
-.body #header { 
+#header { 
 	background: #DDDDDD; 
 	padding: 0 10px 0 20px;  /* this padding matches the left alignment of the elements in the divs that appear beneath it. If an image is used in the #header instead of text, you may want to remove the padding. */
 } 
-.body #header h1 {
+#header h1 {
 	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
 	padding: 10px 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
 }
-.body #acceso   {
+#acceso   {
 	position:relative;
 	padding: 0 20px;
 	background-color: #323232;
@@ -48,53 +56,66 @@ body {
 	text-align: right;
 	font-size: small;
 }
-.body #separadorB {
+#separadorB {
 	height: 0.05em;
 	clear:both;
 }
-.body #menudiv a {
+
+#menudiv {
+	float:left;
+	background-color: #323232;
+	width:8em;
+	text-align:center;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+}
+#menudiv ul {
+	padding: 0px;
+}
+#menudiv li {
+	text-align: center;
+	padding: 0px;
+	margin: 0;
+	display: block
+}
+#menudiv a {
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
 	font-size: x-small;
 }
-.body #menudiv {
-	float:left;
-	background-color: #323232;
-	width:8em;
-	text-align:center;
-}
-.body #mainContent {
+
+#mainContent {
 	width:48em;
 	float:left;
 	color: white;
 	background-color: #323232;
 }
-.body #mainContent a {
+#mainContent a {
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
 	font-size: x-small;
 }
-.body #mainContent table {
+#mainContent table {
 	color: white;
 	background-color: #323232;
 	font-weight: bold;
 	font-size: x-small;
 }
-.body #mainContent_admin {
+#mainContent_admin {
 	width:72em;
 	float:left;
 	color: white;
 	background-color: #323232;
 }
-.body #mainContent_admin a {
+#mainContent_admin a {
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
 	font-size: x-small;
 }
-.body #mainContent_admin table {
+#mainContent_admin table {
 	color: white;
 	background-color: #323232;
 	font-weight: bold;
@@ -117,12 +138,12 @@ body {
 	text-align: left;
 }
 
-.body #footer {
+#footer {
 	padding: 0 10px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
 	background:#323232;
 } 
 
-.body #detalleclubes {
+#detalleclubes {
 	width:48em;
 	background:#323232;
 } 
@@ -145,7 +166,7 @@ table.tabla_clubes_detalles_socios td {
 	vertical-align:text-top;
 }
 
-.body #footer p {
+#footer p {
 	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
 	padding: 10px 0; /* padding on this element will create space, just as the the margin would have, without the margin collapse issue */
 	color: #FFFFFF;
@@ -153,21 +174,21 @@ table.tabla_clubes_detalles_socios td {
 	font-size: x-small;
 	text-align: center;
 }
-.body #footer a {
+#footer a {
 	color: #CC9900;
 	text-decoration: none;
 }
 
-.body [required] {
+[required] {
 	border: 1px solid #ff0000;
 }
 
-.body input:invalid {
+input:invalid {
 	background: -webkit-gradient(linear, left top, left bottom, from(#ffbfbf), to(#ffffff));
 	background: -moz-linear-gradient(top,  #ffbfbf,  #ffffff);
 }
 
-.body input {
+input {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;

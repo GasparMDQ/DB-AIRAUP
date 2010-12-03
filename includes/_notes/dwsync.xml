@@ -16,17 +16,18 @@
 <file name="abredb.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129129228000000000" remote="129129228000000000" />
 <file name="acceso.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129355552670781250" remote="129355372200000000" />
 <file name="class.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129133548000000000" remote="129133548000000000" />
-<file name="detalleclub.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129355525237500000" remote="129355345200000000" />
+<file name="detalleclub.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129358159400156250" remote="129357979200000000" />
 <file name="findciudad.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129132684000000000" remote="129132684000000000" />
 <file name="findclub.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129130956000000000" remote="129130956000000000" />
 <file name="findprov.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129137004000000000" remote="129137004000000000" />
 <file name="footer.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129354276600000000" remote="129354276600000000" />
-<file name="header.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129353850000000000" remote="129353850000000000" />
+<file name="header.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129358093525468750" remote="129357913200000000" />
 <file name="header_excel.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129136140000000000" remote="129136140000000000" />
 <file name="index.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129129228000000000" remote="129129228000000000" />
 <file name="navega.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129353730600000000" remote="129353730600000000" />
 <file name="perfil_secciones.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129305212800000000" remote="129305212800000000" />
 <file name="recaptchalib.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129353699400000000" remote="129353699400000000" />
-<file name="menu.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129356281483750000" remote="129356101200000000" />
-<file name="fichasocio.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129354978000000000" remote="129354978000000000" />
+<file name="menu.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129358203093750000" remote="129358023000000000" />
+<file name="fichasocio.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129358159680000000" remote="129357979200000000" />
+<file name="permisos.php" server="hoffa.dreamhost.com/base.airaup.org/" local="129358210407031250" remote="129358030200000000" />
 </dwsync>

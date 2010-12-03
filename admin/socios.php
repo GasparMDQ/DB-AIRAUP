@@ -93,10 +93,17 @@ if ($nivel_admin) {
 	";
 } //fin del if nivel_admin
 
-	$sql = "SELECT * FROM rtc_clubes WHERE id_club=$club_id LIMIT 1";
+if ($club_id!=0) {
+
+	$sql_club = "SELECT * FROM rtc_clubes WHERE id_club=$club_id LIMIT 1";
+	$result_club = mysql_query($sql_club);
+	$row_club = mysql_fetch_assoc($result_club);
+	
+	$sql = "SELECT * FROM rtc_usuarios WHERE club = $club_id ORDER BY apellido, nombre";
 	$result = mysql_query($sql);
-	$row_club = mysql_fetch_assoc($result);
+	
 	echo "<h2>Rotaract Club ".$row_club['club']."</h2>";
+	echo "Miembros: ".mysql_num_rows($result);
 ?>
 <table>
     <tr>
@@ -106,8 +113,6 @@ if ($nivel_admin) {
   </tr>
 <?php
 
-$sql = "SELECT * FROM rtc_usuarios WHERE club = $club_id ORDER BY apellido, nombre";
-$result = mysql_query($sql);
 while($row = mysql_fetch_assoc($result))
 {
 ?>    
@@ -126,5 +131,7 @@ while($row = mysql_fetch_assoc($result))
 <?php } ?> 
 </table>
 
-<?php include 'footer.php';?>
+<?php 
+} //FINAL DEL IF CLUB_ID!=0
+include 'footer.php';?>
 

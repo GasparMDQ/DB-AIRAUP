@@ -1,10 +1,11 @@
 <?php
 require_once '/home/gasparmdq/configDB/configuracion.php';
 require_once 'abredb.php';
+require_once 'permisos.php';
 
-$idclub=intval($_GET['club']);
+$idc=intval($_GET['club']);
 
-$sql = "SELECT * FROM rtc_clubes WHERE id_club = '$idclub'";
+$sql = "SELECT * FROM rtc_clubes WHERE id_club = '$idc'";
 $result = mysql_query($sql);
 $row = mysql_fetch_assoc($result);
 
@@ -75,8 +76,12 @@ $rowd = mysql_fetch_assoc($resultd);
 			$ocultos = 0;
 			while($rows = mysql_fetch_assoc($results))
 			{
-				if ($rows['perfil_publico']){
-					echo "<a href=\"javascript:fichaSocio(".$rows['uid'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
+				if ($rows['perfil_publico'] OR $nivel_admin OR ($nivel_distrito AND $nivel_distrito_id==$idd) OR ($nivel_club AND $nivel_club_id==$idc)){
+					if ($rows['perfil_publico']) {
+						echo "<a href=\"javascript:fichaSocio(".$rows['uid'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
+					} else {
+						echo "<a class=\"datoprivado\" href=\"javascript:fichaSocio(".$rows['uid'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
+					}
 				} else {
 					$ocultos = $ocultos +1;
 				}

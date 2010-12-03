@@ -32,38 +32,7 @@ if (!isset($_SESSION['uid']) ) {
 
 <?php 
 
-if ($_SESSION['logged']) {
-	//Verifica si el user es ADMIN del Sitio
-	$uid_c = $_SESSION['uid'];
-	$sql_p = "SELECT * FROM rtc_admin WHERE uid = '$uid_c' LIMIT 1";
-	$result_p = mysql_query($sql_p);
-	$row_p = mysql_num_rows($result_p);
-	if ($row_p) {
-		$nivel_admin=true;
-	}
-
-	$sql_u = "SELECT * FROM rtc_usuarios WHERE uid = '$uid_c' LIMIT 1";
-	$result_u = mysql_query($sql_u);
-	$row_u = mysql_fetch_assoc($result_u);
-	$club_c=$row_u['club'];
-	$distrito_c=$row_u['distrito'];
-	
-	//Verifica si el user es RDR o ADMIN DISTRITAL
-	$sql_p = "SELECT * FROM rtc_distritos WHERE (uid_rdr = '$uid_c' OR uid_admin = '$uid_c') AND id_distrito = '$distrito_c' LIMIT 1";
-	$result_p = mysql_query($sql_p);
-	$row_p = mysql_num_rows($result_p);
-	if ($row_p) {
-		$nivel_distrito=true;
-	}
-	//Verifica si el user es MIEMBRO DEL CLUB
-	$sql_p = "SELECT * FROM rtc_clubes WHERE (uid_presidente = '$uid_c' OR uid_admin = '$uid_c') AND id_club = '$club_c' LIMIT 1";
-	$result_p = mysql_query($sql_p);
-	$row_p = mysql_num_rows($result_p);
-	if ($row_p) {
-		$nivel_club=true;
-	}
-
-}
+require_once '../includes/permisos.php';
 if ($nivel_club OR $nivel_distrito OR $nivel_admin) {
 		$esadmin=true;
 }
