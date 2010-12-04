@@ -28,8 +28,6 @@ if (!isset($_SESSION['uid']) ) {
   <div id="acceso">
     <?php include '../includes/acceso.php'; ?>
   </div>
-  <div id="mainContent_admin">
-
 <?php 
 
 require_once '../includes/permisos.php';
@@ -44,3 +42,6 @@ if (!$_SESSION['logged'] || !$esadmin) {
 include 'main.php';
 
 ?>
+  
+  <div id="mainContent_admin">
+

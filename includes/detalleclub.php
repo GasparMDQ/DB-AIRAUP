@@ -58,6 +58,16 @@ $rowd = mysql_fetch_assoc($resultd);
 			}
 			?></td>
   </tr>
+	<tr>
+	  <td valign="top">P&aacute;gina web</td>
+	  <td align="right" valign="top"><?php
+			if ($row['url']!='') {
+				echo $row['url'];
+			} else {
+				echo "no informada";
+			}
+			?></td>
+  </tr>
 </table>
 <table class="tabla_clubes_detalles_socios">
 	<tr>

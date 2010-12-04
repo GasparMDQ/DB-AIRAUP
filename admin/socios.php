@@ -30,8 +30,9 @@ if (!$nivel_admin AND $club_id!=$club_c AND $club!=0) {
 
 $club_admin=mysql_real_escape_string(substr(htmlspecialchars($_POST['admin']),0,40));
 $club_ciudad=mysql_real_escape_string(substr(htmlspecialchars($_POST['ciudad']),0,40));
-$club_direccion=mysql_real_escape_string(substr(htmlspecialchars($_POST['direccion']),0,40));
+$club_direccion=mysql_real_escape_string(substr(htmlspecialchars($_POST['direccion']),0,60));
 $club_email=mysql_real_escape_string(substr(htmlspecialchars($_POST['email']),0,40));
+$club_url=mysql_real_escape_string(substr(htmlspecialchars($_POST['url']),0,40));
 $club_nombre=mysql_real_escape_string(substr(htmlspecialchars($_POST['nombre']),0,40));
 $club_socio=mysql_real_escape_string(substr(htmlspecialchars($_POST['suid']),0,40));
 
@@ -51,6 +52,17 @@ if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
 	}
 }
 
+if (isset($_POST['submit']) AND ($_POST['submit']=='Modifica Datos')) {
+	$sql = sprintf("UPDATE rtc_clubes SET club='$club_nombre', email='$club_email', url='$club_url', direccion='$club_direccion'  WHERE id_club='$club_id' LIMIT 1 ");
+	$result = mysql_query($sql);
+	if ($result == false) {
+		$club_error = "Los datos del club no pudieron ser modificados";
+	} else {
+		$club_error = "Los datos del club fueron modificados correctamente";
+	}
+}
+
+
 
 if ($nivel_admin) {
 	echo "
@@ -62,7 +74,7 @@ if ($nivel_admin) {
 	    </tr>
 		<tr>
 	      <td>&nbsp;</td>
-	      <td><form id=\"form1\" name=\"form1\" method=\"get\" action=\"socios.php\">
+	      <td><form id=\"form1\" name=\"form1\" method=\"post\" action=\"socios.php\">
 	        Id de Club:
 	        <input name=\"club\" type=\"text\" id=\"club\" size=\"3\" maxlength=\"3\" />
 			<input type=\"submit\" name=\"button\" id=\"button\" value=\"Enviar\" />
@@ -93,45 +105,91 @@ if ($nivel_admin) {
 	";
 } //fin del if nivel_admin
 
+
+$sql_club = "SELECT * FROM rtc_clubes WHERE id_club=$club_id LIMIT 1";
+$result_club = mysql_query($sql_club);
+$row_club = mysql_fetch_assoc($result_club);
+	
+$sql = "SELECT * FROM rtc_usuarios WHERE club = $club_id ORDER BY apellido, nombre";
+$result = mysql_query($sql);
+	
 if ($club_id!=0) {
-
-	$sql_club = "SELECT * FROM rtc_clubes WHERE id_club=$club_id LIMIT 1";
-	$result_club = mysql_query($sql_club);
-	$row_club = mysql_fetch_assoc($result_club);
-	
-	$sql = "SELECT * FROM rtc_usuarios WHERE club = $club_id ORDER BY apellido, nombre";
-	$result = mysql_query($sql);
-	
 	echo "<h2>Rotaract Club ".$row_club['club']."</h2>";
-	echo "Miembros: ".mysql_num_rows($result);
+} else {
+	echo "<h2>Miembros dados de baja</h2>";
+}
 ?>
-<table>
-    <tr>
-      <td width="40"><p>&nbsp;</p></td>
-      <td>&nbsp;</td>
-      <td align="left" colspan="3"><?php echo $club_error; ?></td>
-  </tr>
+<div class="muestra_alarma"><?php echo $club_error; ?></div>
 <?php
+// DATOS DEL CLUB
+// ACCESIBLE PARA:
+//		-Presidente
+//		-Administrador Club
+//		-Administrador Sitio
 
-while($row = mysql_fetch_assoc($result))
-{
-?>    
-	<tr>
-		<td>&nbsp;</td>
-		<td> <?php echo $row['nombre']." ".$row['apellido']; ?>	  </td>
-		<td align="left">
-        	<form action="socios.php" method="post">
-			<input name="suid" id="suid" type="hidden" value="<?php echo $row['uid'];  ?>" />
-		</td>
-		<td>
-			<input type="submit" name="submit" id="submit" value="Dar de Baja" />
-			</form>
-		</td>
-	</tr>
+if ($club_id!=0) {
+?>
+<form action="socios.php" method="post">
+	<div class="tabla_ppl">
+		<div class="tabla_izquierda">Nombre del Club:</div>
+		<div class="tabla_derecha"><input class="texto" type="text" name="nombre" id="nombre" value="<?php echo $row_club['club']; ?>" />
+		</div>
+	</div> <!-- Final de tabla -->
+	<div class="tabla_ppl">
+		<div class="tabla_izquierda">Email:</div>
+		<div class="tabla_derecha"><input name="email" type="text" class="texto" id="email" value="<?php echo $row_club['email']; ?>" maxlength="40" />
+		</div>
+	</div> <!-- Final de tabla -->
+	<div class="tabla_ppl">
+		<div class="tabla_izquierda">Direcci&oacute;n Web</div>
+	    <div class="tabla_derecha"><input name="url" type="text" class="texto" id="url" value="<?php echo $row_club['url']; ?>" maxlength="40" />
+	    </div>
+	</div> <!-- Final de tabla -->
+	<div class="tabla_ppl">
+		<div class="tabla_izquierda">Ciudad</div>
+		<div class="tabla_derecha"><input class="texto" type="text" name="ciudad" id="ciudad" value="<?php echo $row_club['id_ciudad']; ?>" />
+		</div>
+	</div> <!-- Final de tabla -->
+	<div class="tabla_ppl">
+		<div class="tabla_izquierda">Direcci&oacute;n:</div>
+		<div class="tabla_derecha"><input name="direccion" type="text" class="texto" id="direccion" value="<?php echo $row_club['direccion']; ?>" maxlength="60" />
+		</div>
+	</div> <!-- Final de tabla -->
+	<div class="tabla_ppl">
+		<div class="tabla_izquierda"><input type="submit" name="submit" id="submit" value="Modifica Datos" /></div>
+		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /></div>
+	</div> <!-- Final de tabla -->
+</form>
+<?php } ?>
+
+
+<?php
+// LISTADO DONDE SE SELECCIONA EL ADMINISTRADOR DEL CLUB
+// ACCESIBLE PARA:
+//		-Presidente
+//		-Administrador Sitio
+?>
+
+<?php
+// GENERO EL LISTADO DE SOCIOS DEL CLUB CON LA OPCION DE DAR DE BAJA
+// ACCESIBLE PARA:
+//		-Presidente
+//		-Administrador Club
+//		-Administrador Sitio
+?>
+
+<div class="tabla_ppl"><h2>Cantidad de miembros: <?php echo mysql_num_rows($result); ?></h2></div>
+
+<?php while($row = mysql_fetch_assoc($result))
+{ ?>    
+<div class="tabla_ppl">
+	<form action="socios.php" method="post">
+		<div class="tabla_izquierda"><?php echo $row['nombre']." ".$row['apellido']; ?></div>
+		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /><input name="suid" id="suid" type="hidden" value="<?php echo $row['uid'];  ?>" /><input type="submit" name="submit" id="submit" value="Dar de Baja" /></div>
+	</form>
+</div> <!-- Final de tabla -->
 <?php } ?> 
-</table>
 
 <?php 
-} //FINAL DEL IF CLUB_ID!=0
 include 'footer.php';?>
 

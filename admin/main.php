@@ -1,9 +1,9 @@
-<div id="menudiv">
+<div id="menudivadmin">
 <ul>
 <li><a href="../index.php">Volver a la BD</a></li>
 <?php 
 if ($nivel_admin) {echo "<li><a href=\"paises.php\">Paises</a></li>";}
-if ($nivel_admin) {echo "<li><a href=\"provincias.php\">Provincias - Departamentos - Estados</a></li>";}
+if ($nivel_admin) {echo "<li><a href=\"provincias.php\">Provincias</a></li>";}
 if ($nivel_admin) {echo "<li><a href=\"ciudades.php\">Ciudades</a></li>";}
 if ($nivel_admin) {echo "<li><a href=\"programas.php\">Programas</a></li>";}
 if ($nivel_admin) {echo "<li><a href=\"cargos.php\">Cargos</a></li>";}
