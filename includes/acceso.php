@@ -24,7 +24,7 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-	        	<input type="button" name="bdbutton" id="bdbutton" value="Distrito" onclick="window.location = '/admin/index.php';">
+	        	<input type="button" name="bdbutton" id="bdbutton" value="Distrito" onclick="window.location = '/admin/clubes.php';">
 	<?php }
 
 	//Verifica si es administrador o presidente de algun club
@@ -33,7 +33,7 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-	        	<input type="button" name="bdbutton" id="bdbutton" value="Club" onclick="window.location = '/admin/index.php';">
+	        	<input type="button" name="bdbutton" id="bdbutton" value="Club" onclick="window.location = '/admin/socios.php';">
 	<?php } ?>
 
 		</form>

@@ -2,12 +2,13 @@
 //PROGRAMAR DOS CASOS, SI ES ADMIN Q PERMITA SELECCIONAR CUALQUIER DISTRITO, SI ES RDR O ADMIN DISTRITAL, SOLO PERMITA VER/MODIFICAR EL DISTRITO QUE LE CORRESPONDE
 
 include 'header.php';
+$esadmin=false;
 
 if ($nivel_club OR $nivel_admin) {
 		$esadmin=true;
 }
 
-if (!$_SESSION['logged'] || !$esadmin) {
+if (!$_SESSION['logged'] OR !$esadmin) {
 	header("Location: index.php");
 }
 
@@ -26,7 +27,6 @@ if (!$nivel_admin AND $club_id!=$club_c AND $club!=0) {
 		$club_id = $club_c;
 	}
 }
-//HASTA ACA EDITE
 
 $club_admin=mysql_real_escape_string(substr(htmlspecialchars($_POST['admin']),0,40));
 $club_ciudad=mysql_real_escape_string(substr(htmlspecialchars($_POST['ciudad']),0,40));
@@ -37,7 +37,6 @@ $club_nombre=mysql_real_escape_string(substr(htmlspecialchars($_POST['nombre']),
 $club_socio=mysql_real_escape_string(substr(htmlspecialchars($_POST['suid']),0,40));
 
 //METODOS PARA BORRAR SOCIO, CAMBIAR ADMIN, MODIFICAR INFORMACION (EMAIL, DIRECCION, CIUDAD)
-
 
 if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
 	$sql = sprintf("UPDATE rtc_usuarios SET club='0', distrito='0' WHERE uid='$club_socio' LIMIT 1 ");
@@ -53,7 +52,7 @@ if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
 }
 
 if (isset($_POST['submit']) AND ($_POST['submit']=='Modifica Datos')) {
-	$sql = sprintf("UPDATE rtc_clubes SET club='$club_nombre', email='$club_email', url='$club_url', direccion='$club_direccion'  WHERE id_club='$club_id' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_clubes SET club='$club_nombre', email='$club_email', url='$club_url', direccion='$club_direccion', uid_admin='$club_admin'  WHERE id_club='$club_id' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ($result == false) {
 		$club_error = "Los datos del club no pudieron ser modificados";
@@ -155,20 +154,36 @@ if ($club_id!=0) {
 		<div class="tabla_derecha"><input name="direccion" type="text" class="texto" id="direccion" value="<?php echo $row_club['direccion']; ?>" maxlength="60" />
 		</div>
 	</div> <!-- Final de tabla -->
-	<div class="tabla_ppl">
+	<?php if ($nivel_club_presidente OR $nivel_admin) { ?>
+		<div class="tabla_ppl">
+			<div class="tabla_izquierda">Administrador:</div>
+			<div class="tabla_derecha">
+			<?php
+				$sql_admin = "SELECT * FROM rtc_usuarios WHERE club=$club_id ORDER BY apellido, nombre";
+				$resultado_admin = mysql_query($sql_admin);
+				echo "<select name=\"admin\" id=\"admin\">";
+				echo "<option value=\"0\" selected > </option>";
+				$sel='';
+				while ($row_admin = mysql_fetch_assoc($resultado_admin))
+				{
+					if ($row_club['uid_admin']==$row_admin['uid']) { $sel = 'selected="selected"';} else {$sel = '';}
+					echo "<option value=\"{$row_admin['uid']}\" {$sel} >{$row_admin['nombre']} {$row_admin['apellido']}</option>";	
+				}
+				echo "</select>";
+			?>
+			</div>
+		</div> <!-- Final de tabla -->
+	<?php } else { ?>
+		<input name="admin" type="hidden" id="admin" value="<?php echo $row_club['uid_admin']; ?>" />
+	<?php } ?>
+
+<div class="tabla_ppl">
 		<div class="tabla_izquierda"><input type="submit" name="submit" id="submit" value="Modifica Datos" /></div>
 		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /></div>
 	</div> <!-- Final de tabla -->
 </form>
 <?php } ?>
 
-
-<?php
-// LISTADO DONDE SE SELECCIONA EL ADMINISTRADOR DEL CLUB
-// ACCESIBLE PARA:
-//		-Presidente
-//		-Administrador Sitio
-?>
 
 <?php
 // GENERO EL LISTADO DE SOCIOS DEL CLUB CON LA OPCION DE DAR DE BAJA

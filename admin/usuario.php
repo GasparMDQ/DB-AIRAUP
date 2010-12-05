@@ -146,7 +146,7 @@ $modi = false;
 				$modi = true;
 			} else if ( $row['pais'] != '-1') {
 				$tmp = $row['pais'];
-				$sql = "SELECT * FROM rtc_paises WHERE id_paises=$tmp ORDER BY pais";
+				$sql = "SELECT * FROM rtc_paises WHERE id_paises='$tmp' ORDER BY pais";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
 				echo $rowtmp['pais'];
@@ -166,7 +166,7 @@ $modi = false;
 				$modi = true;
 			} else if ( $row['provincia'] != '-1') {
 				$tmp = $row['provincia'];
-				$sql = "SELECT * FROM rtc_provincias WHERE id_provincia=$tmp ORDER BY provincia";
+				$sql = "SELECT * FROM rtc_provincias WHERE id_provincia='$tmp' ORDER BY provincia";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
 				echo $rowtmp['provincia'];
@@ -186,7 +186,7 @@ $modi = false;
 				$modi = true;
 			} else if ( $row['ciudad'] != '-1') {
 				$tmp = $row['ciudad'];
-				$sql = "SELECT * FROM rtc_ciudades WHERE id_ciudades=$tmp ORDER BY ciudad";
+				$sql = "SELECT * FROM rtc_ciudades WHERE id_ciudades='$tmp' ORDER BY ciudad";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
 				echo $rowtmp['ciudad'];
@@ -206,7 +206,7 @@ $modi = false;
 				$modi = true;
 			} else if ( $row['distrito'] != '-1') {
 				$tmp = $row['distrito'];
-				$sql = "SELECT * FROM rtc_distritos WHERE id_distrito=$tmp ORDER BY distrito";
+				$sql = "SELECT * FROM rtc_distritos WHERE id_distrito='$tmp' ORDER BY distrito";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
 				echo $rowtmp['distrito'];
@@ -226,7 +226,7 @@ $modi = false;
 				$modi = true;
 			} else if ( $row['club'] != '-1') {
 				$tmp = $row['club'];
-				$sql = "SELECT * FROM rtc_clubes WHERE id_club=$tmp ORDER BY club";
+				$sql = "SELECT * FROM rtc_clubes WHERE id_club='$tmp' ORDER BY club";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
 				echo $rowtmp['club'];
@@ -246,7 +246,7 @@ $modi = false;
 				$modi = true;
 			} else if ( $row['programa_ri'] != '-1') {
 				$tmp = $row['programa_ri'];
-				$sql = "SELECT * FROM rtc_programas WHERE id_programa=$tmp ORDER BY programa";
+				$sql = "SELECT * FROM rtc_programas WHERE id_programa='$tmp' ORDER BY programa";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
 				echo $rowtmp['programa'];

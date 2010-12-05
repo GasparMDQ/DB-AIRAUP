@@ -2,6 +2,7 @@
 //PROGRAMAR DOS CASOS, SI ES ADMIN Q PERMITA SELECCIONAR CUALQUIER DISTRITO, SI ES RDR O ADMIN DISTRITAL, SOLO PERMITA VER/MODIFICAR EL DISTRITO QUE LE CORRESPONDE
 
 include 'header.php';
+$esadmin=false;
 
 if ($nivel_distrito OR $nivel_admin) {
 		$esadmin=true;

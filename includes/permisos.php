@@ -22,7 +22,16 @@
 
 session_start();
 
- if ($_SESSION['logged']) {
+// Inicializo las variables
+$nivel_admin=false;
+$nivel_distrito=false;
+$nivel_distrito_id=0;
+$nivel_distrito_rdr=false;
+$nivel_club=false;
+$nivel_club_id=0;
+$nivel_club_presidente=false;
+
+if ($_SESSION['logged']) {
 	//Verifica si el user es ADMIN del Sitio
 	$uid_c = $_SESSION['uid'];
 	$sql_p = "SELECT * FROM rtc_admin WHERE uid = '$uid_c' LIMIT 1";
