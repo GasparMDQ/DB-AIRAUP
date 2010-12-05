@@ -16,8 +16,7 @@ require_once 'includes/abredb.php';
         <td colspan="5" align="center"><p></p></td>
       </tr>
       <tr>
-        <td width="300" align="center"><p><img src="images/base.png" alt="Bases de Datos" width="128" height="128" /></p></td>
-        <td colspan="4"><h1>Listado Completo de Socios por Distrito y Club</h1></td>
+        <td colspan="5" align="center"><h1>Listado Completo de Socios por Distrito y Club</h1></td>
   </tr>
       <tr>
         <td align="center">&nbsp;</td>
@@ -86,7 +85,7 @@ require_once 'includes/abredb.php';
       <tr>
         <td align="center" bgcolor="#<?php echo $colorbg;?>">&nbsp;</td>
 
-        <td bgcolor="#<?php echo $colorbg;?>"><a href="basedatos_detalleclubes.php?club=<?php echo $rowclub['id_club'];?>"><?php echo $rowclub['club'];?></a></td>
+        <td bgcolor="#<?php echo $colorbg;?>"><a href="clubes.php?club=<?php echo $rowclub['id_club'];?>"><?php echo $rowclub['club'];?></a></td>
 
         <td width="40" bgcolor="#<?php echo $colorbg;?>">&nbsp;</td>
         <td bgcolor="#<?php echo $colorbg;?>"><div align="left">Socios: <?php echo $sxclub;?></div></td>

@@ -23,7 +23,7 @@ if (!isset($_SESSION['uid']) ) {
 ?>
 <div id="container_admin">
   <div id="header">
-    <h1><img src="../images/logo_color_rtc.png" title="Logo Rotaract" alt="Logo Rotaract" width="56" height="56" />&nbsp;&nbsp;Administración BD A.I.R.A.U.P.&nbsp;&nbsp;<img src="../images/2.0.png" title="Web 2.0" alt="web 2.0" width="48" height="48" /></h1>
+    <h1><img src="../images/logo_color_rtc.png" title="Logo Rotaract" alt="Logo Rotaract" width="56" height="56" />&nbsp;&nbsp;Administración BD Rotaractiana&nbsp;&nbsp;<img src="../images/2.0.png" title="Web 2.0" alt="web 2.0" width="48" height="48" /></h1>
 <!-- end #header --></div>
   <div id="acceso">
     <?php include '../includes/acceso.php'; ?>

@@ -52,7 +52,7 @@ if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
 }
 
 if (isset($_POST['submit']) AND ($_POST['submit']=='Modifica Datos')) {
-	$sql = sprintf("UPDATE rtc_clubes SET club='$club_nombre', email='$club_email', url='$club_url', direccion='$club_direccion', uid_admin='$club_admin'  WHERE id_club='$club_id' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_clubes SET club='$club_nombre', email='$club_email', url='$club_url', direccion='$club_direccion', uid_admin='$club_admin', id_ciudad='$club_ciudad'  WHERE id_club='$club_id' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ($result == false) {
 		$club_error = "Los datos del club no pudieron ser modificados";
@@ -146,7 +146,24 @@ if ($club_id!=0) {
 	</div> <!-- Final de tabla -->
 	<div class="tabla_ppl">
 		<div class="tabla_izquierda">Ciudad</div>
-		<div class="tabla_derecha"><input class="texto" type="text" name="ciudad" id="ciudad" value="<?php echo $row_club['id_ciudad']; ?>" />
+		<div class="tabla_derecha">
+   			<?php
+				$sql_ciudad = "SELECT * FROM rtc_ciudades ORDER BY ciudad";
+				$resultado_ciudad = mysql_query($sql_ciudad);
+				echo "<select name=\"ciudad\" id=\"ciudad\">";
+				echo "<option value=\"0\" selected > </option>";
+				$sel='';
+				while ($row_ciudad = mysql_fetch_assoc($resultado_ciudad))
+				{
+					$prov_temp = $row_ciudad['id_provincia'];
+					$sql_prov = "SELECT * FROM rtc_provincias WHERE id_provincia='$prov_temp' ORDER BY provincia LIMIT 1";
+					$resultado_prov = mysql_query($sql_prov);
+					$row_prov = mysql_fetch_assoc($resultado_prov);
+					if ($row_club['id_ciudad']==$row_ciudad['id_ciudades']) { $sel = 'selected="selected"';} else {$sel = '';}
+					echo "<option value=\"{$row_ciudad['id_ciudades']}\" {$sel} >{$row_ciudad['ciudad']} - {$row_prov['provincia']}</option>";	
+				}
+				echo "</select>";
+			?>
 		</div>
 	</div> <!-- Final de tabla -->
 	<div class="tabla_ppl">

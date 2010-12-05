@@ -25,7 +25,7 @@ if (!isset($_SESSION['uid']) ) {
 
 <div id="container">
 	<div id="header">
-    	<h1><img src="images/logo_color_rtc.png" title="Logo Rotaract" alt="Logo Rotaract" width="56" height="56" />&nbsp;&nbsp;Base de datos <abbr title="Agencia Informativa Rotaractiana Argentina Uruguaya Paraguaya">A.I.R.A.U.P.</abbr>&nbsp;&nbsp;<img src="images/2.0.png" title="Web 2.0" alt="web 2.0" width="48" height="48" /></h1>
+    	<h1><img src="images/logo_color_rtc.png" title="Logo Rotaract" alt="Logo Rotaract" width="56" height="56" />&nbsp;&nbsp;Base de datos Rotaractiana&nbsp;&nbsp;<img src="images/2.0.png" title="Web 2.0" alt="web 2.0" width="48" height="48" /></h1>
 	</div>
 	<?php include 'includes/acceso.php'; ?>
 	<?php include 'includes/menu.php'; ?>
