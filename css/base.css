@@ -8,13 +8,6 @@ body {
 	color: #000000;
 }
 
-/*
-OVERRIDES
-*/
-.datoprivado {
-	color:#FF0000 !important;
-}
-
 
 /* Tips for Elastic layouts 
 1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
@@ -120,6 +113,10 @@ OVERRIDES
 	font-weight: bold;
 	font-size: x-small;
 }
+#mainContent .datoprivado, .datoprivado  {
+	color:#FF0000;
+}
+
 #tabla_clubes {
 	width:100%;
 	border-width:0;
