@@ -12,7 +12,7 @@ $row = mysql_fetch_assoc($result);
 $idc=$row['club'];
 $idd=$row['distrito'];
 
-echo "<div id=\"foto_socio\">foto</div>";
+echo "<div id=\"foto_socio\"></div>";
 echo "<h2>".$row['nombre']." ".$row['apellido']."</h2>";
 if ($nivel_usuario){ echo $row['email']."<br />";}
 if ($nivel_admin OR ($nivel_distrito AND $nivel_distrito_id==$idd) OR ($nivel_club AND $nivel_club_id==$idc)){echo $row['direccion']."<br />";}

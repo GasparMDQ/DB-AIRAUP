@@ -195,8 +195,9 @@ input {
 	float:right;
 	border: 1px solid #999999;
 	width:96px;
-	height:120px;
+	height:96px;
 	text-align:center;
+	background-image:url(/images/sinfoto.jpg);
 }
 
 .tabla_ppl {
