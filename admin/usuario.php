@@ -80,7 +80,17 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 		}	
 
 //Modifica los datos del usuario
-		$sql = sprintf("UPDATE rtc_usuarios SET pais='$dbpais', opais=NULL, distrito='$dbdistrito', odistrito=NULL, provincia='$dbprovincia', oprovincia=NULL, ciudad='$dbciudad', ociudad=NULL, club='$dbclub', oclub=NULL, programa_ri='$dbprograma', oprograma=NULL WHERE uid='$usrid' LIMIT 1 ");
+//Datos personales
+		$sql = sprintf("UPDATE rtc_usr_personales SET pais='$dbpais', opais=NULL, provincia='$dbprovincia', oprovincia=NULL, ciudad='$dbciudad', ociudad=NULL WHERE uid='$usrid' LIMIT 1 ");
+	$result = mysql_query($sql);
+	if ( $result == false ) {
+		$usuario['error']="Hubo un error al modificar el usuario";
+	} else {
+		$usuario['error']="Se modificaron los datos del usuario ".$usuario['var']." y se agregaron a las tablas correspondientes.";
+	}
+
+//Datos institucionales
+		$sql = sprintf("UPDATE rtc_usr_institucional SET distrito='$dbdistrito', odistrito=NULL, club='$dbclub', oclub=NULL, programa_ri='$dbprograma', oprograma=NULL WHERE uid='$usrid' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$usuario['error']="Hubo un error al modificar el usuario";
@@ -115,14 +125,23 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 <?php
 $user = mysql_real_escape_string($usuario['var']);
 if ($usr != '') {
-
-$sql = "SELECT * FROM rtc_usuarios WHERE user_id = '$user' ORDER BY user_id";
+$sql = "SELECT * FROM rtc_usr_login WHERE user_id = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $row = mysql_fetch_assoc($result);
+$idusuario = $row['user_id'];
+$uid = $row['uid'];
+
+$sql = "SELECT * FROM rtc_usr_personales WHERE user_id = '$uid' LIMIT 1";
+$result = mysql_query($sql);
+$row_p = mysql_fetch_assoc($result);
+$sql = "SELECT * FROM rtc_usr_institucional WHERE user_id = '$uid' LIMIT 1";
+$result = mysql_query($sql);
+$row_i = mysql_fetch_assoc($result);
+
 $modi = false;
 ?> 
 <form action="usuario.php" method="post">
-<input name="idusuario" id="idusuario" type="hidden" value="<?php echo $row['uid'];  ?>" /><input type="hidden" name="usuario" id="usuario" value="<?php echo $row['user_id'];  ?>" />
+<input name="idusuario" id="idusuario" type="hidden" value="<?php echo $uid;  ?>" /><input type="hidden" name="usuario" id="usuario" value="<?php echo $idusuario;  ?>" />
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<td><p>&nbsp;</p></td>
@@ -132,20 +151,20 @@ $modi = false;
     <tr>
     	<td>&nbsp;</td>
 		<td>Nombre de Usuario</td>
-	<td align="left"><?php echo $row['user_id']; ?>    </tr>
+	<td align="left"><?php echo $idusuario; ?>    </tr>
     <tr>
       <td>&nbsp;</td>
       <td>País</td>
     <td align="left"><?php
 		// PAIS
-			$sql = sprintf("SELECT * FROM rtc_usuarios WHERE user_id = '$user' AND pais = '-1' LIMIT 1");
+			$sql = sprintf("SELECT * FROM rtc_usr_personales WHERE user_id = '$uid' AND pais = '-1' LIMIT 1");
 			$result = mysql_query($sql);
 			$rowtmp = mysql_fetch_object($result);
 			if ( $rowtmp ) {
-      			echo "<input name=\"pais\" type=\"text\" \"pais\" size=\"30\" maxlength=\"40\" value=\"{$row['opais']}\">";
+      			echo "<input name=\"pais\" type=\"text\" \"pais\" size=\"30\" maxlength=\"40\" value=\"{$row_p['opais']}\">";
 				$modi = true;
-			} else if ( $row['pais'] != '-1') {
-				$tmp = $row['pais'];
+			} else if ( $row_p['pais'] != '-1') {
+				$tmp = $row_p['pais'];
 				$sql = "SELECT * FROM rtc_paises WHERE id_paises='$tmp' ORDER BY pais";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
@@ -158,14 +177,14 @@ $modi = false;
 		<td>Provincia / Departamento / Estado</td>
 		<td align="left"><?php 
 		// PROVINCIA
-			$sql = sprintf("SELECT * FROM rtc_usuarios WHERE user_id = '$user' AND provincia = '-1' LIMIT 1");
+			$sql = sprintf("SELECT * FROM rtc_usr_personales WHERE user_id = '$uid' AND provincia = '-1' LIMIT 1");
 			$result = mysql_query($sql);
 			$rowtmp = mysql_fetch_object($result);
 			if ( $rowtmp ) {
-      			echo "<input name=\"provincia\" type=\"text\" \"provincia\" size=\"30\" maxlength=\"40\" value=\"{$row['oprovincia']}\">";
+      			echo "<input name=\"provincia\" type=\"text\" \"provincia\" size=\"30\" maxlength=\"40\" value=\"{$row_p['oprovincia']}\">";
 				$modi = true;
-			} else if ( $row['provincia'] != '-1') {
-				$tmp = $row['provincia'];
+			} else if ( $row_p['provincia'] != '-1') {
+				$tmp = $row_p['provincia'];
 				$sql = "SELECT * FROM rtc_provincias WHERE id_provincia='$tmp' ORDER BY provincia";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
@@ -178,14 +197,14 @@ $modi = false;
 		<td>Ciudad</td>
 		<td align="left"><?php 
 		// CIUDAD
-			$sql = sprintf("SELECT * FROM rtc_usuarios WHERE user_id = '$user' AND ciudad = '-1' LIMIT 1");
+			$sql = sprintf("SELECT * FROM rtc_usr_personales WHERE user_id = '$uid' AND ciudad = '-1' LIMIT 1");
 			$result = mysql_query($sql);
 			$rowtmp = mysql_fetch_object($result);
 			if ( $rowtmp ) {
-      			echo "<input name=\"ciudad\" type=\"text\" \"ciudad\" size=\"30\" maxlength=\"40\" value=\"{$row['ociudad']}\">";
+      			echo "<input name=\"ciudad\" type=\"text\" \"ciudad\" size=\"30\" maxlength=\"40\" value=\"{$row_p['ociudad']}\">";
 				$modi = true;
-			} else if ( $row['ciudad'] != '-1') {
-				$tmp = $row['ciudad'];
+			} else if ( $row_p['ciudad'] != '-1') {
+				$tmp = $row_p['ciudad'];
 				$sql = "SELECT * FROM rtc_ciudades WHERE id_ciudades='$tmp' ORDER BY ciudad";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
@@ -198,14 +217,14 @@ $modi = false;
 		<td>Distrito</td>
 		<td align="left"><?php 
 		// DISTRITO
-			$sql = sprintf("SELECT * FROM rtc_usuarios WHERE user_id = '$user' AND distrito = '-1' LIMIT 1");
+			$sql = sprintf("SELECT * FROM rtc_usr_institucional WHERE user_id = '$user' AND distrito = '-1' LIMIT 1");
 			$result = mysql_query($sql);
 			$rowtmp = mysql_fetch_object($result);
 			if ( $rowtmp ) {
-      			echo "<input name=\"distrito\" type=\"text\" \"distrito\" size=\"30\" maxlength=\"40\" value=\"{$row['odistrito']}\">";
+      			echo "<input name=\"distrito\" type=\"text\" \"distrito\" size=\"30\" maxlength=\"40\" value=\"{$row_i['odistrito']}\">";
 				$modi = true;
-			} else if ( $row['distrito'] != '-1') {
-				$tmp = $row['distrito'];
+			} else if ( $row_i['distrito'] != '-1') {
+				$tmp = $row_i['distrito'];
 				$sql = "SELECT * FROM rtc_distritos WHERE id_distrito='$tmp' ORDER BY distrito";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
@@ -218,14 +237,14 @@ $modi = false;
 		<td>Club</td>
 		<td align="left"><?php 
 		// CLUB
-			$sql = sprintf("SELECT * FROM rtc_usuarios WHERE user_id = '$user' AND club = '-1' LIMIT 1");
+			$sql = sprintf("SELECT * FROM rtc_usr_institucional WHERE user_id = '$user' AND club = '-1' LIMIT 1");
 			$result = mysql_query($sql);
 			$rowtmp = mysql_fetch_object($result);
 			if ( $rowtmp ) {
-      			echo "<input name=\"club\" type=\"text\" \"club\" size=\"30\" maxlength=\"40\" value=\"{$row['oclub']}\">";
+      			echo "<input name=\"club\" type=\"text\" \"club\" size=\"30\" maxlength=\"40\" value=\"{$row_i['oclub']}\">";
 				$modi = true;
-			} else if ( $row['club'] != '-1') {
-				$tmp = $row['club'];
+			} else if ( $row_i['club'] != '-1') {
+				$tmp = $row_i['club'];
 				$sql = "SELECT * FROM rtc_clubes WHERE id_club='$tmp' ORDER BY club";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
@@ -238,14 +257,14 @@ $modi = false;
 		<td>Programa</td>
 		<td align="left"><?php 
 		// PROGRAMA
-			$sql = sprintf("SELECT * FROM rtc_usuarios WHERE user_id = '$user' AND programa_ri = '-1' LIMIT 1");
+			$sql = sprintf("SELECT * FROM rtc_usr_institucional WHERE user_id = '$user' AND programa_ri = '-1' LIMIT 1");
 			$result = mysql_query($sql);
 			$rowtmp = mysql_fetch_object($result);
 			if ( $rowtmp ) {
-      			echo "<input name=\"programa\" type=\"text\" \"programa\" size=\"30\" maxlength=\"40\" value=\"{$row['oprograma']}\">";
+      			echo "<input name=\"programa\" type=\"text\" \"programa\" size=\"30\" maxlength=\"40\" value=\"{$row_i['oprograma']}\">";
 				$modi = true;
-			} else if ( $row['programa_ri'] != '-1') {
-				$tmp = $row['programa_ri'];
+			} else if ( $row_i['programa_ri'] != '-1') {
+				$tmp = $row_i['programa_ri'];
 				$sql = "SELECT * FROM rtc_programas WHERE id_programa='$tmp' ORDER BY programa";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);

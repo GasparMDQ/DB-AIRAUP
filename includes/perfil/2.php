@@ -1,15 +1,16 @@
 <?php 
 //Inicializar indicador de errores
 $error=false;
+$error_txt="";
 
 // Leer datos del socios y cargarlos en las variables correspondientes.
-//if (!isset($_POST['enviar'])) {
-//	echo "Acceso Denegado";
-	echo "Reestrutcturando el sitio - finalización el 10-12-10 18hs gmt-3";
+if (!isset($_POST['enviar'])) {
+	echo "Acceso Denegado";
+//	echo "Reestrutcturando el sitio - finalización el 10-12-10 18hs gmt-3";
 	die();
-//}
+}
 $user = $_SESSION['uid'];
-$sql = "SELECT * FROM rtc_usuarios WHERE uid = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_personales WHERE uid = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
 
@@ -26,29 +27,7 @@ if ($row) {
 }
 
 //Recupero de variables y verificacion de que esten todas. En caso de que alguna falte, se el indicador de error la marca.
-	//cargar en las variables los datos leidos de la DB
-
-if (isset($_POST['userid'])&& $_POST['userid']!='') {
-	$userid['var']=substr(htmlspecialchars($_POST['userid']),0,40);
-}
-
-if (isset($_POST['claveold']) && $_POST['claveold']!='') {
-	$claveold['var']=substr(htmlspecialchars($_POST['claveold']),0,16);
-	$pass = hash('sha512', $userid['var'].$claveold['var'].'1s3a3l7t');
-	$sql = sprintf("SELECT * FROM rtc_usuarios WHERE clave = '$pass' LIMIT 1");
-	$result = mysql_query($sql);
-	$row = mysql_fetch_object($result);
-	if ( $row ) {
-		$claveold['error']="";
-	} else {
-		$claveold['error']="Clave Incorrecta.";
-		$error=true;
-	}
-} else {
-	$claveold['var']="";
-	$claveold['error']="Ingrese su clave.";
-	$error=true;
-}
+//cargar en las variables los datos leidos de la DB
 
 if (isset($_POST['enviar']) AND $_POST['enviar']=="Enviar") {
 	$obrasocial['var']=substr(htmlspecialchars($_POST['obrasocial']),0,40);
@@ -99,7 +78,7 @@ if (isset($_POST['enviar']) AND $_POST['enviar']=="Enviar") {
 }
 
 //Si estan todas las variables, se procede a modificarlos datos ingresados.
-if ($error==false) {
+if ($error==false AND isset($_POST['enviar']) AND $_POST['enviar']=="Enviar") {
 
 //ACA VA SQL PARA AGREGAR EL REGISTRO
 
@@ -129,6 +108,11 @@ if ($error==false) {
 		
 		$sql = sprintf("UPDATE rtc_usr_salud SET obrasocial = '$os', nroobrasocial = '$nos', gruposanguineo = '$gp', enftpcm = '$enf', intu3a = '$inte', alergia = '$ale', alergiadesc = '$ald', alergiatratamiento = '$alt', alergiatratamientodesc = '$altd', tratamiento = '$tra', tratamientodesc = '$trd', opera = '$ope', operadesc = '$opd', operaedad = '$oped', limitacionfisica = '$lim', otrossalud = '$osa', dietaesp = '$des', dietaespdesc = '$ded', dietaveg = '$dve', dietavegdesc = '$dvd', fuma = '$fum', lateralidad = '$lat' WHERE user_id='$user'");
 		$result = mysql_query($sql);
+		if ($result){
+			$error_txt="Sus datos se modificaron correctamente.";
+		} else {
+			$error_txt="Hubo un error en la actualizaci&oacute;n de sus datos.";
+		}
 }
 ?>
 
@@ -142,15 +126,13 @@ if ($error==false) {
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><h1>Perfil Médico de <?php echo $usuario['user_id'];?> </h1></td>
-      <td align="left">&nbsp;</td>
-      <td align="left">&nbsp;</td>
+      <td colspan="3"><h1>Perfil Médico de <?php echo $usuario['nombre']." ".$usuario['apellido'];?> </h1></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><span style="color:#FF0000"><?php if ($error==true) {echo "Debe ingresar su contraseña para efectuar cambios";} else { echo "Sus datos se actualizaron correctamente";}?></span></td>
-      <td align="left"><input name="userid" type="hidden" value="<?php echo $usuario['user_id'];?>" /></td>
-      <td align="left">&nbsp;</td>
+      <td><span style="color:#FF0000"><?php echo $error_txt ;?></span></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -366,12 +348,6 @@ if ($error==false) {
       <td>&nbsp;</td>
       <td><p>&nbsp;</p></td>
       <td align="left">&nbsp;</td>
-      <td align="left">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>Contraseña actual:</td>
-      <td align="left"><input title="Ingrese su clave para poder realizar cambios" name="claveold" type="password" id="claveold" size="30" maxlength="16" value="" />&nbsp;<span style="color:#FF0000"><?php echo $claveold['error'];?></span></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

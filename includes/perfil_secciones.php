@@ -21,6 +21,10 @@
           <input type="submit" name="enviar" id="enviar" value="Informaci&oacute;n Profesional" />
                 <input name="seccion" type="hidden" id="seccion" value="4" />
                 </form></td>
+        <td align="center"><form id="form" name="form" method="post" action="">
+          <input type="submit" name="enviar" id="enviar" value="Informaci&oacute;n de Cuenta" />
+                <input name="seccion" type="hidden" id="seccion" value="5" />
+                </form></td>
   </tr>
       <tr>
         <td colspan="4" align="center">&nbsp;</td>
