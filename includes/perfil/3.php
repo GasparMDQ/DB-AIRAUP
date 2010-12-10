@@ -3,10 +3,11 @@
 $error=false;
 
 // Leer datos del socios y cargarlos en las variables correspondientes.
-if (!isset($_POST['enviar'])) {
-	echo "Acceso Denegado";
+//if (!isset($_POST['enviar'])) {
+//	echo "Acceso Denegado";
+	echo "Reestrutcturando el sitio - finalización el 10-12-10 18hs gmt-3";
 	die();
-}
+//}
 $user = $_SESSION['uid'];
 $sql = "SELECT * FROM rtc_usuarios WHERE uid = '$user' LIMIT 1";
 $result = mysql_query($sql);

@@ -39,8 +39,7 @@ if ($_SESSION['logged']) { ?>
 		</form>
 	</div> <!--Fin del div #admindiv -->
 
-		<div id="userdiv"><form id="logout" name="formulario_logout" method="post" action="/procesa/logout.php">
-			Bienvenid@ <?php echo $_SESSION['nombre']?>
+		<div id="userdiv"><form id="logout" name="formulario_logout" method="post" action="/procesa/logout.php"><?php echo $_SESSION['username']?>
 			<input type="submit" name="salir" id="salir" value="Salir" /></form>
 		</div>
 <?php } else { ?>

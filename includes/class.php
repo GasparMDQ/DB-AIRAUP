@@ -34,7 +34,7 @@ function User() {
 function _checkLogin($username, $password) {
 	$username = mysql_real_escape_string(htmlspecialchars($username));
 	$password = hash('sha512', $username.$password.'1s3a3l7t');
-	$sql = sprintf("SELECT * FROM rtc_usuarios WHERE " . "user_id = \"$username\" AND " . "clave = \"$password\" ");
+	$sql = sprintf("SELECT * FROM rtc_usr_login WHERE " . "user_id = \"$username\" AND " . "clave = \"$password\" ");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ( $row ) {
@@ -50,19 +50,19 @@ function _checkLogin($username, $password) {
 function _setSession($valores, $init = true) {
 	$this->uid = $valores->uid;
 	$_SESSION['uid'] = $this->uid;
-	$_SESSION['username'] = mysql_real_escape_string($valores->user_id);
+	$_SESSION['username'] = mysql_real_escape_string($valores->email);
 	$_SESSION['nombre'] = htmlspecialchars($valores->nombre);
 	$_SESSION['logged'] = true;
 	$_SESSION['failed'] = false;
 	if ($init) {
-		$sql = sprintf("SELECT * FROM rtc_usuarios WHERE " . "uid = \"$this->uid\" ");
+		$sql = sprintf("SELECT * FROM rtc_usr_login WHERE " . "uid = \"$this->uid\" ");
 		$result = mysql_query($sql);
 		$row = mysql_fetch_assoc($result);
 		$session = mysql_real_escape_string(session_id());
 		$ip = mysql_real_escape_string($_SERVER['REMOTE_ADDR']);
 		$fechaold = $row['fecha_acceso_actual'];
 		$fecha = date("c");
-		$sql = sprintf("UPDATE rtc_usuarios SET session = \"$session\", ip = \"$ip\", fecha_ultimo_acceso = \"$fechaold\", fecha_acceso_actual = \"$fecha\" WHERE " . "uid = \"$this->uid\" ");
+		$sql = sprintf("UPDATE rtc_usr_login SET session = \"$session\", ip = \"$ip\", fecha_ultimo_acceso = \"$fechaold\", fecha_acceso_actual = \"$fecha\" WHERE " . "uid = \"$this->uid\" ");
 		mysql_query($sql);
 //		$_SESSION['seccion'] = 'main';
 //		$_SESSION['clave'] = '';
@@ -74,7 +74,7 @@ function _checkSession() {
 	$username = mysql_real_escape_string($_SESSION['username']);
 	$session = mysql_real_escape_string(session_id());
 	$ip = mysql_real_escape_string($_SERVER['REMOTE_ADDR']);
-	$sql = sprintf("SELECT * FROM rtc_usuarios WHERE " . "(user_id = \"$username\") AND " . "(session = \"$session\") AND (ip = \"$ip\")");
+	$sql = sprintf("SELECT * FROM rtc_usr_login WHERE " . "(email = \"$username\") AND " . "(session = \"$session\") AND (ip = \"$ip\")");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row ) {

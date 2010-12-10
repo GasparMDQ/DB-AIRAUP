@@ -3,24 +3,25 @@
 $error=false;
 
 // Leer datos del socios y cargarlos en las variables correspondientes.
-if (!isset($_POST['enviar'])) {
-	echo "Acceso Denegado";
+//if (!isset($_POST['enviar'])) {
+//	echo "Acceso Denegado";
+	echo "Reestrutcturando el sitio - finalización el 10-12-10 18hs gmt-3";
 	die();
-}
+//}
 $user = $_SESSION['uid'];
 $sql = "SELECT * FROM rtc_usuarios WHERE uid = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
 
-$sql = "SELECT * FROM rtc_salud  WHERE user_id= '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_salud  WHERE user_id= '$user' LIMIT 1";
 $result = mysql_query($sql);
 $row = mysql_fetch_object($result);
 if ($row) {
-	$sql = "SELECT * FROM rtc_salud  WHERE user_id= '$user' LIMIT 1";
+	$sql = "SELECT * FROM rtc_usr_salud  WHERE user_id= '$user' LIMIT 1";
 	$result = mysql_query($sql);
 	$salud = mysql_fetch_assoc($result);
 } else {
-		$sql = sprintf("INSERT INTO rtc_salud (user_id) VALUES ('$user')");
+		$sql = sprintf("INSERT INTO rtc_usr_salud (user_id) VALUES ('$user')");
 		$result = mysql_query($sql);
 }
 
@@ -126,7 +127,7 @@ if ($error==false) {
 		$fum = mysql_real_escape_string($fuma['var']); 
 		$lat = mysql_real_escape_string($lateralidad['var']); 
 		
-		$sql = sprintf("UPDATE rtc_salud SET obrasocial = '$os', nroobrasocial = '$nos', gruposanguineo = '$gp', enftpcm = '$enf', intu3a = '$inte', alergia = '$ale', alergiadesc = '$ald', alergiatratamiento = '$alt', alergiatratamientodesc = '$altd', tratamiento = '$tra', tratamientodesc = '$trd', opera = '$ope', operadesc = '$opd', operaedad = '$oped', limitacionfisica = '$lim', otrossalud = '$osa', dietaesp = '$des', dietaespdesc = '$ded', dietaveg = '$dve', dietavegdesc = '$dvd', fuma = '$fum', lateralidad = '$lat' WHERE user_id='$user'");
+		$sql = sprintf("UPDATE rtc_usr_salud SET obrasocial = '$os', nroobrasocial = '$nos', gruposanguineo = '$gp', enftpcm = '$enf', intu3a = '$inte', alergia = '$ale', alergiadesc = '$ald', alergiatratamiento = '$alt', alergiatratamientodesc = '$altd', tratamiento = '$tra', tratamientodesc = '$trd', opera = '$ope', operadesc = '$opd', operaedad = '$oped', limitacionfisica = '$lim', otrossalud = '$osa', dietaesp = '$des', dietaespdesc = '$ded', dietaveg = '$dve', dietavegdesc = '$dvd', fuma = '$fum', lateralidad = '$lat' WHERE user_id='$user'");
 		$result = mysql_query($sql);
 }
 ?>
