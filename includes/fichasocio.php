@@ -6,7 +6,7 @@ require_once 'permisos.php';
 
 $idsocio=intval($_GET['socio']);
 
-$sql = "SELECT * FROM rtc_usuarios WHERE uid = '$idsocio'";
+$sql = "SELECT * FROM rtc_usr_personales WHERE uid = '$idsocio'";
 $result = mysql_query($sql);
 $row = mysql_fetch_assoc($result);
 $idc=$row['club'];

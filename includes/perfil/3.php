@@ -11,6 +11,16 @@ if (!isset($_POST['enviar'])) {
 }
 $user = $_SESSION['uid'];
 
+//Verifico que existan las filas en las tablas institucionales correspondiente al Usuario. Si no estan las creo.
+$sql = "SELECT * FROM rtc_usr_institucional WHERE uid = '$user' LIMIT 1";
+$result = mysql_query($sql);
+if (!mysql_num_rows($result)) {
+	$fdm =  date('c');
+	$sql = "INSERT INTO rtc_usr_institucional (user_id, fecha_de_modificacion) VALUES ('$user','$fdm')";
+	$result = mysql_query($sql);
+}
+
+
 $sql = "SELECT * FROM rtc_usr_institucional WHERE uid = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
@@ -80,13 +90,13 @@ if (isset($_POST['otroclub'])&& $club['var']=='-1' && $_POST['otroclub']!='') {
 
 if (isset($_POST['cargo'])&& $_POST['cargo']!='') {
 	$cargo=substr(htmlspecialchars($_POST['cargo']),0,10);
-} else if ($_POST['enviar']!='Enviar'){
+} else if ($_POST['enviar']=='Agregar'){
 	$error_cargos=true;
 }
 
 if (isset($_POST['periodo'])&& $_POST['periodo']!='') {
 	$periodo=substr(htmlspecialchars($_POST['periodo']),0,10);
-} else if ($_POST['enviar']!='Enviar') {
+} else if ($_POST['enviar']=='Agregar') {
 	$error_cargos=true;
 }
 
@@ -97,11 +107,11 @@ if (isset($_POST['enviar'])) {
 	if ($error_cargos==false) {
 	//ACA VA SQL PARA AGREGAR EL REGISTRO
 		if ($accion=='Agregar') {
-			$sql = sprintf("INSERT INTO rtc_institucional (uid, usuario, cargo, periodo) VALUES ('','$user','$cargo','$periodo')");
+			$sql = sprintf("INSERT INTO rtc_usr_institucional_cargos (uid, user_id, cargo, periodo) VALUES ('','$user','$cargo','$periodo')");
 			$result = mysql_query($sql);
 		} else if ($accion=='Eliminar') {
 			$idfila=substr(htmlspecialchars($_POST['idfila']),0,10);
-			$sql = sprintf("DELETE FROM rtc_institucional WHERE uid=$idfila");
+			$sql = sprintf("DELETE FROM rtc_usr_institucional_cargos WHERE uid=$idfila");
 			$result = mysql_query($sql);
 		}
 	}
@@ -252,7 +262,7 @@ if ($distrito['var'] == '0') {
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 <?php
 
-	$sql = sprintf("SELECT * FROM rtc_institucional WHERE usuario=$user ORDER BY periodo, cargo");
+	$sql = sprintf("SELECT * FROM rtc_usr_institucional_cargos WHERE user_id=$user ORDER BY periodo, cargo");
 	$result = mysql_query($sql);
 	while($rowc = mysql_fetch_assoc($result))
 	{

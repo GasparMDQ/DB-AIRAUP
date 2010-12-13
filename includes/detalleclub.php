@@ -24,7 +24,7 @@ $rowd = mysql_fetch_assoc($resultd);
     	<td><h3>Presidente</h3></td>
         <td align="right"><?php
 			$presi= $row['uid_presidente'];
-			$sqls = "SELECT * FROM rtc_usuarios WHERE uid = '$presi' LIMIT 1";
+			$sqls = "SELECT * FROM rtc_usr_personales WHERE uid = '$presi' LIMIT 1";
 			$results = mysql_query($sqls);
 			$rows = mysql_fetch_assoc($results);
 			if ($rows) {
@@ -81,7 +81,7 @@ $rowd = mysql_fetch_assoc($resultd);
 		<td>
 		<?php
 			$clubtmp = $row['id_club'];
-			$sqls = "SELECT * FROM rtc_usuarios WHERE club = '$clubtmp' ORDER BY apellido, nombre";
+			$sqls = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = '$clubtmp' ORDER BY rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 			$results = mysql_query($sqls);
 			$ocultos = 0;
 			while($rows = mysql_fetch_assoc($results))

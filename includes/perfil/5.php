@@ -71,7 +71,6 @@ if (isset($_POST['email'])) {
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)!='0') {
 		$correo = mysql_real_escape_string(strtolower($email));
 		$sql = sprintf("SELECT * FROM rtc_usr_login WHERE " . "email = \"$correo\" LIMIT 1");
-		echo $sql;
 		$result = mysql_query($sql);
 		$row = mysql_fetch_assoc($result);
 		if ( $row && $row['user_id'] != $userid) {
