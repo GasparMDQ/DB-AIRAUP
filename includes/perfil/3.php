@@ -262,7 +262,7 @@ if ($distrito['var'] == '0') {
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 <?php
 
-	$sql = sprintf("SELECT * FROM rtc_usr_institucional_cargos WHERE user_id=$user ORDER BY periodo, cargo");
+	$sql = sprintf("SELECT * FROM rtc_usr_institucional_cargos, rtc_cfg_periodos, rtc_cfg_cargos WHERE rtc_usr_institucional_cargos.cargo=rtc_cfg_cargos.id AND rtc_usr_institucional_cargos.periodo=rtc_cfg_periodos.id_periodo AND user_id=$user ORDER BY rtc_cfg_periodos.periodo, rtc_cfg_cargos.cargo");
 	$result = mysql_query($sql);
 	while($rowc = mysql_fetch_assoc($result))
 	{
@@ -272,14 +272,7 @@ if ($distrito['var'] == '0') {
     <tr>
       <td width="40"><input name="idfila" type="hidden" value="<?php echo $rowc['uid'];?>" />&nbsp;</td>
       <td align="left"><?php echo $rowc['periodo'];?></td>
-      <td align="left">
-<?php 
-	$cargoid = $rowc['cargo'];
-	$sqlcar = sprintf("SELECT * FROM rtc_cargos WHERE id=$cargoid LIMIT 1");
-	$resultcar = mysql_query($sqlcar);
-	$rowcar = mysql_fetch_assoc($resultcar);
-	echo $rowcar['cargo'];
-?></td>
+      <td align="left"><?php echo $rowc['cargo'];?></td>
       <td align="left"><input type="submit" name="enviar" id="enviar" value="Eliminar" /></td>
       <td align="left"></form>&nbsp;</td>
     </tr>
@@ -295,29 +288,19 @@ if ($distrito['var'] == '0') {
       <td width="40">&nbsp;</td>
       <td align="left"><select name="periodo" id="periodo" title="Periodo">
         <option value="" selected="selected" >Seleccione</option>
-        <option value="1997-1998">1997-1998</option>
-        <option value="1998-1999">1998-1999</option>
-        <option value="1999-2000">1999-2000</option>
-        <option value="2000-2001">2000-2001</option>
-        <option value="2001-2002">2001-2002</option>
-        <option value="2002-2003">2002-2003</option>
-        <option value="2003-2004">2003-2004</option>
-        <option value="2004-2005">2004-2005</option>
-        <option value="2005-2006">2005-2006</option>
-        <option value="2006-2007">2006-2007</option>
-        <option value="2007-2008">2007-2008</option>
-        <option value="2008-2009">2008-2009</option>
-        <option value="2009-2010">2009-2010</option>
-        <option value="2010-2011">2010-2011</option>
-        <option value="2011-2012">2011-2012</option>
-        <option value="2012-2013">2012-2013</option>
-        <option value="2013-2014">2013-2014</option>
-        <option value="2014-2015">2014-2015</option>
+<?php
+	$sqlcar = sprintf("SELECT * FROM rtc_cfg_periodos ORDER BY periodo");
+	$resultcar = mysql_query($sqlcar);
+	while ($rowcar = mysql_fetch_assoc($resultcar))
+	{
+		echo "<option value=\"".$rowcar['id_periodo']."\">".$rowcar['periodo']."</option>";
+	}
+?>
       </select>&nbsp;</td>
       <td align="left"><select name="cargo" id="cargo" title="Cargos">
         <option value="" selected="selected" >Seleccione</option>
 <?php
-	$sqlcar = sprintf("SELECT * FROM rtc_cargos ORDER BY cargo");
+	$sqlcar = sprintf("SELECT * FROM rtc_cfg_cargos ORDER BY cargo");
 	$resultcar = mysql_query($sqlcar);
 	while ($rowcar = mysql_fetch_assoc($resultcar))
 	{

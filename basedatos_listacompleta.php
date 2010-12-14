@@ -38,7 +38,7 @@ require_once 'includes/abredb.php';
 		$cantclub=0;
 		$distrito=$rowdistrito['distrito'];
 		$iddistrito=$rowdistrito['id_distrito'];
-		$sql = sprintf("SELECT * FROM rtc_usuarios WHERE distrito = $iddistrito");
+		$sql = sprintf("SELECT * FROM rtc_usr_institucional WHERE distrito = $iddistrito");
 		$result = mysql_query($sql);
 		if ($result) {
 			$sxdistrito = mysql_num_rows($result);
@@ -76,7 +76,7 @@ require_once 'includes/abredb.php';
 		$sxclub=0;
 		$club = $rowclub['club'];
 		$idclub = $rowclub['id_club'];
-		$sql = sprintf("SELECT * FROM rtc_usuarios WHERE club = $idclub");
+		$sql = sprintf("SELECT * FROM rtc_usr_institucional WHERE club = $idclub");
 		$result = mysql_query($sql);
 		if ($result) {
 			$sxclub = mysql_num_rows($result);

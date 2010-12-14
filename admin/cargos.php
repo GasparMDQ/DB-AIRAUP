@@ -8,29 +8,29 @@ $consulta = mysql_real_escape_string($cargo['var']);
 $consulta1 = mysql_real_escape_string($cargo['id']);
 
 if (isset($_POST['cargo'])&& $_POST['submit']=='Agregar') {
-	$sql = sprintf("SELECT * FROM rtc_cargos WHERE " . "cargo = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_cfg_cargos WHERE " . "cargo = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ( $row ) {
 		$cargo['error']="El cargo ingresado ya existe";
 	} else {
-		$sql = sprintf("INSERT INTO rtc_cargos (id, cargo) VALUES ('', '$consulta')");
+		$sql = sprintf("INSERT INTO rtc_cfg_cargos (id, cargo) VALUES ('', '$consulta')");
 		$result = mysql_query($sql);
 		$cargo['error']="Se agregó ".$cargo['var']." al listado";
 	}
 } else if (isset($_POST['cargo'])&& $_POST['submit']=='Borrar') {
-	$sql = sprintf("SELECT * FROM rtc_cargos WHERE " . "cargo = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_cfg_cargos WHERE " . "cargo = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) {
-		$sql = sprintf("DELETE FROM rtc_cargos WHERE id='$consulta1' LIMIT 1");
+		$sql = sprintf("DELETE FROM rtc_cfg_cargos WHERE id='$consulta1' LIMIT 1");
 		$result = mysql_query($sql);
 		$cargo['error']="Se borró ".$cargo['var']." del listado";
 	} else { 
 		$cargo['error']="El cargo escrito no se encuentra en la lista";
 	}
 } else if (isset($_POST['cargo'])&& $_POST['submit']=='Modificar') {
-	$sql = sprintf("UPDATE rtc_cargos SET cargo='$consulta' WHERE id='$consulta1' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_cfg_cargos SET cargo='$consulta' WHERE id='$consulta1' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$cargo['error']="No se pudo modificar";
@@ -52,10 +52,8 @@ if (isset($_POST['cargo'])&& $_POST['submit']=='Agregar') {
       <td align="left"><?php echo $cargo['error']; ?></td>
     </tr>
 <?php
-require_once '/home/gasparmdq/configDB/configuracion.php';
-require_once 'includes/abredb.php';
 
-$sql = "SELECT * FROM rtc_cargos ORDER BY cargo";
+$sql = "SELECT * FROM rtc_cfg_cargos ORDER BY cargo";
 $result = mysql_query($sql);
 while($row = mysql_fetch_assoc($result))
 {
