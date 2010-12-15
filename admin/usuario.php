@@ -70,11 +70,11 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 		}	
 
 		$dbprograma = mysql_real_escape_string(substr(htmlspecialchars($_POST['programa']),0,40));
-		$sql = sprintf("SELECT * FROM rtc_programas WHERE id_programa = '$dbprograma' LIMIT 1");
+		$sql = sprintf("SELECT * FROM rtc_cfg_programas WHERE id_programa = '$dbprograma' LIMIT 1");
 		$result = mysql_query($sql);
 		$row = mysql_fetch_object($result);
 		if ( !$row ) {
-			$sql = sprintf("INSERT INTO rtc_programas (id_programa, programa) VALUES ('', '$dbprograma')");
+			$sql = sprintf("INSERT INTO rtc_cfg_programas (id_programa, programa) VALUES ('', '$dbprograma')");
 			$result = mysql_query($sql);
 			$dbprograma = mysql_insert_id();
 		}	
@@ -265,7 +265,7 @@ $modi = false;
 				$modi = true;
 			} else if ( $row_i['programa_ri'] != '-1') {
 				$tmp = $row_i['programa_ri'];
-				$sql = "SELECT * FROM rtc_programas WHERE id_programa='$tmp' ORDER BY programa";
+				$sql = "SELECT * FROM rtc_cfg_programas WHERE id_programa='$tmp' ORDER BY programa";
 				$result = mysql_query($sql);
 				$rowtmp = mysql_fetch_assoc($result);
 				echo $rowtmp['programa'];

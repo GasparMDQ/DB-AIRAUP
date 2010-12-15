@@ -8,29 +8,29 @@ $consulta = mysql_real_escape_string($programa['var']);
 $consulta1 = mysql_real_escape_string($programa['id']);
 
 if (isset($_POST['programa'])&& $_POST['submit']=='Agregar') {
-	$sql = sprintf("SELECT * FROM rtc_programas WHERE " . "programa = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_cfg_programas WHERE " . "programa = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ( $row ) {
 		$programa['error']="El programa ingresado ya existe";
 	} else {
-		$sql = sprintf("INSERT INTO rtc_programas (id_programa, programa) VALUES ('', '$consulta')");
+		$sql = sprintf("INSERT INTO rtc_cfg_programas (id_programa, programa) VALUES ('', '$consulta')");
 		$result = mysql_query($sql);
 		$programa['error']="Se agregó ".$programa['var']." al listado";
 	}
 } else if (isset($_POST['programa'])&& $_POST['submit']=='Borrar') {
-	$sql = sprintf("SELECT * FROM rtc_programas WHERE " . "programa = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_cfg_programas WHERE " . "programa = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ( $row ) {
-			$sql = sprintf("DELETE FROM rtc_programas WHERE id_programa='$consulta1' LIMIT 1");
+			$sql = sprintf("DELETE FROM rtc_cfg_programas WHERE id_programa='$consulta1' LIMIT 1");
 			$result = mysql_query($sql);
 			$programa['error']="Se borró ".$programa['var']." del listado";
 	} else {
 		$pais['error']="El programa escrito no se encuentra en la lista";
 	}
 } else if (isset($_POST['programa'])&& $_POST['submit']=='Modificar') {
-	$sql = sprintf("UPDATE rtc_programas SET programa='$consulta' WHERE id_programa='$consulta1' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_cfg_programas SET programa='$consulta' WHERE id_programa='$consulta1' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$programa['error']="No se pudo modificar";
@@ -55,7 +55,7 @@ if (isset($_POST['programa'])&& $_POST['submit']=='Agregar') {
 require_once '/home/gasparmdq/configDB/configuracion.php';
 require_once 'includes/abredb.php';
 
-$sql = "SELECT * FROM rtc_programas ORDER BY programa";
+$sql = "SELECT * FROM rtc_cfg_programas ORDER BY programa";
 $result = mysql_query($sql);
 while($row = mysql_fetch_assoc($result))
 {

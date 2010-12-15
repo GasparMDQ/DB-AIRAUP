@@ -88,9 +88,9 @@ $rowd = mysql_fetch_assoc($resultd);
 			{
 				if ($rows['perfil_publico'] OR $nivel_admin OR ($nivel_distrito AND $nivel_distrito_id==$idd) OR ($nivel_club AND $nivel_club_id==$idc)){
 					if ($rows['perfil_publico']) {
-						echo "<a href=\"javascript:fichaSocio(".$rows['uid'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
+						echo "<a href=\"javascript:fichaSocio(".$rows['user_id'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
 					} else {
-						echo "<a class=\"datoprivado\" href=\"javascript:fichaSocio(".$rows['uid'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
+						echo "<a class=\"datoprivado\" href=\"javascript:fichaSocio(".$rows['user_id'].")\">".$rows['nombre']." ".$rows['apellido']."</a><br />";
 					}
 				} else {
 					$ocultos = $ocultos +1;

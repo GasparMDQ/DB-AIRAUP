@@ -56,7 +56,7 @@ if (isset($_POST['clubb'])&& $_POST['submit']=='Agregar') {
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ( $row ) {
-		$sql = sprintf("SELECT * FROM rtc_usuarios WHERE " . "club = \"$consulta1\" LIMIT 1");
+		$sql = sprintf("SELECT * FROM rtc_usr_institucional WHERE " . "club = \"$consulta1\" LIMIT 1");
 		$result = mysql_query($sql);
 		$row = mysql_fetch_object($result);
 		if ( $row ) {
@@ -70,11 +70,7 @@ if (isset($_POST['clubb'])&& $_POST['submit']=='Agregar') {
 		$club['error']="El club escrito no se encuentra en la lista";
 	}
 } else if (isset($_POST['clubb'])&& $_POST['submit']=='Modificar') {
-	if ($nivel_admin) {
-		$sql = sprintf("UPDATE rtc_clubes SET club='$consulta', uid_admin='$admin', uid_presidente='$presidente' WHERE id_club='$consulta1' LIMIT 1 ");
-	} else {
-		$sql = sprintf("UPDATE rtc_clubes SET club='$consulta', uid_presidente='$presidente' WHERE id_club='$consulta1' LIMIT 1 ");
-	}
+	$sql = sprintf("UPDATE rtc_clubes SET club='$consulta', uid_admin='$admin', uid_presidente='$presidente' WHERE id_club='$consulta1' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$club['error']="No se pudo modificar";
@@ -148,29 +144,29 @@ while($row = mysql_fetch_assoc($result))
 	<td>P:
 <?php
 	$idclub=$row['id_club'];
-	$sql1 = "SELECT * FROM rtc_usuarios WHERE club=$idclub";
+	$sql1 = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club=$idclub ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"presidente\" id=\"presidente\">";
 	echo "<option value=\"0\" selected > </option>";
 	$sel='';
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		if ($row['uid_presidente']==$rowtmp['uid']) { $sel = 'selected="selected"';} else {$sel = '';}
-		echo "<option value=\"{$rowtmp['uid']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		if ($row['uid_presidente']==$rowtmp['user_id']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$rowtmp['user_id']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>	</td>
 	<td>A:
 <?php
-	$sql1 = "SELECT * FROM rtc_usuarios WHERE club=$idclub";
+	$sql1 = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club=$idclub ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"admin\" id=\"admin\">";
 	echo "<option value=\"0\" selected > </option>";
 	$sel='';
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		if ($row['uid_admin']==$rowtmp['uid']) { $sel = 'selected="selected"';} else {$sel = '';}
-		echo "<option value=\"{$rowtmp['uid']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		if ($row['uid_admin']==$rowtmp['user_id']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$rowtmp['user_id']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>	</td><td>
@@ -199,26 +195,26 @@ while($row = mysql_fetch_assoc($result))
 	</td>
 	<td>Presidente:
 <?php
-	$sql = "SELECT * FROM rtc_usuarios WHERE distrito=$distrito";
+	$sql = "SSELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=$distrito ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql);
 	echo "<select name=\"presidente\" id=\"presidente\">";
 	echo "<option value=\"0\" selected > </option>";
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		echo "<option value=\"{$rowtmp['uid']}\" >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		echo "<option value=\"{$rowtmp['user_id']}\" >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>
 	</td>
 	<td>Admin:
 <?php
-	$sql = "SELECT * FROM rtc_usuarios WHERE distrito=$distrito";
+	$sql = "SSELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=$distrito ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql);
 	echo "<select name=\"admin\" id=\"admin\">";
 	echo "<option value=\"0\" selected > </option>";
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		echo "<option value=\"{$rowtmp['uid']}\">{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		echo "<option value=\"{$rowtmp['user_id']}\">{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?> 

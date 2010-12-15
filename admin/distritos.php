@@ -81,7 +81,7 @@ while($row = mysql_fetch_assoc($result))
 	<td>RDR:
 <?php
 	$id_dist=$row['id_distrito'];
-	$sql1 = "SELECT * FROM rtc_usuarios WHERE distrito=$id_dist";
+	$sql1 = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=$id_dist ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"rdr\" id=\"rdr\">";
 	echo "<option value=\"0\" selected > </option>";
@@ -96,7 +96,7 @@ while($row = mysql_fetch_assoc($result))
 	</td>
 	<td>Admin:
 <?php
-	$sql1 = "SELECT * FROM rtc_usuarios";
+	$sql1 = "SELECT * FROM rtc_usr_personales ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"admin\" id=\"admin\">";
 	echo "<option value=\"0\" selected > </option>";
@@ -127,26 +127,26 @@ while($row = mysql_fetch_assoc($result))
 	</td>
 	<td>RDR:
 <?php
-	$sql = "SELECT * FROM rtc_usuarios";
+	$sql = "SELECT * FROM rtc_usr_personales ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql);
 	echo "<select name=\"rdr\" id=\"rdr\">";
 	echo "<option value=\"0\" selected > </option>";
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		echo "<option value=\"{$rowtmp['uid']}\" >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		echo "<option value=\"{$rowtmp['user_id']}\" >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>
 	</td>
 	<td>Admin:
 <?php
-	$sql = "SELECT * FROM rtc_usuarios";
+	$sql = "SELECT * FROM rtc_usr_personales ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql);
 	echo "<select name=\"admin\" id=\"admin\">";
 	echo "<option value=\"0\" selected > </option>";
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		echo "<option value=\"{$rowtmp['uid']}\">{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		echo "<option value=\"{$rowtmp['user_id']}\">{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>

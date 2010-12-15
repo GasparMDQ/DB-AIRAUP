@@ -100,6 +100,18 @@ if (isset($_POST['periodo'])&& $_POST['periodo']!='') {
 	$error_cargos=true;
 }
 
+if (isset($_POST['programa'])&& $_POST['programa']!='') {
+	$programa=substr(htmlspecialchars($_POST['programa']),0,10);
+} else if ($_POST['enviar']=='Agregar') {
+	$error_cargos=true;
+}
+
+if (isset($_POST['ambito'])&& $_POST['ambito']!='') {
+	$ambito=substr(htmlspecialchars($_POST['ambito']),0,10);
+} else if ($_POST['enviar']=='Agregar') {
+	$error_cargos=true;
+}
+
 if (isset($_POST['enviar'])) {
 	$accion=substr(htmlspecialchars($_POST['enviar']),0,10);
 
@@ -107,7 +119,7 @@ if (isset($_POST['enviar'])) {
 	if ($error_cargos==false) {
 	//ACA VA SQL PARA AGREGAR EL REGISTRO
 		if ($accion=='Agregar') {
-			$sql = sprintf("INSERT INTO rtc_usr_institucional_cargos (uid, user_id, cargo, periodo) VALUES ('','$user','$cargo','$periodo')");
+			$sql = sprintf("INSERT INTO rtc_usr_institucional_cargos (uid, user_id, cargo, programa, ambito, periodo) VALUES ('','$user','$cargo','$programa','$ambito','$periodo')");
 			$result = mysql_query($sql);
 		} else if ($accion=='Eliminar') {
 			$idfila=substr(htmlspecialchars($_POST['idfila']),0,10);
@@ -176,7 +188,7 @@ $usuario = mysql_fetch_assoc($result);
       <td>Programa de RI:</td>
       <td align="left">
 	<?php 
-	$sql = "SELECT * FROM rtc_programas ORDER BY programa";
+	$sql = "SELECT * FROM rtc_cfg_programas ORDER BY programa";
 	$result = mysql_query($sql);
 	echo "<select name=\"programa_ri\" id=\"programa_ri\">";
 	echo "<option value=\"0\">Seleccione Programa</option>";
@@ -262,7 +274,7 @@ if ($distrito['var'] == '0') {
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 <?php
 
-	$sql = sprintf("SELECT * FROM rtc_usr_institucional_cargos, rtc_cfg_periodos, rtc_cfg_cargos WHERE rtc_usr_institucional_cargos.cargo=rtc_cfg_cargos.id AND rtc_usr_institucional_cargos.periodo=rtc_cfg_periodos.id_periodo AND user_id=$user ORDER BY rtc_cfg_periodos.periodo, rtc_cfg_cargos.cargo");
+	$sql = sprintf("SELECT * FROM rtc_usr_institucional_cargos, rtc_cfg_periodos, rtc_cfg_cargos, rtc_cfg_programas, rtc_cfg_ambito WHERE rtc_usr_institucional_cargos.cargo=rtc_cfg_cargos.id AND rtc_usr_institucional_cargos.periodo=rtc_cfg_periodos.id_periodo AND rtc_usr_institucional_cargos.programa=rtc_cfg_programas.id_programa AND rtc_usr_institucional_cargos.ambito=rtc_cfg_ambito.id_ambito AND user_id=$user ORDER BY rtc_cfg_periodos.periodo, rtc_cfg_cargos.cargo, rtc_cfg_programas.programa, rtc_cfg_ambito.ambito");
 	$result = mysql_query($sql);
 	while($rowc = mysql_fetch_assoc($result))
 	{
@@ -273,6 +285,8 @@ if ($distrito['var'] == '0') {
       <td width="40"><input name="idfila" type="hidden" value="<?php echo $rowc['uid'];?>" />&nbsp;</td>
       <td align="left"><?php echo $rowc['periodo'];?></td>
       <td align="left"><?php echo $rowc['cargo'];?></td>
+      <td align="left"><?php echo $rowc['programa'];?></td>
+      <td align="left"><?php echo $rowc['ambito'];?></td>
       <td align="left"><input type="submit" name="enviar" id="enviar" value="Eliminar" /></td>
       <td align="left"></form>&nbsp;</td>
     </tr>
@@ -298,8 +312,8 @@ if ($distrito['var'] == '0') {
 ?>
       </select>&nbsp;</td>
       <td align="left"><select name="cargo" id="cargo" title="Cargos">
-        <option value="" selected="selected" >Seleccione</option>
-<?php
+          <option value="" selected="selected" >Seleccione</option>
+          <?php
 	$sqlcar = sprintf("SELECT * FROM rtc_cfg_cargos ORDER BY cargo");
 	$resultcar = mysql_query($sqlcar);
 	while ($rowcar = mysql_fetch_assoc($resultcar))
@@ -307,7 +321,30 @@ if ($distrito['var'] == '0') {
 		echo "<option value=\"".$rowcar['id']."\">".$rowcar['cargo']."</option>";
 	}
 ?>
-      </select>&nbsp;</td>
+        </select></td>
+      <td align="left">&nbsp;
+        <select name="programa" id="programa" title="Programas">
+        <option value="" selected="selected" >Seleccione</option>
+        <?php
+	$sqlcar = sprintf("SELECT * FROM rtc_cfg_programas ORDER BY programa");
+	$resultcar = mysql_query($sqlcar);
+	while ($rowcar = mysql_fetch_assoc($resultcar))
+	{
+		echo "<option value=\"".$rowcar['id_programa']."\">".$rowcar['programa']."</option>";
+	}
+?>
+      </select></td>
+      <td align="left"><select name="ambito" id="ambito" title="Ambito">
+        <option value="" selected="selected" >Seleccione</option>
+        <?php
+	$sqlcar = sprintf("SELECT * FROM rtc_cfg_ambito ORDER BY ambito");
+	$resultcar = mysql_query($sqlcar);
+	while ($rowcar = mysql_fetch_assoc($resultcar))
+	{
+		echo "<option value=\"".$rowcar['id_ambito']."\">".$rowcar['ambito']."</option>";
+	}
+?>
+      </select></td>
       <td align="left"><input type="submit" name="enviar" id="enviar" value="Agregar" /></td>
       <td align="left">&nbsp;</td>
     </tr>

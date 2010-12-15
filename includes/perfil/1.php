@@ -8,6 +8,7 @@ if (!isset($_POST['enviar'])) {
 //	echo "Reestrutcturando el sitio - finalización el 10-12-10 18hs gmt-3";
 	die();
 }
+
 $user = $_SESSION['uid'];
 $sql = "SELECT * FROM rtc_usr_personales WHERE uid = '$user' LIMIT 1";
 $result = mysql_query($sql);

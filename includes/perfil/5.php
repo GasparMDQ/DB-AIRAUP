@@ -66,28 +66,28 @@ if (isset($_POST['claveold']) && $_POST['claveold']!='') {
 	$error=true;
 }
 
-if (isset($_POST['email'])) {
-	$email=substr(htmlspecialchars($_POST['email']),0,40);
-	if(filter_var($email, FILTER_VALIDATE_EMAIL)!='0') {
-		$correo = mysql_real_escape_string(strtolower($email));
-		$sql = sprintf("SELECT * FROM rtc_usr_login WHERE " . "email = \"$correo\" LIMIT 1");
-		$result = mysql_query($sql);
-		$row = mysql_fetch_assoc($result);
-		if ( $row && $row['user_id'] != $userid) {
-			$error=true;
-			$email_error="La dirección de correo ya esta en uso";
-		} else {
-			$email_error="";
-		}
-	} else {
-		$error=true;
-		$email_error="La dirección de correo no es valida";
-	}
-} else {
+//if (isset($_POST['email'])) {
+//	$email=substr(htmlspecialchars($_POST['email']),0,40);
+//	if(filter_var($email, FILTER_VALIDATE_EMAIL)!='0') {
+//		$correo = mysql_real_escape_string(strtolower($email));
+//		$sql = sprintf("SELECT * FROM rtc_usr_login WHERE " . "email = \"$correo\" LIMIT 1");
+//		$result = mysql_query($sql);
+//		$row = mysql_fetch_assoc($result);
+//		if ( $row && $row['user_id'] != $userid) {
+//			$error=true;
+//			$email_error="La dirección de correo ya esta en uso";
+//		} else {
+//			$email_error="";
+//		}
+//	} else {
+//		$error=true;
+//		$email_error="La dirección de correo no es valida";
+//	}
+//} else {
 	$email=$usuario['email'];
-	$error=true;
-	$email_error="*";
-}
+//	$error=true;
+//	$email_error="*";
+//}
 
 //Si estan todas las variables, se procede a modificarlos datos ingresados.
 if ($error==false) {
@@ -96,12 +96,14 @@ if ($error==false) {
 
 		$uid = mysql_real_escape_string($userid); $em = mysql_real_escape_string($email);
 		$fdm =  date('c');
-		$sql = sprintf("UPDATE rtc_usr_login SET email = '$em', fecha_de_modificacion = '$fdm' WHERE user_id='$uid'");
-		$result = mysql_query($sql);
+//		$sql = sprintf("UPDATE rtc_usr_login SET email = '$em', fecha_de_modificacion = '$fdm' WHERE user_id='$uid'");
+//		$result = mysql_query($sql);
 	if ($clave!='') {
 		$cla = hash('sha512', $uid.$clave.'1s3a3l7t');
-		$sql = sprintf("UPDATE rtc_usr_login SET clave = '$cla' WHERE user_id='$uid'");
+		$sql = sprintf("UPDATE rtc_usr_login SET clave = '$cla', fecha_de_modificacion = '$fdm' WHERE user_id='$uid'");
 		$result = mysql_query($sql);
+		$clave="";
+		$clave2="";
 	}
 
 
@@ -149,7 +151,8 @@ if ($error==false) {
     <tr>
       <td width="40">&nbsp;</td>
       <td>Email:</td>
-      <td align="left">        <input title="Ingrese su direccion de correo electronico" name="email" type="text" id="email" size="30" maxlength="32" value="<?php echo $email;  ?>"/>&nbsp;<span style="color:#FF0000"><?php echo $email_error;?></span>      </td>
+      <td align="left"><?php echo $email;  ?>
+      &nbsp;<span style="color:#FF0000"><?php echo $email_error;?></span>      </td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

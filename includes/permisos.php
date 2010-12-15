@@ -30,8 +30,11 @@ $nivel_distrito_rdr=false;
 $nivel_club=false;
 $nivel_club_id=0;
 $nivel_club_presidente=false;
+$nivel_usuario=false;
 
 if ($_SESSION['logged']) {
+	$nivel_usuario=true;
+	
 	//Verifica si el user es ADMIN del Sitio
 	$uid_c = $_SESSION['uid'];
 	$sql_p = "SELECT * FROM rtc_admin WHERE uid = '$uid_c' LIMIT 1";
@@ -41,7 +44,7 @@ if ($_SESSION['logged']) {
 		$nivel_admin=true;
 	}
 
-	$sql_u = "SELECT * FROM rtc_usuarios WHERE uid = '$uid_c' LIMIT 1";
+	$sql_u = "SELECT * FROM rtc_usr_institucional WHERE user_id = '$uid_c' LIMIT 1";
 	$result_u = mysql_query($sql_u);
 	$row_u = mysql_fetch_assoc($result_u);
 	$club_c=$row_u['club'];
@@ -64,9 +67,9 @@ if ($_SESSION['logged']) {
 	$sql_p = "SELECT * FROM rtc_clubes WHERE (uid_presidente = '$uid_c' OR uid_admin = '$uid_c') AND id_club = '$club_c' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_num_rows($result_p);
+	$nivel_club_id=$club_c;
 	if ($row_p) {
 		$nivel_club=true;
-		$nivel_club_id=$club_c;
 		if ($row_p['uid_presidente']==$uid_c) {
 			$nivel_club_presidente=true;
 		} else {
@@ -74,5 +77,5 @@ if ($_SESSION['logged']) {
 		}
 	}
 
-}
+} 
 ?>

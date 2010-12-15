@@ -39,12 +39,12 @@ $club_socio=mysql_real_escape_string(substr(htmlspecialchars($_POST['suid']),0,4
 //METODOS PARA BORRAR SOCIO, CAMBIAR ADMIN, MODIFICAR INFORMACION (EMAIL, DIRECCION, CIUDAD)
 
 if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
-	$sql = sprintf("UPDATE rtc_usuarios SET club='0', distrito='0' WHERE uid='$club_socio' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_usr_institucional SET club='0', distrito='0' WHERE uid='$club_socio' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ($result == false) {
 		$club_error = "El socio no pudo ser dado de baja";
 	} else {
-		$sql = sprintf("SELECT * FROM rtc_usuarios WHERE uid='$club_socio' LIMIT 1 ");
+		$sql = sprintf("SELECT * FROM rtc_usr_personales WHERE uid='$club_socio' LIMIT 1 ");
 		$result = mysql_query($sql);
 		$row = mysql_fetch_assoc($result);
 		$club_error = "Se dio de baja a ".$row['nombre']." ".$row['apellido'];
@@ -109,7 +109,7 @@ $sql_club = "SELECT * FROM rtc_clubes WHERE id_club=$club_id LIMIT 1";
 $result_club = mysql_query($sql_club);
 $row_club = mysql_fetch_assoc($result_club);
 	
-$sql = "SELECT * FROM rtc_usuarios WHERE club = $club_id ORDER BY apellido, nombre";
+$sql = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = $club_id ORDER BY apellido, nombre";
 $result = mysql_query($sql);
 	
 if ($club_id!=0) {
@@ -176,7 +176,7 @@ if ($club_id!=0) {
 			<div class="tabla_izquierda">Administrador:</div>
 			<div class="tabla_derecha">
 			<?php
-				$sql_admin = "SELECT * FROM rtc_usuarios WHERE club=$club_id ORDER BY apellido, nombre";
+				$sql_admin = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = $club_id ORDER BY apellido, nombre";
 				$resultado_admin = mysql_query($sql_admin);
 				echo "<select name=\"admin\" id=\"admin\">";
 				echo "<option value=\"0\" selected > </option>";
@@ -217,7 +217,7 @@ if ($club_id!=0) {
 <div class="tabla_ppl">
 	<form action="socios.php" method="post">
 		<div class="tabla_izquierda"><?php echo $row['nombre']." ".$row['apellido']; ?></div>
-		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /><input name="suid" id="suid" type="hidden" value="<?php echo $row['uid'];  ?>" /><input type="submit" name="submit" id="submit" value="Dar de Baja" /></div>
+		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /><input name="suid" id="suid" type="hidden" value="<?php echo $row['user_id'];  ?>" /><input type="submit" name="submit" id="submit" value="Dar de Baja" /></div>
 	</form>
 </div> <!-- Final de tabla -->
 <?php } ?> 
