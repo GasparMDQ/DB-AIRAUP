@@ -102,6 +102,10 @@ $rowd = mysql_fetch_assoc($resultd);
 	<?php if ($ocultos) { ?>
 	<tr>
 		<td colspan="2"><?php echo "y ".$ocultos." socios con datos privados"; ?></td>
-		</tr>
+  </tr>
 	<?php }	?>
 </table>
+<?php 
+if (($nivel_admin OR ($nivel_distrito_id==$idd) OR ($nivel_usuario_club_id==$idc)) AND ($idc!='0')){ ?>
+<div id="pdf_club"><a href="/includes/listado_pdf_club.php?club=<?php echo $clubtmp;?>" target="_blank"><img src="../images/pdf_icon.png" width="64" height="64" /></a></div>
+<?php } ?>

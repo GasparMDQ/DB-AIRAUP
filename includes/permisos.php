@@ -11,6 +11,9 @@
 // $nivel_club_id= INT					[id_club] del que tiene administracion
 // $nivel_club_presidente= TRUE|FALSE	Es el Presidente del club
 //
+// $nivel_usuario_club_id= INT			[id_club] al que el usuario pertenece
+// $nivel_usuario_distrito_id= INT		[id_club] al que el usuario pertenece
+//
 // Hay que tomar en cuenta las siguientes restricciones:
 // 	-Solo se puede presidir un club al que se pertenece
 //	-Solo se puede administrar un club al que se pertenece
@@ -34,7 +37,7 @@ $nivel_usuario=false;
 
 if ($_SESSION['logged']) {
 	$nivel_usuario=true;
-	
+
 	//Verifica si el user es ADMIN del Sitio
 	$uid_c = $_SESSION['uid'];
 	$sql_p = "SELECT * FROM rtc_admin WHERE uid = '$uid_c' LIMIT 1";
@@ -50,6 +53,10 @@ if ($_SESSION['logged']) {
 	$club_c=$row_u['club'];
 	$distrito_c=$row_u['distrito'];
 	
+	//Cargo el ID del club y del distrito al que pertenece el socio
+	$nivel_usuario_club_id=$club_c;
+	$nivel_usuario_distrito_id=$distrito_c;
+
 	//Verifica si el user es RDR o ADMIN DISTRITAL
 	$sql_p = "SELECT * FROM rtc_distritos WHERE (uid_rdr = '$uid_c' OR uid_admin = '$uid_c') AND id_distrito = '$distrito_c' LIMIT 1";
 	$result_p = mysql_query($sql_p);
@@ -70,6 +77,7 @@ if ($_SESSION['logged']) {
 	$nivel_club_id=$club_c;
 	if ($row_p) {
 		$nivel_club=true;
+		$nivel_club_id=$club_c;
 		if ($row_p['uid_presidente']==$uid_c) {
 			$nivel_club_presidente=true;
 		} else {
