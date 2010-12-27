@@ -45,17 +45,17 @@ if ($_SESSION['logged']) { ?>
 <?php } else { ?>
 	<div id="userdiv">
 		<form id="login" name="formulario_login" method="post" action="/procesa/login.php">
-        	Usuario:<input name="user" type="text" id="user" size="10" maxlength="32" />
+        	Email / Usuario:
+        	  <input name="user" type="text" id="user" size="10" maxlength="32" />
 	        Contraseña:<input name="pass" type="password" id="pass" size="10" maxlength="16" />
 	        <input type="submit" name="entrar" id="entrar" value="Entrar" />
 	        <input type="button" name="registro" id="registro"  value="Registrarse" onclick="window.location = '/socios_alta.php';">
 		</form>
 	</div>
 	<?php if ($_SESSION['failed']) { ?>
-    	<div id="errordiv">
-			<span style='color: #FF0000'>Nombre de Usuario o Contrase&ntilde;a Incorrectos</span>
-        </div>
-	<?php } ?>
+    	<div id="errordiv"><span style='color: #FF0000'>Nombre de Usuario o Contrase&ntilde;a Incorrectos</span></div>
+    	<div id="recupera"><a href="recupera.php">recupera tu contraseña</a></div>
+  <?php } ?>
 <?php }?>
 <!-- Fin del div #acceso -->
 </div> 

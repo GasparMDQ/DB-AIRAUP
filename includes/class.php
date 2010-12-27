@@ -62,7 +62,7 @@ function _setSession($valores, $init = true) {
 		$ip = mysql_real_escape_string($_SERVER['REMOTE_ADDR']);
 		$fechaold = $row['fecha_acceso_actual'];
 		$fecha = date("c");
-		$sql = sprintf("UPDATE rtc_usr_login SET session = \"$session\", ip = \"$ip\", fecha_ultimo_acceso = \"$fechaold\", fecha_acceso_actual = \"$fecha\" WHERE " . "uid = \"$this->uid\" ");
+		$sql = sprintf("UPDATE rtc_usr_login SET session = \"$session\", ip = \"$ip\", fecha_ultimo_acceso = \"$fechaold\", fecha_acceso_actual = \"$fecha\", code = 'NULL' WHERE " . "uid = \"$this->uid\" ");
 		mysql_query($sql);
 //		$_SESSION['seccion'] = 'main';
 //		$_SESSION['clave'] = '';
