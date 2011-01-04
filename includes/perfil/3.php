@@ -12,7 +12,7 @@ if (!isset($_POST['enviar'])) {
 $user = $_SESSION['uid'];
 
 //Verifico que existan las filas en las tablas institucionales correspondiente al Usuario. Si no estan las creo.
-$sql = "SELECT * FROM rtc_usr_institucional WHERE uid = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_institucional WHERE user_id = '$user' LIMIT 1";
 $result = mysql_query($sql);
 if (!mysql_num_rows($result)) {
 	$fdm =  date('c');
@@ -21,7 +21,7 @@ if (!mysql_num_rows($result)) {
 }
 
 
-$sql = "SELECT * FROM rtc_usr_institucional WHERE uid = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_institucional WHERE user_id = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
 
