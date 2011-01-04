@@ -81,7 +81,7 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 
 //Modifica los datos del usuario
 //Datos personales
-		$sql = sprintf("UPDATE rtc_usr_personales SET pais='$dbpais', opais=NULL, provincia='$dbprovincia', oprovincia=NULL, ciudad='$dbciudad', ociudad=NULL WHERE uid='$usrid' LIMIT 1 ");
+		$sql = sprintf("UPDATE rtc_usr_personales SET pais='$dbpais', opais=NULL, provincia='$dbprovincia', oprovincia=NULL, ciudad='$dbciudad', ociudad=NULL WHERE user_id='$usrid' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$usuario['error']="Hubo un error al modificar el usuario";
@@ -90,7 +90,7 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 	}
 
 //Datos institucionales
-		$sql = sprintf("UPDATE rtc_usr_institucional SET distrito='$dbdistrito', odistrito=NULL, club='$dbclub', oclub=NULL, programa_ri='$dbprograma', oprograma=NULL WHERE uid='$usrid' LIMIT 1 ");
+		$sql = sprintf("UPDATE rtc_usr_institucional SET distrito='$dbdistrito', odistrito=NULL, club='$dbclub', oclub=NULL, programa_ri='$dbprograma', oprograma=NULL WHERE user_id='$usrid' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$usuario['error']="Hubo un error al modificar el usuario";
@@ -108,8 +108,8 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
     <tr>
       <td>&nbsp;</td>
       <td><form id="form1" name="form1" method="post" action="usuario.php">
-        Nombre de Usuario:
-<input name="usuario" type="text" id="usuario" size="10" maxlength="40" />
+        Id. de Usuario:
+            <input name="usuario" type="text" id="usuario" size="10" maxlength="40" />
                         <input type="submit" name="button" id="button" value="Enviar" />
       </form>
       </td>
@@ -125,7 +125,7 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 <?php
 $user = mysql_real_escape_string($usuario['var']);
 if ($usr != '') {
-$sql = "SELECT * FROM rtc_usr_login WHERE user_id = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_login WHERE uid = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $row = mysql_fetch_assoc($result);
 $idusuario = $row['user_id'];
