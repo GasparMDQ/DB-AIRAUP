@@ -84,6 +84,16 @@ if ($_SESSION['logged']) {
 			$nivel_club_presidente=false;
 		}
 	}
+	
+	//Verifica si el user es ADMIN de RRHH
+	$uid_c = $_SESSION['uid'];
+	$sql_p = "SELECT * FROM rtc_rrhh_admin WHERE user_id = '$uid_c' LIMIT 1";
+	$result_p = mysql_query($sql_p);
+	$row_p = mysql_num_rows($result_p);
+	if ($row_p) {
+		$nivel_rrhh=true;
+	}
+
 
 } 
 ?>

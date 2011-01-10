@@ -13,6 +13,7 @@ if ($nivel_admin) {echo "<li><a href=\"distritos.php\">Distritos</a></li>";}
 if ($nivel_admin OR $nivel_distrito) {echo "<li><a href=\"clubes.php\">Clubes</a></li>";}
 if ($nivel_admin OR $nivel_club) {echo "<li><a href=\"socios.php\">Socios</a></li>";}
 if ($nivel_admin) {echo "<li><a href=\"usuario.php\">Usuarios</a></li>";}
+if ($nivel_admin OR $nivel_rrhh) {echo "<li><a href=\"rrhh.php\">RRHH</a></li>";}
 ?>
 </ul>
 </div>

@@ -34,6 +34,15 @@ if ($_SESSION['logged']) { ?>
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
 	        	<input type="button" name="bdbutton" id="bdbutton" value="Club" onclick="window.location = '/admin/socios.php';">
+	<?php }
+	
+	//Verifica si es administrador de RRHH
+	$consulta = $_SESSION['uid'];
+	$sql = sprintf("SELECT * FROM rtc_rrhh_admin WHERE user_id = \"$consulta\" LIMIT 1");
+	$result = mysql_query($sql);
+	$row = mysql_fetch_object($result);
+	if ($row) { ?>
+	        	<input type="button" name="bdbutton" id="bdbutton" value="RRHH" onclick="window.location = '/admin/rrhh.php';">
 	<?php } ?>
 
 		</form>
