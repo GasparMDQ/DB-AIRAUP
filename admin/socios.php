@@ -39,12 +39,12 @@ $club_socio=mysql_real_escape_string(substr(htmlspecialchars($_POST['suid']),0,4
 //METODOS PARA BORRAR SOCIO, CAMBIAR ADMIN, MODIFICAR INFORMACION (EMAIL, DIRECCION, CIUDAD)
 
 if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
-	$sql = sprintf("UPDATE rtc_usr_institucional SET club='0', distrito='0' WHERE uid='$club_socio' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_usr_institucional SET club='0', distrito='0' WHERE user_id='$club_socio' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ($result == false) {
 		$club_error = "El socio no pudo ser dado de baja";
 	} else {
-		$sql = sprintf("SELECT * FROM rtc_usr_personales WHERE uid='$club_socio' LIMIT 1 ");
+		$sql = sprintf("SELECT * FROM rtc_usr_personales WHERE user_id='$club_socio' LIMIT 1 ");
 		$result = mysql_query($sql);
 		$row = mysql_fetch_assoc($result);
 		$club_error = "Se dio de baja a ".$row['nombre']." ".$row['apellido'];
@@ -183,8 +183,8 @@ if ($club_id!=0) {
 				$sel='';
 				while ($row_admin = mysql_fetch_assoc($resultado_admin))
 				{
-					if ($row_club['uid_admin']==$row_admin['uid']) { $sel = 'selected="selected"';} else {$sel = '';}
-					echo "<option value=\"{$row_admin['uid']}\" {$sel} >{$row_admin['nombre']} {$row_admin['apellido']}</option>";	
+					if ($row_club['uid_admin']==$row_admin['user_id']) { $sel = 'selected="selected"';} else {$sel = '';}
+					echo "<option value=\"{$row_admin['user_id']}\" {$sel} >{$row_admin['nombre']} {$row_admin['apellido']}</option>";	
 				}
 				echo "</select>";
 			?>

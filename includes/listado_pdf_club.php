@@ -26,7 +26,7 @@ if (($nivel_admin OR ($nivel_distrito_id==$idd) OR ($nivel_usuario_club_id==$idc
 		$numero_distrito = "Distrito ".$rowd['distrito']." \n ";
 	
 		$presi= $row['uid_presidente'];
-		$sqls = "SELECT * FROM rtc_usr_personales WHERE uid = '$presi' LIMIT 1";
+		$sqls = "SELECT * FROM rtc_usr_personales WHERE user_id = '$presi' LIMIT 1";
 		$results = mysql_query($sqls);
 		$rows = mysql_fetch_assoc($results);
 		if ($rows) {

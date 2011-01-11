@@ -24,7 +24,7 @@ $rowd = mysql_fetch_assoc($resultd);
     	<td><h3>Presidente</h3></td>
         <td align="right"><?php
 			$presi= $row['uid_presidente'];
-			$sqls = "SELECT * FROM rtc_usr_personales WHERE uid = '$presi' LIMIT 1";
+			$sqls = "SELECT * FROM rtc_usr_personales WHERE user_id = '$presi' LIMIT 1";
 			$results = mysql_query($sqls);
 			$rows = mysql_fetch_assoc($results);
 			if ($rows) {

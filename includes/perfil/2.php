@@ -10,7 +10,7 @@ if (!isset($_POST['enviar'])) {
 	die();
 }
 $user = $_SESSION['uid'];
-$sql = "SELECT * FROM rtc_usr_personales WHERE uid = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_personales WHERE user_id = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
 
@@ -143,13 +143,13 @@ if ($error==false AND isset($_POST['enviar']) AND $_POST['enviar']=="Enviar") {
     <tr>
       <td width="40">&nbsp;</td>
       <td>Obra Social:</td>
-      <td align="left">        <input title="En caso de tener obra social, indique su nombre" name="obrasocial" type="text" id="obrasocial" size="30" maxlength="20" value="<?php echo $obrasocial['var'];  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $obrasocial['error'];?></span>      </td>
+      <td align="left">        <input title="En caso de tener obra social, indique su nombre" name="obrasocial" type="text" id="obrasocial" size="30" maxlength="40" value="<?php echo $obrasocial['var'];  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $obrasocial['error'];?></span>      </td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td width="40">&nbsp;</td>
       <td>Número de Afiliado:</td>
-      <td align="left"><input title="Ingrese su número de afiliado" name="numeroobra" type="text" id="numeroobra" size="30" maxlength="20" value="<?php echo $numeroobra['var'];  ?>" />        &nbsp;<span style="color:#FF0000"><?php echo $numeroobra['error'];?></span> </td>
+      <td align="left"><input title="Ingrese su número de afiliado" name="numeroobra" type="text" id="numeroobra" size="30" maxlength="40" value="<?php echo $numeroobra['var'];  ?>" />        &nbsp;<span style="color:#FF0000"><?php echo $numeroobra['error'];?></span> </td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

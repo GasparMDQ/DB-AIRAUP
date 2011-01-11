@@ -10,7 +10,7 @@ if (!isset($_POST['enviar'])) {
 }
 
 $user = $_SESSION['uid'];
-$sql = "SELECT * FROM rtc_usr_personales WHERE uid = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_personales WHERE user_id = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
 
@@ -240,7 +240,7 @@ if ($error==false) {
 }
 
 $user = $_SESSION['uid'];
-$sql = "SELECT * FROM rtc_usr_personales WHERE uid = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_personales WHERE user_id = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
 
@@ -360,24 +360,27 @@ $usuario = mysql_fetch_assoc($result);
       <td align="left">        <input title="Ingrese su direccion" name="direccion" type="text" id="direccion" value="<?php echo $direccion['var'];  ?>" size="30" maxlength="80"/>&nbsp;<span style="color:#FF0000"><?php echo $direccion['error'];?></span>      </td>
       <td align="left">&nbsp;</td>
     </tr>
-    <tr>
-      <td width="40">&nbsp;</td>
-      <td>Pais:</td>
-      <td align="left">
+    <tr>      
+     	<td width="40"></td>
+        <td>Ciudad:</td>
+        <td align="left"><div id="ciudaddiv">
 	<?php 
-	$sql = "SELECT * FROM rtc_paises ORDER BY pais";
+	$sql = "SELECT * FROM rtc_ciudades WHERE id_provincia = ".$provincia['var']." ORDER BY ciudad";
 	$result = mysql_query($sql);
-	echo "<select name=\"pais\" id=\"pais\" onchange=\"getProv(this.value)\" >";
-	echo "<option value=\"0\">Seleccione Pais</option>";
-	$sel='';
+	echo "<select name=\"ciudad\" id=\"ciudad\">";
+if ($pais['var'] == '0') {
+	echo "<option value=\"0\">Elija Pais</option>";
+} else if ($pais['var'] != '-1') {
+	echo "<option value=\"0\">Seleccione</option>";
+}
 	while($row = mysql_fetch_assoc($result))
 	{
-		if ($row['id_paises']==$pais['var']) { $sel = 'selected="selected"';} else {$sel = '';}
-		echo "<option value=\"{$row['id_paises']}\" {$sel} >{$row['pais']}</option>";
+		if ($row['id_ciudades']==$ciudad['var']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$row['id_ciudades']}\" {$sel}>{$row['ciudad']}</option>";
 	}
 	?>
-	<option value="-1" <?php if ($pais['var']=='-1') {echo 'selected="selected"';}?> >Otro Pais</option></select>&nbsp;<span style="color:#FF0000"><?php echo $pais['error'];?></span></td>
-      <td align="left">&nbsp;</td>
+	<option value="-1" <?php if ($ciudad['var']=='-1') {echo 'selected="selected"';}?> >Otra Ciudad</option></select>&nbsp;<span style="color:#FF0000"><?php echo $ciudad['error'];?></span></div></td>
+        <td align="left">&nbsp;</td>
     </tr>
     <tr>      
     	<td width="40"></td>
@@ -403,32 +406,29 @@ if ($pais['var'] == '0') {
 	<option value="-1" <?php if ($provincia['var']=='-1') {echo 'selected="selected"';}?> >Otro</option></select>&nbsp;<span style="color:#FF0000"><?php echo $provincia['error'];?></span></div></td>
         <td align="left">&nbsp;</td>
     </tr>
-    <tr>      
-     	<td width="40"></td>
-        <td>Ciudad:</td>
-        <td align="left"><div id="ciudaddiv">
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Pais:</td>
+      <td align="left">
 	<?php 
-	$sql = "SELECT * FROM rtc_ciudades WHERE id_provincia = ".$provincia['var']." ORDER BY ciudad";
+	$sql = "SELECT * FROM rtc_paises ORDER BY pais";
 	$result = mysql_query($sql);
-	echo "<select name=\"ciudad\" id=\"ciudad\">";
-if ($pais['var'] == '0') {
-	echo "<option value=\"0\">Elija Pais</option>";
-} else if ($pais['var'] != '-1') {
-	echo "<option value=\"0\">Seleccione</option>";
-}
+	echo "<select name=\"pais\" id=\"pais\" onchange=\"getProv(this.value)\" >";
+	echo "<option value=\"0\">Seleccione Pais</option>";
+	$sel='';
 	while($row = mysql_fetch_assoc($result))
 	{
-		if ($row['id_ciudades']==$ciudad['var']) { $sel = 'selected="selected"';} else {$sel = '';}
-		echo "<option value=\"{$row['id_ciudades']}\" {$sel}>{$row['ciudad']}</option>";
+		if ($row['id_paises']==$pais['var']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$row['id_paises']}\" {$sel} >{$row['pais']}</option>";
 	}
 	?>
-	<option value="-1" <?php if ($ciudad['var']=='-1') {echo 'selected="selected"';}?> >Otra Ciudad</option></select>&nbsp;<span style="color:#FF0000"><?php echo $ciudad['error'];?></span></div></td>
-        <td align="left">&nbsp;</td>
+	<option value="-1" <?php if ($pais['var']=='-1') {echo 'selected="selected"';}?> >Otro Pais</option></select>&nbsp;<span style="color:#FF0000"><?php echo $pais['error'];?></span></td>
+      <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td width="40">&nbsp;</td>
-      <td>Otro Pais:</td>
-      <td align="left"><input title="Ingrese su pais" name="otropais" type="text" id="otropais" value="<?php echo $otro_pais['var'];  ?>" size="30" maxlength="40"/>&nbsp;<span style="color:#FF0000"><?php if ($pais['var']=='-1') {echo $otro_pais['error'];}?></span></td>
+      <td>Otra Ciudad:</td>
+      <td align="left"><input title="Ingrese la ciudad" name="otraciud" type="text" id="otraciud" value="<?php echo $otra_ciud['var'];  ?>" size="30" maxlength="40"/>&nbsp;<span style="color:#FF0000"><?php if ($ciudad['var']=='-1') {echo $otra_ciud['error'];}?></span>	  </td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>
@@ -439,8 +439,8 @@ if ($pais['var'] == '0') {
     </tr>
     <tr>
       <td width="40">&nbsp;</td>
-      <td>Otra Ciudad:</td>
-      <td align="left"><input title="Ingrese la ciudad" name="otraciud" type="text" id="otraciud" value="<?php echo $otra_ciud['var'];  ?>" size="30" maxlength="40"/>&nbsp;<span style="color:#FF0000"><?php if ($ciudad['var']=='-1') {echo $otra_ciud['error'];}?></span>	  </td>
+      <td>Otro Pais:</td>
+      <td align="left"><input title="Ingrese su pais" name="otropais" type="text" id="otropais" value="<?php echo $otro_pais['var'];  ?>" size="30" maxlength="40"/>&nbsp;<span style="color:#FF0000"><?php if ($pais['var']=='-1') {echo $otro_pais['error'];}?></span></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

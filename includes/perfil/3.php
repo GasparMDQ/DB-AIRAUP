@@ -154,7 +154,7 @@ if (isset($_POST['enviar'])) {
 	}
 }
 
-$sql = "SELECT * FROM rtc_usr_personales WHERE uid = '$user' LIMIT 1";
+$sql = "SELECT * FROM rtc_usr_personales WHERE user_id = '$user' LIMIT 1";
 $result = mysql_query($sql);
 $usuario = mysql_fetch_assoc($result);
 

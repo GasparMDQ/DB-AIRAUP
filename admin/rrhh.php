@@ -4,7 +4,7 @@ include 'header.php';
 require_once '/home/gasparmdq/configDB/configuracion.php';
 require_once 'includes/abredb.php';
 ?>
-<p>Importar datos</p>
+<p>Importar datos personales</p>
 <?php
 		$sql_p = "SELECT * FROM rtc_importa_zoho";
 		$result_p = mysql_query($sql_p);
@@ -27,11 +27,14 @@ require_once 'includes/abredb.php';
 				$result = mysql_query($sql);
 				$row = mysql_fetch_assoc($result);
 				if ($row) {
-					echo "<p class=\"muestra_alarma\">".$em." Ya existe en login";
+//					echo "<p>".$em." Ya existe en login";
 				} else {
 					$sql = sprintf("INSERT INTO rtc_usr_login (user_id, clave, email, fecha_de_creacion, fecha_de_modificacion, fecha_ultimo_acceso, fecha_acceso_actual) VALUES ('$uid', '$cla', '$em', '$fdc', '$fdm', '$fua', '$faa')");
-					$result = mysql_query($sql);
+				if (mysql_query($sql)) {
 					echo "<p>".$em." Agregado su login</p>";
+				} else {
+					echo "<p class=\"muestra_alarma\">".$em." Error al agregar su login";
+				}
 				}
 
 
@@ -41,10 +44,19 @@ require_once 'includes/abredb.php';
 			if ($row) {
 				$userid = $row['uid'];
 				$sql = sprintf("INSERT INTO rtc_usr_personales (user_id, nombre, apellido) VALUES ('$userid', '$nom', '$ape')");
-				$result = mysql_query($sql);
-				echo "<p class=\"muestra_alarma\">".$em." Agregado datos Personales";
+				if (mysql_query($sql)) {
+					echo "<p>".$em." Agregado datos Personales";
+					$sql = sprintf("DELETE FROM rtc_importa_zoho WHERE email='$em'");
+					$result = mysql_query($sql);
+				} else {
+					echo "<p>".$em." Actualizados datos personales";
+					$sql = sprintf("UPDATE rtc_usr_personales SET nombre='$nom', apellido='$ape' WHERE email='$em'");
+					$result = mysql_query($sql);
+					$sql = sprintf("DELETE FROM rtc_importa_zoho WHERE email='$em'");
+					$result = mysql_query($sql);
+				}
 			} else {
-				echo "<p>".$em." No existe el login";
+				echo "<p class=\"muestra_alarma\">".$em." No existe el login";
 			}
 	
 		}

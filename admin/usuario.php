@@ -67,7 +67,7 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 			$sql = sprintf("INSERT INTO rtc_clubes (id_club, id_distrito, id_ciudad, club, uid_presidente, uid_admin) VALUES ('', '$dbdistrito', '', '$dbclub', '', '')");
 			$result = mysql_query($sql);
 			$dbclub = mysql_insert_id();
-		}	
+		}
 
 		$dbprograma = mysql_real_escape_string(substr(htmlspecialchars($_POST['programa']),0,40));
 		$sql = sprintf("SELECT * FROM rtc_cfg_programas WHERE id_programa = '$dbprograma' LIMIT 1");
@@ -86,7 +86,7 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 	if ( $result == false ) {
 		$usuario['error']="Hubo un error al modificar el usuario";
 	} else {
-		$usuario['error']="Se modificaron los datos del usuario ".$usuario['var']." y se agregaron a las tablas correspondientes.";
+		$usuario['error']="Se modificaron los datos del usuario ".$usuario['var']." y se agregaron a las tablas correspondientes. (P)";
 	}
 
 //Datos institucionales
@@ -95,7 +95,7 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
 	if ( $result == false ) {
 		$usuario['error']="Hubo un error al modificar el usuario";
 	} else {
-		$usuario['error']="Se modificaron los datos del usuario ".$usuario['var']." y se agregaron a las tablas correspondientes.";
+		$usuario['error']="Se modificaron los datos del usuario ".$usuario['var']." y se agregaron a las tablas correspondientes. (I)";
 	}
 }
 ?>

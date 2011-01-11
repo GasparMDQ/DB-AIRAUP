@@ -88,8 +88,8 @@ while($row = mysql_fetch_assoc($result))
 	$sel='';
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		if ($row['uid_rdr']==$rowtmp['uid']) { $sel = 'selected="selected"';} else {$sel = '';}
-		echo "<option value=\"{$rowtmp['uid']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		if ($row['uid_rdr']==$rowtmp['user_id']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$rowtmp['user_id']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>
@@ -103,8 +103,8 @@ while($row = mysql_fetch_assoc($result))
 	$sel='';
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		if ($row['uid_admin']==$rowtmp['uid']) { $sel = 'selected="selected"';} else {$sel = '';}
-		echo "<option value=\"{$rowtmp['uid']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		if ($row['uid_admin']==$rowtmp['user_id']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$rowtmp['user_id']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>
