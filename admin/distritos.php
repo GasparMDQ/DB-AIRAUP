@@ -96,7 +96,9 @@ while($row = mysql_fetch_assoc($result))
 	</td>
 	<td>Admin:
 <?php
-	$sql1 = "SELECT * FROM rtc_usr_personales ORDER BY apellido, nombre";
+	$id_dist=$row['id_distrito'];
+	$sql1 = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=$id_dist ORDER BY apellido, nombre";
+//	$sql1 = "SELECT * FROM rtc_usr_personales ORDER BY apellido, nombre";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"admin\" id=\"admin\">";
 	echo "<option value=\"0\" selected > </option>";
