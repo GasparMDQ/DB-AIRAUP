@@ -113,8 +113,23 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
                         <input type="submit" name="button" id="button" value="Enviar" />
       </form>
       </td>
+      	<td><form id="form1" name="form1" method="post" action="usuario.php">Usuarios:
+<?php
+	$sql1 = "SELECT * FROM rtc_usr_personales ORDER BY apellido, nombre";
+	$resultado = mysql_query($sql1);
+	echo "<select name=\"usuario\" id=\"usuario\">";
+	echo "<option value=\"0\" selected > </option>";
+	$sel='';
+	while ($rowtmp = mysql_fetch_assoc($resultado))
+	{
+		echo "<option value=\"{$rowtmp['user_id']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+	}
+	echo "</select>";
+?>
+	<input type="submit" name="button" id="button" value="Enviar" />
+	</form>
+	</td>
       
-      <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -151,7 +166,7 @@ $modi = false;
     <tr>
     	<td>&nbsp;</td>
 		<td>Nombre de Usuario</td>
-	<td align="left"><?php echo $idusuario; ?>    </tr>
+	<td align="left"><?php echo $uid;?>| <?php echo $idusuario; ?></tr>
     <tr>
       <td>&nbsp;</td>
       <td>País</td>

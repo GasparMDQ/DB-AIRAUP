@@ -33,7 +33,8 @@ require_once 'includes/abredb.php';
 				if (mysql_query($sql)) {
 					echo "<p>".$em." Agregado su login</p>";
 				} else {
-					echo "<p class=\"muestra_alarma\">".$em." Error al agregar su login";
+					echo "<p class=\"muestra_alarma\">".$em." Error al agregar su login</p>";
+					echo "<p>".$sql."</p>";
 				}
 				}
 

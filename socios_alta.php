@@ -57,7 +57,7 @@ if ($clave['var']!=$clave2['var']) {
 }
 
 if (isset($_POST['email'])) {
-	$email['var']=substr(htmlspecialchars($_POST['email']),0,40);
+	$email['var']=substr(htmlspecialchars($_POST['email']),0,64);
 
 	if(filter_var($email['var'], FILTER_VALIDATE_EMAIL)!='0') {
 		$correo = mysql_real_escape_string(strtolower($email['var']));
@@ -183,7 +183,7 @@ if ($error==false) {
     <tr>
       <td width="40">&nbsp;</td>
       <td>Email:</td>
-      <td align="left"><input title="Ingrese su direccion de correo electronico" name="email" type="text" id="email" size="30" maxlength="32" value="<?php echo $email['var'];  ?>"/>
+      <td align="left"><input title="Ingrese su direccion de correo electronico" name="email" type="text" id="email" size="30" maxlength="64" value="<?php echo $email['var'];  ?>"/>
       &nbsp;<span style="color:#FF0000"><?php echo $email['error'];?></span></td>
     </tr>
     <tr>

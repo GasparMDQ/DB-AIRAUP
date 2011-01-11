@@ -41,7 +41,7 @@ if (!isset($_SESSION['uid']) ) {
 <?php 
 
 require_once '../includes/permisos.php';
-if ($nivel_club OR $nivel_distrito OR $nivel_admin) {
+if ($nivel_club OR $nivel_distrito OR $nivel_admin OR $nivel_rrhh) {
 		$esadmin=true;
 }
 

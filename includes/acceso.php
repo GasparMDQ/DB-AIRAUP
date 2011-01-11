@@ -33,7 +33,7 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-	        	<input type="button" name="bdbutton" id="bdbutton" value="Club" onclick="window.location = '/admin/socios.php';">
+	<input type="button" name="bdbutton2" id="bdbutton2" value="Club" onclick="window.location = '/admin/socios.php';" />
 	<?php }
 	
 	//Verifica si es administrador de RRHH
@@ -42,7 +42,7 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-	        	<input type="button" name="bdbutton" id="bdbutton" value="RRHH" onclick="window.location = '/admin/rrhh.php';">
+       	  <input type="button" name="bdbutton" id="bdbutton" value="RRHH" onclick="window.location = '/admin/index.php';">
 	<?php } ?>
 
 		</form>

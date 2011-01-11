@@ -29,8 +29,21 @@
 	<li><span class="dir">RRHH</span>
        	<!-- submenu de submenu-->
 		<ul>
-			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh.php">(I) Login</a></li><?php } ?>
-			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_info_club.php">(I) Institucional</a></li><?php } ?>
+		<li><span class="dir">Importar</span>
+    	   	<!-- submenu de submenu-->
+			<ul>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_imp_login.php">Zoho - Login</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_imp_inst.php">Zoho - Institucional</a></li><?php } ?>
+			</ul>
+		</li>
+		<li><span class="dir">Mesas</span>
+    	   	<!-- submenu de submenu-->
+			<ul>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_eventos_mesas.php">Mesas</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_modulos.php">Modulos</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_asistencia.php">Asistencia</a></li><?php } ?>
+			</ul>
+		</li>
 		</ul>
 	</li>
 </ul>
