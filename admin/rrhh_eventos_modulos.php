@@ -22,8 +22,10 @@ if (isset($_POST['evento'])){
 
 if (isset($_POST['mesa'])){
 	$mesa=intval($_POST['mesa']);
-} else {
-	$mesa=0;
+} else if (isset($_GET['mesa'])) {
+		$mesa=intval($_GET['mesa']);
+	} else {
+		$mesa=0;
 }
 
 if (isset($_POST['modulo'])){
@@ -53,7 +55,7 @@ if (isset($_POST['modulo_nombre']) && isset($_POST['instructor_1']) && isset($_P
 	$m_me = mysql_real_escape_string(substr(htmlspecialchars($_POST['mesa']),0,10));
 	$m_ev = mysql_real_escape_string(substr(htmlspecialchars($_POST['evento']),0,10));
 	
-	$sql = "UPDATE rtc_eventos_mesa_modulos SET modulo='$m_nombre', instructor_1='$m_i1', instructor_2='$m_i2' WHERE id='$m_id' AND mesa_id='$m_me' AND evento_id='$m_ev'";
+	$sql = "UPDATE rtc_eventos_mesa_modulos SET modulo='$m_nombre', instructor_1='$m_i1', instructor_2='$m_i2', fin='0' WHERE id='$m_id' AND mesa_id='$m_me' AND evento_id='$m_ev'";
 	$result = mysql_query($sql);
 	$modulo=0;
 }
@@ -63,19 +65,38 @@ if (isset($_POST['modulo_nombre']) && isset($_POST['instructor_1']) && isset($_P
 	$m_me = mysql_real_escape_string(substr(htmlspecialchars($_POST['mesa']),0,10));
 	$m_ev = mysql_real_escape_string(substr(htmlspecialchars($_POST['evento']),0,10));
 
-	$sql = "DELETE FROM rtc_eventos_mesa_modulos WHERE id='$m_id' AND mesa_id='$m_me' AND evento_id='$m_ev'";
+	$sql = "SELECT * FROM rtc_eventos_asistencia WHERE modulo_id='$m_id' LIMIT 1";
+	$result = mysql_query($sql);
+	$row = mysql_fetch_assoc($result);
+	if ($row) {
+		echo "<div class=\"muestra_alarma\">Imposible borrar porque el modulo tiene asistencias ingresadas</div>";
+	} else {
+		$sql = "DELETE FROM rtc_eventos_mesa_modulos WHERE id='$m_id' AND mesa_id='$m_me' AND evento_id='$m_ev'";
+		$result = mysql_query($sql);
+		$modulo=0;
+	}
+}
+
+// FINALIZADO DE MESAS
+if (isset($_POST['modulo_nombre']) && isset($_POST['instructor_1']) && isset($_POST['instructor_2']) && isset($_POST['modulo']) && isset($_POST['mesa']) && isset($_POST['evento'])  && isset($_POST['button']) && $_POST['button']=="Finalizar Modulo" ) {
+	$m_id = mysql_real_escape_string(substr(htmlspecialchars($_POST['modulo']),0,10));
+	$m_me = mysql_real_escape_string(substr(htmlspecialchars($_POST['mesa']),0,10));
+	$m_ev = mysql_real_escape_string(substr(htmlspecialchars($_POST['evento']),0,10));
+
+	$sql = "UPDATE rtc_eventos_mesa_modulos SET fin='1' WHERE id='$m_id' AND mesa_id='$m_me' AND evento_id='$m_ev'";
 	$result = mysql_query($sql);
 	$modulo=0;
 }
 
 ?>
+<div><h2>Edicion de Modulos</h2></div>
 <div>
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_modulos.php">
 Seleccione una mesa:
 <?php
 	$sql1 = "SELECT * FROM rtc_eventos, rtc_eventos_mesa ORDER BY rtc_eventos.nombre, rtc_eventos_mesa.mesa";
 	$resultado = mysql_query($sql1);
-	echo "<select name=\"mesa\" id=\"mesa\">";
+	echo "<select name=\"mesa\" id=\"mesa\" onchange=\"location.href='rrhh_eventos_modulos.php?mesa='+this.value\" >";
 	echo "<option value=\"0\" selected > </option>";
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
@@ -83,7 +104,6 @@ Seleccione una mesa:
 	}
 	echo "</select>";
 ?>
-<input type="submit" name="button" id="button" value="Enviar" />
 </form>
 </div>
 <?php if ($mesa!='0') {?>
@@ -123,17 +143,13 @@ Coordinador: <?php echo $coord2; ?>
 <?php if (isset($_POST['button']) && $_POST['button']=="Nuevo Modulo" && isset($_POST['evento'])) {?>
 <div>
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_modulos.php">
-Modulo: 
-  <input name="modulo_nombre" type="text" id="modulo_nombre" value="" size="30" maxlength="40" />
-  <br />
-Instructor:  <input name="instructor_1" type="text" id="instructor_1" value="" size="30" maxlength="60" />
-<br />
-Instructor:   <input name="instructor_2" type="text" id="instructor_2" value="" size="30" maxlength="60" />
- <br />
-  <input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
-  <input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa; ?>" />
-  <input type="submit" name="button" id="button" value="Agregar" />
-  <input type="submit" name="button" id="button" value="Cancelar" />
+	Modulo: <input name="modulo_nombre" type="text" id="modulo_nombre" value="" size="30" maxlength="40" /><br />
+	Instructor: <input name="instructor_1" type="text" id="instructor_1" value="" size="30" maxlength="60" /><br />
+	Instructor: <input name="instructor_2" type="text" id="instructor_2" value="" size="30" maxlength="60" /><br />
+	<input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
+	<input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa; ?>" />
+	<input type="submit" name="button" id="button" value="Agregar" />
+	<input type="submit" name="button" id="button" value="Cancelar" />
 </form>
 
 </div>
@@ -147,13 +163,19 @@ Instructor:   <input name="instructor_2" type="text" id="instructor_2" value="" 
 		$instructor_1=$row['instructor_1'];
 		$instructor_2=$row['instructor_2'];
 		$evento_id=$row['evento_id'];
+		if ($row['fin']) {
+			$finaliza='Si';
+		} else {
+			$finaliza='No';
+		}
 ?>
 
 <?php if ($modulo!=$modulo_id){ ?>
 <p>
 Modulo: <?php echo $modulo_nombre; ?><br />
 Instructor: <?php echo $instructor_1; ?><br />
-Instructor: <?php echo $instructor_2; ?>
+Instructor: <?php echo $instructor_2; ?><br />
+Finalizo: <?php echo $finaliza; ?>
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_modulos.php">
   <input name="modulo" type="hidden" id="modulo" value="<?php echo $modulo_id; ?>" />
   <input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa; ?>" />
@@ -172,6 +194,7 @@ Instructor: <input name="instructor_2" type="text" id="instructor_2" value="<?ph
   <input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa; ?>" />
   <input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
   <input type="submit" name="button" id="button" value="Grabar" />
+  <input type="submit" name="button" id="button" value="Finalizar Modulo" />
   <input type="submit" name="button" id="button" value="Borrar" />
 </form>
 

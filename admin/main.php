@@ -32,8 +32,8 @@
 		<li><span class="dir">Importar</span>
     	   	<!-- submenu de submenu-->
 			<ul>
-			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_imp_login.php">Zoho - Login</a></li><?php } ?>
-			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_imp_inst.php">Zoho - Institucional</a></li><?php } ?>
+			<?php if ($nivel_admin) {?>	<li><a href="rrhh_imp_login.php">Zoho - Login</a></li><?php } ?>
+			<?php if ($nivel_admin) {?>	<li><a href="rrhh_imp_inst.php">Zoho - Institucional</a></li><?php } ?>
 			</ul>
 		</li>
 		<li><span class="dir">Mesas</span>
