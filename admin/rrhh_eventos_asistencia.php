@@ -46,7 +46,11 @@ if (isset($_POST['user']) && isset($_POST['modulo']) && isset($_POST['mesa']) &&
 	} else {
 		$not = "";
 	}
-	
+	$sql_dis = "SELECT distrito FROM rtc_usr_institucional WHERE user_id='$uid' LIMIT 1";
+	$result_dis = mysql_query($sql_dis);
+	$row_dis = mysql_fetch_assoc($result_dis);
+	$dis=$row_dis['distrito'];
+
 	$sql = "INSERT INTO rtc_eventos_asistencia (evento_id, user_id, mesa_id, distrito_id, modulo_id, notas) VALUES ('$eve', '$uid', '$mes', '$dis', '$mod', '$not')";
 	$result = mysql_query($sql);
 }
