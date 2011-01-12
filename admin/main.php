@@ -40,8 +40,7 @@
     	   	<!-- submenu de submenu-->
 			<ul>
 			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_eventos_mesas.php">Mesas</a></li><?php } ?>
-			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_modulos.php">Modulos</a></li><?php } ?>
-			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_asistencia.php">Asistencia</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_modulos.php">Modulos y Asistencia</a></li><?php } ?>
 			</ul>
 		</li>
 		</ul>

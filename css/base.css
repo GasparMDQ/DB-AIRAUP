@@ -100,6 +100,8 @@ body {
 	color: white;
 	background-color: #323232;
 	padding: 2em;
+	font-size: x-small;
+	text-decoration: none;
 }
 #mainContent_admin a {
 	color: white;

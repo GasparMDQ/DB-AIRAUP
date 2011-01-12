@@ -88,6 +88,37 @@ if (isset($_POST['modulo_nombre']) && isset($_POST['instructor_1']) && isset($_P
 	$modulo=0;
 }
 
+// AGREGAR ASISTENCIA
+if (isset($_POST['user']) && isset($_POST['modulo']) && isset($_POST['mesa']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Asistio" ) {
+
+	$uid = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10)));
+	$mod = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['modulo']),0,10)));
+	$mes = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['mesa']),0,10)));
+	$eve = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
+	if (isset($_POST['notas'])) {
+		$not = mysql_real_escape_string(substr(htmlspecialchars($_POST['notas']),0,256));
+	} else {
+		$not = "";
+	}
+	$sql_dis = "SELECT distrito FROM rtc_usr_institucional WHERE user_id='$uid' LIMIT 1";
+	$result_dis = mysql_query($sql_dis);
+	$row_dis = mysql_fetch_assoc($result_dis);
+	$dis=$row_dis['distrito'];
+
+	$sql = "INSERT INTO rtc_eventos_asistencia (evento_id, user_id, mesa_id, distrito_id, modulo_id, notas) VALUES ('$eve', '$uid', '$mes', '$dis', '$mod', '$not')";
+	$result = mysql_query($sql);
+}
+
+// BORRAR ASISTENCIA
+if (isset($_POST['user']) && isset($_POST['modulo']) && isset($_POST['mesa']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Borrar" ) {
+
+	$uid = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10)));
+	$mod = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['modulo']),0,10)));
+
+	$sql = "DELETE FROM rtc_eventos_asistencia WHERE user_id='$uid' AND modulo_id='$mod'";
+	$result = mysql_query($sql);
+}
+
 ?>
 <div><h2>Edicion de Modulos</h2></div>
 <div>
@@ -180,8 +211,9 @@ Finalizo: <?php echo $finaliza; ?>
   <input name="modulo" type="hidden" id="modulo" value="<?php echo $modulo_id; ?>" />
   <input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa; ?>" />
   <input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
-  <input type="submit" name="button" id="button" value="Editar" />
+  <input type="submit" name="button" id="button" value="Editar / Cargar Asistencia" />
 </form>
+
 </p>
 <? } else { // SI SELECCIONE EDITAR O BORRAR EL MODULO ?>
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_modulos.php">
@@ -197,6 +229,36 @@ Instructor: <input name="instructor_2" type="text" id="instructor_2" value="<?ph
   <input type="submit" name="button" id="button" value="Finalizar Modulo" />
   <input type="submit" name="button" id="button" value="Borrar" />
 </form>
+
+<?php
+	$sql_asis = "SELECT * FROM rtc_eventos_inscripciones, rtc_usr_personales WHERE rtc_eventos_inscripciones.user_id = rtc_usr_personales.user_id AND rtc_eventos_inscripciones.mesa_id = '$mesa' ORDER BY rtc_usr_personales.apellido, rtc_usr_personales.nombre";
+	$resultado_asis = mysql_query($sql_asis);
+	while ($row_asis = mysql_fetch_assoc($resultado_asis)) { ?>
+
+<form id="form1" name="form1" method="POST" action="rrhh_eventos_modulos.php">
+	<?php echo $row_asis['nombre']." ".$row_asis['apellido']; ?>
+	<input name="user" type="hidden" id="user" value="<?php echo $row_asis['user_id']; ?>" />
+	<input name="modulo" type="hidden" id="modulo" value="<?php echo $modulo_id; ?>" />
+	<input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa; ?>" />
+	<input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
+
+<?php
+	$uid_asis = $row_asis['user_id'];
+	$sql_verifica = "SELECT * FROM rtc_eventos_asistencia WHERE user_id = '$uid_asis' AND modulo_id = '$modulo_id' LIMIT 1";
+	$resultado_verifica = mysql_query($sql_verifica);
+	$row_verifica = mysql_fetch_assoc($resultado_verifica);
+?>
+
+<?php if ($row_verifica) {?>
+	<input type="submit" name="button" id="button" value="Borrar" /><?php echo $row_verifica['notas']; ?>
+
+<?php } else { ?>
+	<input type="submit" name="button" id="button" value="Asistio" />
+    <input name="notas" type="text" id="notas" size="40" maxlength="256" />
+<?php } // Final del IF YA EXISTE LA ASISTENCIA ?>
+</form>
+<?php } // FINALIZA WHILE DE SOCIOS ?>
+
 
 <?php } // Final del IF MODULO != MODULO_ID ?>
 <?php } // Final del WHILE ?>

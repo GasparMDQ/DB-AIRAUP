@@ -34,6 +34,8 @@ $nivel_club=false;
 $nivel_club_id=0;
 $nivel_club_presidente=false;
 $nivel_usuario=false;
+$nivel_rrhh=false;
+
 
 if ($_SESSION['logged']) {
 	$nivel_usuario=true;
