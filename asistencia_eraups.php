@@ -31,7 +31,14 @@ if ($nivel_rrhh OR $nivel_distrito OR $nivel_admin) { // DEFINIR QUE TIPOS DE AC
   <p>Asistencia por distrito</p>
 <?php
 	$evento=1; //ESTO ES PARA EL ERAUP 2011 || REEMPLAZAR CON SELECTOR DE EVENTOS
-	$sql="SELECT DISTINCT rtc_usr_institucional.distrito FROM rtc_eventos_inscripciones, rtc_usr_institucional WHERE rtc_eventos_inscripciones.evento_id='$evento' AND rtc_eventos_inscripciones.user_id=rtc_usr_institucional.user_id ORDER BY rtc_usr_institucional.distrito";
+
+	if ($nivel_admin OR $nivel_rrhh) { // SI SOLO ES RDR, LE MUESTRO LA INFO DE SU DISTRITO SOLAMENTE
+		$sql="SELECT DISTINCT rtc_usr_institucional.distrito FROM rtc_eventos_inscripciones, rtc_usr_institucional WHERE rtc_eventos_inscripciones.evento_id='$evento' AND rtc_eventos_inscripciones.user_id=rtc_usr_institucional.user_id ORDER BY rtc_usr_institucional.distrito";
+	} else {
+		$u=$_SESSION['uid'];
+		$sql="SELECT distrito FROM rtc_usr_institucional WHERE rtc_usr_institucional.user_id='$u' LIMIT 1";
+	}
+
 	$result=mysql_query($sql);
 	while ($row=mysql_fetch_assoc($result)) {
 		$distrito_id=$row['distrito'];	//ID DEL DISTRITO
@@ -54,7 +61,7 @@ if ($nivel_rrhh OR $nivel_distrito OR $nivel_admin) { // DEFINIR QUE TIPOS DE AC
 //			echo $user_nombre." (".$user_id."): ".user_porcen($user_id,$evento,$mesa_id)."<br />";
 		} //FINAL DE WHILE DE USUARIOS POR DISTRITO
 		echo "<p>Distrito ".$distrito_nombre."<br />Inscriptos: ".$total_distrito."<br />Asistencia Global: ".number_format($porcentaje_tmp/$total_distrito,2)."</p>";
-	} //FINAL DEL WHILE POR DISTRITO
+	} //FINAL DEL WHILE POR DISTRITO 
 
  ?>  
 </div>

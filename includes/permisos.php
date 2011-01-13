@@ -12,7 +12,7 @@
 // $nivel_club_presidente= TRUE|FALSE	Es el Presidente del club
 //
 // $nivel_usuario_club_id= INT			[id_club] al que el usuario pertenece
-// $nivel_usuario_distrito_id= INT		[id_club] al que el usuario pertenece
+// $nivel_usuario_distrito_id= INT		[id_distrito] al que el usuario pertenece
 //
 // Hay que tomar en cuenta las siguientes restricciones:
 // 	-Solo se puede presidir un club al que se pertenece
