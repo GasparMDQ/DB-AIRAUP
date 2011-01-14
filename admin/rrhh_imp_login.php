@@ -3,6 +3,17 @@ include 'header.php';
 
 require_once '/home/gasparmdq/configDB/configuracion.php';
 require_once 'includes/abredb.php';
+
+$esadmin=false;
+
+if ($nivel_admin) {
+		$esadmin=true;
+}
+
+if (!$_SESSION['logged'] || !$esadmin) {
+	header("Location: index.php");
+}
+
 ?>
 <p>Importar datos personales</p>
 <?php
@@ -51,7 +62,7 @@ require_once 'includes/abredb.php';
 					$result = mysql_query($sql);
 				} else {
 					echo "<p>".$em." Actualizados datos personales";
-					$sql = sprintf("UPDATE rtc_usr_personales SET nombre='$nom', apellido='$ape' WHERE email='$em'");
+					$sql = sprintf("UPDATE rtc_usr_personales SET nombre='$nom', apellido='$ape' WHERE user_id='$userid'");
 					$result = mysql_query($sql);
 					$sql = sprintf("DELETE FROM rtc_importa_zoho WHERE email='$em'");
 					$result = mysql_query($sql);

@@ -62,9 +62,16 @@ if (isset($_POST['mesa_nombre']) && isset($_POST['coordinador_1']) && isset($_PO
 	if ($row) {
 		echo "<div class=\"muestra_alarma\">Imposible borrar porque la mesa tiene modulos ingresados</div>";
 	} else {
-		$sql = "DELETE FROM rtc_eventos_mesa WHERE id='$m_id' AND evento_id='$m_ev'";
+		$sql = "SELECT * FROM rtc_eventos_inscripciones WHERE mesa_id='$m_id' AND evento_id='$m_ev' LIMIT 1";
 		$result = mysql_query($sql);
-		$mesa=0;
+		$row = mysql_fetch_assoc($result);
+		if ($row) {
+			echo "<div class=\"muestra_alarma\">Imposible borrar porque la mesa tiene inscriptos</div>";
+		} else {
+			$sql = "DELETE FROM rtc_eventos_mesa WHERE id='$m_id' AND evento_id='$m_ev'";
+			$result = mysql_query($sql);
+			$mesa=0;
+		}
 	}
 }
 

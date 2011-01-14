@@ -34,6 +34,7 @@
 			<ul>
 			<?php if ($nivel_admin) {?>	<li><a href="rrhh_imp_login.php">Zoho - Login</a></li><?php } ?>
 			<?php if ($nivel_admin) {?>	<li><a href="rrhh_imp_inst.php">Zoho - Institucional</a></li><?php } ?>
+			<?php if ($nivel_admin) {?>	<li><a href="rrhh_imp_inscriptos.php">Inscripciones ERAUP 2011</a></li><?php } ?>
 			</ul>
 		</li>
 		<li><span class="dir">Mesas</span>
@@ -41,6 +42,7 @@
 			<ul>
 			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_eventos_mesas.php">Mesas</a></li><?php } ?>
 			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_modulos.php">Modulos y Asistencia</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_mesas_inc.php">Mesas - Inscribir Socios</a></li><?php } ?>
 			</ul>
 		</li>
 		</ul>

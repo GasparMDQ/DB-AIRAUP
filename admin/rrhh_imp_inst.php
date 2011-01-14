@@ -3,6 +3,17 @@ include 'header.php';
 
 require_once '/home/gasparmdq/configDB/configuracion.php';
 require_once 'includes/abredb.php';
+
+$esadmin=false;
+
+if ($nivel_admin) {
+		$esadmin=true;
+}
+
+if (!$_SESSION['logged'] || !$esadmin) {
+	header("Location: index.php");
+}
+
 ?>
 <p>Importar datos institucionales</p>
 <?php

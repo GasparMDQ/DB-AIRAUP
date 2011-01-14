@@ -16,6 +16,7 @@ function user_porcen($uid,$ev,$me) {
 	while ($row_p = mysql_fetch_assoc($result_p)) { //EDITAR PARA MOSTRAR LOS MODULOS ASISTIDAS Y LOS QUE NO
 	}
 	if ($modulos==0) {
+		$modulos = 100; // SI NO HAY MODULOS EN LA MESA SE LO TOMA COMO QUE TIENE 100%
 		return $modulos;
 	} else {
 		return $asiste / $modulos * 100;
