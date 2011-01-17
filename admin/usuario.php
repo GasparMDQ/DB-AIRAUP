@@ -1,9 +1,6 @@
 <?php
 include 'header.php';
 
-require_once '/home/gasparmdq/configDB/configuracion.php';
-require_once 'includes/abredb.php';
-
 $usuario['var']="0";
 $usuario['var']=substr(htmlspecialchars($_POST['usuario']),0,40);
 $usuario['id']=substr(htmlspecialchars($_POST['idusuario']),0,4);

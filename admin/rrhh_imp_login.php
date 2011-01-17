@@ -1,9 +1,6 @@
 <?php
 include 'header.php';
 
-require_once '/home/gasparmdq/configDB/configuracion.php';
-require_once 'includes/abredb.php';
-
 $esadmin=false;
 
 if ($nivel_admin) {

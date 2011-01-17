@@ -1,5 +1,6 @@
 <?php
 require_once '/home/gasparmdq/configDB/configuracion.php';
+//	require_once '/opt/lampp/htdocs/configDB/configuracion.php';
 require_once 'abredb.php';
 
 function session_defaults() {

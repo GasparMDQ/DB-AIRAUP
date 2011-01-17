@@ -1,9 +1,6 @@
 <?php
 include 'header.php';
 
-require_once '/home/gasparmdq/configDB/configuracion.php';
-require_once 'includes/abredb.php';
-
 $esadmin=false;
 
 if ($nivel_rrhh OR $nivel_admin) {
@@ -39,8 +36,9 @@ if (isset($_POST['mesa']) && isset($_POST['user']) && isset($_POST['evento']) &&
 ?>
 <h2>Inscribir Asistentes a Mesas del ERAUP 2011</h2>
 <?php
-		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_eventos_inscripciones.mesa_id FROM rtc_eventos_inscripciones, rtc_importa_inscriptos_eraup2011, rtc_usr_login WHERE rtc_eventos_inscripciones.user_id=rtc_usr_login.uid AND rtc_usr_login.email=rtc_importa_inscriptos_eraup2011.email AND rtc_eventos_inscripciones.evento_id='1' ORDER BY rtc_importa_inscriptos_eraup2011.mesa, rtc_importa_inscriptos_eraup2011.distrito, rtc_eventos_inscripciones.mesa_id, rtc_eventos_inscripciones.user_id";
-//		$sql_p = "SELECT * FROM rtc_eventos_inscripciones WHERE evento_id='1' ORDER BY mesa_id, user_id";
+//		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_eventos_inscripciones.mesa_id FROM rtc_eventos_inscripciones, rtc_importa_inscriptos_eraup2011, rtc_usr_login WHERE rtc_eventos_inscripciones.user_id=rtc_usr_login.uid AND rtc_usr_login.email=rtc_importa_inscriptos_eraup2011.email AND rtc_eventos_inscripciones.evento_id='1' ORDER BY rtc_importa_inscriptos_eraup2011.mesa, rtc_importa_inscriptos_eraup2011.distrito, rtc_eventos_inscripciones.mesa_id, rtc_eventos_inscripciones.user_id";
+		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_eventos_inscripciones.mesa_id FROM rtc_eventos_inscripciones, rtc_usr_institucional, rtc_distritos WHERE evento_id='1' AND rtc_eventos_inscripciones.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=rtc_distritos.id_distrito ORDER BY rtc_distritos.distrito, rtc_eventos_inscripciones.mesa_id";
+//		echo $sql_p;
 		$result_p = mysql_query($sql_p);
 		while($rows = mysql_fetch_assoc($result_p))
 		{
@@ -77,7 +75,11 @@ if (isset($_POST['mesa']) && isset($_POST['user']) && isset($_POST['evento']) &&
 			$sql="SELECT mesa FROM rtc_importa_inscriptos_eraup2011 WHERE email='$em' LIMIT 1";
 			$result=mysql_query($sql);
 			$row=mysql_fetch_assoc($result);
-			$mesa=$row['mesa'];
+			if ($row) {
+				$mesa=$row['mesa'];
+			} else {
+				$mesa=0;
+			}
 
 			?><form id="form" name="form" method="POST" action="rrhh_eventos_mesas_inc.php"> <?php 
 

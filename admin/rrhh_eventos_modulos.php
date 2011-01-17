@@ -1,9 +1,6 @@
 <?php
 include 'header.php';
 
-require_once '/home/gasparmdq/configDB/configuracion.php';
-require_once 'includes/abredb.php';
-
 $esadmin=false;
 
 if ($nivel_rrhh OR $nivel_admin) {
@@ -33,6 +30,7 @@ if (isset($_POST['modulo'])){
 } else {
 	$modulo=0;
 }
+
 // AGREGAR MODULOS
 if (isset($_POST['modulo_nombre']) && isset($_POST['instructor_1']) && isset($_POST['instructor_2']) && isset($_POST['mesa']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Agregar" ) {
 	$m_nombre = mysql_real_escape_string(substr(htmlspecialchars($_POST['modulo_nombre']),0,40));
@@ -137,7 +135,7 @@ Seleccione una mesa:
 ?>
 </form>
 </div>
-<?php if ($mesa!='0') {?>
+<?php if ($mesa!=0) {?>
 <div>
 <?php 
 	$sql_a="SELECT * FROM rtc_eventos_mesa WHERE id='$mesa' LIMIT 1";
@@ -199,6 +197,8 @@ Coordinador: <?php echo $coord2; ?>
 		} else {
 			$finaliza='No';
 		}
+
+
 ?>
 
 <?php if ($modulo!=$modulo_id){ ?>
@@ -215,7 +215,7 @@ Finalizo: <?php echo $finaliza; ?>
 </form>
 
 </p>
-<? } else { // SI SELECCIONE EDITAR O BORRAR EL MODULO ?>
+<?php } else { // SI SELECCIONE EDITAR O BORRAR EL MODULO ?>
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_modulos.php">
 Modulo: 
   <input name="modulo_nombre" type="text" id="modulo_nombre" value="<?php echo $modulo_nombre; ?>" size="30" maxlength="40" />

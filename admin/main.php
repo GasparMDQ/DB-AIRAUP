@@ -29,6 +29,13 @@
 	<li><span class="dir">RRHH</span>
        	<!-- submenu de submenu-->
 		<ul>
+		<?php if ($nivel_admin) {?>	<li><a href="accesso_rrhh.php">Dar Acceso</a></li><?php } ?>
+		<li><span class="dir">Eventos</span>
+    	   	<!-- submenu de submenu-->
+			<ul>
+			<?php if ($nivel_admin) {?>	<li><a href="rrhh_eventos_inscripciones.php">Inscripciones</a></li><?php } ?>
+			</ul>
+		</li>
 		<li><span class="dir">Importar</span>
     	   	<!-- submenu de submenu-->
 			<ul>

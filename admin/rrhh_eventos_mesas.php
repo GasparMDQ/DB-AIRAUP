@@ -1,9 +1,6 @@
 <?php
 include 'header.php';
 
-require_once '/home/gasparmdq/configDB/configuracion.php';
-require_once 'includes/abredb.php';
-
 $esadmin=false;
 
 if ($nivel_rrhh OR $nivel_admin) {
@@ -164,15 +161,15 @@ Coordinador:  <?php
 <?php if ($mesa!=$mesa_id){ ?>
 <p>
 Mesa: <?php echo $mesa_nombre; ?><br />
-Coordinador: <?php echo $coord1; ?><br />
-Coordinador: <?php echo $coord2; ?>
+Coordinador: <?php echo $coord1."(".$coordinador_1.")"; ?><br />
+Coordinador: <?php echo $coord2."(".$coordinador_2.")"; ?>
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_mesas.php">
   <input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa_id; ?>" />
   <input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
   <input type="submit" name="button" id="button" value="Editar" />
 </form>
 </p>
-<? } else { // SI SELECCIONE EDITAR O BORRAR LA MESA ?>
+<?php } else { // SI SELECCIONE EDITAR O BORRAR LA MESA ?>
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_mesas.php">
 Mesa: 
   <input name="mesa_nombre" type="text" id="mesa_nombre" value="<?php echo $mesa_nombre; ?>" size="30" maxlength="40" />
