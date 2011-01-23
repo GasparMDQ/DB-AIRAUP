@@ -112,14 +112,14 @@ if (isset($_POST['usuario'])&& $_POST['submit']=='Modificar') {
       </td>
       	<td><form id="form1" name="form1" method="post" action="usuario.php">Usuarios:
 <?php
-	$sql1 = "SELECT * FROM rtc_usr_personales ORDER BY apellido, nombre";
+	$sql1 = "SELECT rtc_usr_personales.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito FROM rtc_usr_personales, rtc_usr_institucional, rtc_distritos WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id  AND rtc_usr_institucional.distrito=rtc_distritos.id_distrito ORDER BY rtc_distritos.distrito, rtc_usr_personales.nombre, rtc_usr_personales.apellido";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"usuario\" id=\"usuario\">";
 	echo "<option value=\"0\" selected > </option>";
 	$sel='';
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
-		echo "<option value=\"{$rowtmp['user_id']}\" {$sel} >{$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
+		echo "<option value=\"{$rowtmp['user_id']}\" >({$rowtmp['distrito']})- {$rowtmp['nombre']} {$rowtmp['apellido']}</option>";	
 	}
 	echo "</select>";
 ?>

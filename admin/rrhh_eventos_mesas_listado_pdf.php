@@ -52,6 +52,8 @@ if ($evento!=0 AND $mesa!=0 AND $_POST['button']="Generar Listado") {
 <?php
 	$sql="SELECT rtc_distritos.distrito, rtc_usr_personales.nombre, rtc_usr_personales.apellido FROM rtc_distritos, rtc_eventos_inscripciones, rtc_usr_personales, rtc_usr_institucional WHERE rtc_eventos_inscripciones.evento_id='$evento' AND rtc_eventos_inscripciones.mesa_id='$mesa' AND rtc_usr_personales.user_id=rtc_eventos_inscripciones.user_id AND rtc_usr_institucional.user_id=rtc_eventos_inscripciones.user_id AND rtc_distritos.id_distrito=rtc_usr_institucional.distrito ORDER BY rtc_distritos.distrito, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 	$result=mysql_query($sql);
+	$cantidad_insc=mysql_num_rows($result);
+	echo "Cantidad de Inscriptos: ".$cantidad_insc."<br />";
 	while ($row=mysql_fetch_assoc($result)){
 		$distrito=$row['distrito'];
 		$nombre=$row['nombre']." ".$row['apellido'];

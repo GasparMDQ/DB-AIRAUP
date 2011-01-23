@@ -234,6 +234,13 @@ input {
 	font-size: x-small;
 }
 
+.muestra_verde {
+	color:#00FF00 !important;
+	font-weight: bold;
+	font-size: x-small;
+}
+
+
 /*
 ESTILO PARA EL MENU DE ADMINISTRACION
 */

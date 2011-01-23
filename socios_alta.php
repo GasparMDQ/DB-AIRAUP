@@ -24,8 +24,8 @@ $resp = recaptcha_check_answer ($privatekey,
                                 $_POST["recaptcha_challenge_field"],
                                 $_POST["recaptcha_response_field"]);
 $captcha['var']='0';
-//if (!$resp->is_valid) {
-if ($resp->is_valid) {
+if (!$resp->is_valid) {
+//if ($resp->is_valid) {
 		$captcha['var']='-1';
 		$captcha['error']='Fallo la verificación';
 		$error=true;
@@ -105,7 +105,7 @@ if ($error==false) {
 			session_defaults();
 		}
 //ACA VA SQL PARA AGREGAR EL REGISTRO
-		$uid = mysql_real_escape_string($email['var']);
+		$user_id = mysql_real_escape_string($email['var']);
 		$em = mysql_real_escape_string($email['var']);
 		$nom = mysql_real_escape_string($nombre['var']);
 		$ape = mysql_real_escape_string($apellido['var']); 
