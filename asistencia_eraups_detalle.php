@@ -49,7 +49,7 @@ if ($nivel_rrhh OR $nivel_distrito OR $nivel_admin OR $nivel_usuario) { // DEFIN
 
 		if ($nivel_admin OR $nivel_rrhh) { // SI SOLO ES RDR, LE MUESTRO LA INFO DE SU DISTRITO SOLAMENTE
 			user_detalle($user_var,$evento,$mesa_var);
-		} else if ($nivel_rdr) {
+		} else if ($nivel_distrito) {
 			$u=$_SESSION['uid'];
 			$sql="SELECT distrito FROM rtc_usr_institucional WHERE user_id='$u' LIMIT 1";
 			$result=mysql_query($sql);
@@ -59,7 +59,7 @@ if ($nivel_rrhh OR $nivel_distrito OR $nivel_admin OR $nivel_usuario) { // DEFIN
 			$result=mysql_query($sql);
 			$row_2=mysql_fetch_assoc($result);
 			if ($row_1['distrito']==$row_2['distrito']) {
-				user_detalle($user_id,$evento,$mesa_id);
+				user_detalle($user_var,$evento,$mesa_var);
 			}
 		}
 	}
