@@ -53,6 +53,7 @@
 			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_eventos_mesas_listado.php">Listados por Mesa</a></li><?php } ?>
 			</ul>
 		</li>
+		<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="descargas_rrhh.php">Descargas</a></li><?php } ?>
 		</ul>
 	</li>
 </ul>
