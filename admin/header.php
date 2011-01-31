@@ -45,12 +45,18 @@ if (!$_SESSION['logged'] || !$esadmin) {
 
 
 <div id="container_admin">
-  <div id="header">
-    <h1><img src="../images/logo_color_rtc.png" title="Logo Rotaract" alt="Logo Rotaract" width="56" height="56" />&nbsp;&nbsp;Administración BD Rotaractiana&nbsp;&nbsp;<img src="../images/2.0.png" title="Web 2.0" alt="web 2.0" width="48" height="48" /></h1>
-<!-- end #header --></div>
-  <div id="acceso">
-    <?php include '../includes/acceso.php'; ?>
-  </div>
+<div id="header">
+
+	<div id="menudiv"><ul>
+	<li><a href="../index.php">Inscripciones</a></li>
+	<li><a href="../distritos.php">Distritos</a></li>
+	<li><a href="../clubes.php">Clubes</a></li>
+	<li><a href="../basedatos.php">Reportes</a></li>
+</ul>
+	<a href="../index.php"><img src="../images/header.png" alt="Base de Datos" width="352" height="42" border="0" title="Base de Datos" /></a></div>
+    
+    <div id="acceso"><?php include '../includes/acceso.php'; ?></div>
+</div>
 <?php 
 include 'main.php';
 

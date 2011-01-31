@@ -58,7 +58,7 @@ if (isset($_POST['distrito'])&& $_POST['distrito']!='0') {
 }
 
 if (isset($_POST['club'])&& $_POST['club']!='0') {
-	$club['var']=substr(htmlspecialchars($_POST['club']),0,40);
+	$club['var']=substr(htmlspecialchars($_POST['club']),0,80);
 	$club['error']="";
 } else {
 	$club['var'] = $usuario['club'];
@@ -78,7 +78,7 @@ if (isset($_POST['otrodistrito'])&& $distrito['var']=='-1' && $_POST['otrodistri
 }
 
 if (isset($_POST['otroclub'])&& $club['var']=='-1' && $_POST['otroclub']!='') {
-	$otroclub['var']=substr(htmlspecialchars($_POST['otroclub']),0,40);
+	$otroclub['var']=substr(htmlspecialchars($_POST['otroclub']),0,80);
 	$otroclub['error']="";
 } else {
 	$otroclub['var'] = $usuario['oclub'];
@@ -137,7 +137,14 @@ if (isset($_POST['enviar'])) {
 			$clu = mysql_real_escape_string($club['var']);
 			$oclu = mysql_real_escape_string($otroclub['var']);
 			$fdm =  date('c');
-			$sql = sprintf("UPDATE rtc_usr_institucional SET programa_ri = '$prog', oprograma = '$oprog', distrito = '$dist', odistrito = '$odist', club = '$clu', oclub = '$oclu', fecha_de_modificacion = '$fdm' WHERE user_id='$user'");
+			$verifica = 0;			
+//VERIFICACION PARA VER SI CAMBIO DE CLUB, EN CASO AFIRMATIVO SE GENERA EL EVENTO PARA QUE EL NUEVO CLUB SEA CONFIRMADO			
+			$sql = "SELECT club FROM rtc_usr_institucional WHERE user_id = '$user' LIMIT 1";
+			$result = mysql_query($sql);
+			$row = mysql_fetch_assoc($result);
+			if ($row['club'] == $clu) { $verifica = 1; }
+			
+			$sql = sprintf("UPDATE rtc_usr_institucional SET programa_ri = '$prog', oprograma = '$oprog', distrito = '$dist', odistrito = '$odist', club = '$clu', oclub = '$oclu', verifica_club = '$verifica', fecha_de_modificacion = '$fdm' WHERE user_id='$user'");
 			$result = mysql_query($sql);
 
 //ENVIO DE MAIL CON CONFIRMACION DE ALTA Y DATOS DE USUARIO
@@ -261,7 +268,7 @@ if ($distrito['var'] == '0') {
     <tr>
       <td width="40">&nbsp;</td>
       <td>Otro Club</td>
-      <td align="left"><input title="No figura tu club? Ingresalo aqui" name="otroclub" type="text" id="otroclub" size="30" maxlength="40" value="<?php echo $otroclub['var'];  ?>"/>&nbsp;<span style="color:#FF0000"><?php if ($club['var']=='-1') {echo $otroclub['error'];}?></span></td>
+      <td align="left"><input title="No figura tu club? Ingresalo aqui" name="otroclub" type="text" id="otroclub" size="30" maxlength="80" value="<?php echo $otroclub['var'];  ?>"/>&nbsp;<span style="color:#FF0000"><?php if ($club['var']=='-1') {echo $otroclub['error'];}?></span></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>
@@ -271,6 +278,9 @@ if ($distrito['var'] == '0') {
     </tr>
   </table>
 </form>
+
+
+
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 <?php
 

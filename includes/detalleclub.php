@@ -8,16 +8,20 @@ $idc=intval($_GET['club']);
 $sql = "SELECT * FROM rtc_clubes WHERE id_club = '$idc'";
 $result = mysql_query($sql);
 $row = mysql_fetch_assoc($result);
+$id_prog = $row['id_programa'];
 
 $idd= $row['id_distrito'];
 $sqld = "SELECT * FROM rtc_distritos WHERE id_distrito = '$idd'";
 $resultd = mysql_query($sqld);
 $rowd = mysql_fetch_assoc($resultd);
 
+$sql_logo="SELECT imagen FROM rtc_cfg_programas WHERE id_programa='$id_prog' LIMIT 1";
+$result_logo=mysql_query($sql_logo);
+$logo=mysql_fetch_assoc($result_logo);
 ?>
 <table class="tabla_clubes_detalles">
 <tr>
-    	<th valign="bottom"><h1>Rotaract Club <?php echo $row['club'];?></h1></th>
+    	<th valign="bottom"><h1><img src="images/<?php echo $logo['imagen'];?>" width="64" height="64" /> <?php echo $row['club'];?></h1></th>
     <th valign="bottom" align="right"><h2>Distrito <?php echo $rowd['distrito'];?></h2></th>
   </tr>
 	<tr>
@@ -81,7 +85,7 @@ $rowd = mysql_fetch_assoc($resultd);
 		<td>
 		<?php
 			$clubtmp = $row['id_club'];
-			$sqls = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = '$clubtmp' ORDER BY rtc_usr_personales.apellido, rtc_usr_personales.nombre";
+			$sqls = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = '$clubtmp' AND rtc_usr_institucional.verifica_club = '1' ORDER BY rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 			$results = mysql_query($sqls);
 			$ocultos = 0;
 			while($rows = mysql_fetch_assoc($results))

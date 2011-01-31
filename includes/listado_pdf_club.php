@@ -72,7 +72,7 @@ if (($nivel_admin OR ($nivel_distrito_id==$idd) OR ($nivel_usuario_club_id==$idc
 	$pdf->Cell(0,5,$pagina_web,0,1,'L');
 	$pdf->Ln(6);
 	//First table: put all columns automatically
-	$pdf->Table("SELECT apellido, nombre, direccion, telefono, celular, fecha_de_nacimiento, email FROM rtc_usr_personales, rtc_usr_institucional, rtc_usr_login WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_personales.user_id = rtc_usr_login.uid AND rtc_usr_institucional.club = '$clubtmp' ORDER BY rtc_usr_personales.apellido, rtc_usr_personales.nombre");
+	$pdf->Table("SELECT apellido, nombre, direccion, telefono, celular, fecha_de_nacimiento, email FROM rtc_usr_personales, rtc_usr_institucional, rtc_usr_login WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_personales.user_id = rtc_usr_login.uid AND rtc_usr_institucional.club = '$clubtmp' AND rtc_usr_institucional.verifica_club = '1' ORDER BY rtc_usr_personales.apellido, rtc_usr_personales.nombre");
 	$pdf->Output();
 } else {
 	die();

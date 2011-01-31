@@ -109,7 +109,7 @@ $sql_club = "SELECT * FROM rtc_clubes WHERE id_club=$club_id LIMIT 1";
 $result_club = mysql_query($sql_club);
 $row_club = mysql_fetch_assoc($result_club);
 	
-$sql = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = $club_id ORDER BY apellido, nombre";
+$sql = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = $club_id AND rtc_usr_institucional.verifica_club = '1' ORDER BY apellido, nombre";
 $result = mysql_query($sql);
 	
 if ($club_id!=0) {
@@ -176,7 +176,7 @@ if ($club_id!=0) {
 			<div class="tabla_izquierda">Administrador:</div>
 			<div class="tabla_derecha">
 			<?php
-				$sql_admin = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = $club_id ORDER BY apellido, nombre";
+				$sql_admin = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = $club_id AND rtc_usr_institucional.verifica_club = '1' ORDER BY apellido, nombre";
 				$resultado_admin = mysql_query($sql_admin);
 				echo "<select name=\"admin\" id=\"admin\">";
 				echo "<option value=\"0\" selected > </option>";

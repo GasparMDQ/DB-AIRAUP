@@ -4,33 +4,44 @@ $programa['error']="";
 
 $programa['var']=substr(htmlspecialchars($_POST['programa']),0,40);
 $programa['id']=substr(htmlspecialchars($_POST['idprograma']),0,4);
+$imagen['var']=substr(htmlspecialchars($_POST['imagen']),0,80);
 $consulta = mysql_real_escape_string($programa['var']);
 $consulta1 = mysql_real_escape_string($programa['id']);
+$imagen = mysql_real_escape_string($imagen['var']);
 
-if (isset($_POST['programa'])&& $_POST['submit']=='Agregar') {
+if (isset($_POST['programa'])&& isset($_POST['imagen']) && $_POST['submit']=='Agregar') {
 	$sql = sprintf("SELECT * FROM rtc_cfg_programas WHERE " . "programa = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ( $row ) {
 		$programa['error']="El programa ingresado ya existe";
 	} else {
-		$sql = sprintf("INSERT INTO rtc_cfg_programas (id_programa, programa) VALUES ('', '$consulta')");
+		$sql = sprintf("INSERT INTO rtc_cfg_programas (id_programa, programa, imagen) VALUES ('', '$consulta', '$imagen')");
 		$result = mysql_query($sql);
 		$programa['error']="Se agregó ".$programa['var']." al listado";
 	}
-} else if (isset($_POST['programa'])&& $_POST['submit']=='Borrar') {
+} else if (isset($_POST['programa'])&& isset($_POST['imagen']) && $_POST['submit']=='Borrar') {
 	$sql = sprintf("SELECT * FROM rtc_cfg_programas WHERE " . "programa = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ( $row ) {
-			$sql = sprintf("DELETE FROM rtc_cfg_programas WHERE id_programa='$consulta1' LIMIT 1");
+
+			$sql = "SELECT * FROM rtc_clubes WHERE id_programa = '$consulta1' LIMIT 1";
 			$result = mysql_query($sql);
-			$programa['error']="Se borró ".$programa['var']." del listado";
+			$row = mysql_fetch_object($result);
+		
+			if ( $row ) {
+				$pais['error']="El programa seleccionado esta en uso";
+			} else {
+				$sql = sprintf("DELETE FROM rtc_cfg_programas WHERE id_programa='$consulta1' LIMIT 1");
+				$result = mysql_query($sql);
+				$programa['error']="Se borró ".$programa['var']." del listado";
+			}
 	} else {
 		$pais['error']="El programa escrito no se encuentra en la lista";
 	}
-} else if (isset($_POST['programa'])&& $_POST['submit']=='Modificar') {
-	$sql = sprintf("UPDATE rtc_cfg_programas SET programa='$consulta' WHERE id_programa='$consulta1' LIMIT 1 ");
+} else if (isset($_POST['programa'])&& isset($_POST['imagen'])&& $_POST['submit']=='Modificar') {
+	$sql = sprintf("UPDATE rtc_cfg_programas SET programa='$consulta', imagen='$imagen' WHERE id_programa='$consulta1' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ( $result == false ) {
 		$programa['error']="No se pudo modificar";
@@ -65,6 +76,7 @@ while($row = mysql_fetch_assoc($result))
       <td> <?php echo $row['programa']; ?>	  </td>
       <td align="left"><form action="programas.php" method="post">
           <input name="programa" type="text" id="programa" value="<?php echo $row['programa'];  ?>" size="30" maxlength="40" />
+          <input name="imagen" type="text" id="imagen" value="<?php echo $row['imagen'];  ?>" size="30" maxlength="80" />
           <input name="idprograma" id="idprograma" type="hidden" value="<?php echo $row['id_programa'];  ?>" />
           <input type="submit" name="submit" id="submit" value="Modificar" />
           <input type="submit" name="submit" id="submit" value="Borrar" />
@@ -81,6 +93,7 @@ while($row = mysql_fetch_assoc($result))
       <td>Nombre:</td>
       <td align="left"><form action="programas.php" method="post">
       	<input name="programa" type="text" id="programa" size="30" maxlength="40">
+      	<input name="imagen" type="text" id="imagen" size="30" maxlength="80">
         <input type="submit" name="submit" id="submit" value="Agregar" />
       </form></td>
     </tr>
