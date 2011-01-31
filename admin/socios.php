@@ -39,7 +39,7 @@ $club_socio=mysql_real_escape_string(substr(htmlspecialchars($_POST['suid']),0,4
 //METODOS PARA BORRAR SOCIO, CAMBIAR ADMIN, MODIFICAR INFORMACION (EMAIL, DIRECCION, CIUDAD)
 
 if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
-	$sql = sprintf("UPDATE rtc_usr_institucional SET club='0', distrito='0' WHERE user_id='$club_socio' LIMIT 1 ");
+	$sql = sprintf("UPDATE rtc_usr_institucional SET club='0', distrito='0', verifica_club='0' WHERE user_id='$club_socio' LIMIT 1 ");
 	$result = mysql_query($sql);
 	if ($result == false) {
 		$club_error = "El socio no pudo ser dado de baja";
