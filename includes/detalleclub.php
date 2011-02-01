@@ -21,7 +21,7 @@ $logo=mysql_fetch_assoc($result_logo);
 ?>
 <table class="tabla_clubes_detalles">
 <tr>
-    	<th valign="bottom"><h1><img src="images/<?php echo $logo['imagen'];?>" width="64" height="64" /> <?php echo $row['club'];?></h1></th>
+    	<th align="left" valign="bottom"><h1><img src="images/<?php echo $logo['imagen'];?>" width="64" height="64" /> <?php echo $row['club'];?></h1></th>
     <th valign="bottom" align="right"><h2>Distrito <?php echo $rowd['distrito'];?></h2></th>
   </tr>
 	<tr>
