@@ -47,7 +47,7 @@ if (isset($_POST['clubb'])&& $_POST['submit']=='Agregar') {
 	if ( $row ) {
 		$club['error']="El club ingresado ya existe";
 	} else {
-		$sql = sprintf("INSERT INTO rtc_clubes (id_club, id_distrito, club, uid_presidente, uid_admin) VALUES ('', '$consulta2', '$consulta','$presidente','$admin')");
+		$sql = sprintf("INSERT INTO rtc_clubes (id_club, id_distrito, club, uid_presidente, uid_admin, id_programa) VALUES ('', '$consulta2', '$consulta','$presidente','$admin','1')");
 		$result = mysql_query($sql);
 		$club['error']="Se agregó ".$club['var']." al listado";
 	}

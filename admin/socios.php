@@ -51,6 +51,19 @@ if (isset($_POST['submit']) AND ($_POST['submit']=='Dar de Baja')) {
 	}
 }
 
+if (isset($_POST['submit']) AND ($_POST['submit']=='Aprobar')) {
+	$sql = sprintf("UPDATE rtc_usr_institucional SET verifica_club='1' WHERE user_id='$club_socio' LIMIT 1 ");
+	$result = mysql_query($sql);
+	if ($result == false) {
+		$club_error = "No se pudo aprobar el ingreso";
+	} else {
+		$sql = sprintf("SELECT * FROM rtc_usr_personales WHERE user_id='$club_socio' LIMIT 1 ");
+		$result = mysql_query($sql);
+		$row = mysql_fetch_assoc($result);
+		$club_error = "Se ingreso a ".$row['nombre']." ".$row['apellido']." como socio del club";
+	}
+}
+
 if (isset($_POST['submit']) AND ($_POST['submit']=='Modifica Datos')) {
 	$sql = sprintf("UPDATE rtc_clubes SET club='$club_nombre', email='$club_email', url='$club_url', direccion='$club_direccion', uid_admin='$club_admin', id_ciudad='$club_ciudad'  WHERE id_club='$club_id' LIMIT 1 ");
 	$result = mysql_query($sql);
@@ -218,6 +231,22 @@ if ($club_id!=0) {
 	<form action="socios.php" method="post">
 		<div class="tabla_izquierda"><?php echo $row['nombre']." ".$row['apellido']; ?></div>
 		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /><input name="suid" id="suid" type="hidden" value="<?php echo $row['user_id'];  ?>" /><input type="submit" name="submit" id="submit" value="Dar de Baja" /></div>
+	</form>
+</div> <!-- Final de tabla -->
+<?php } 
+
+$sql = "SELECT * FROM rtc_usr_personales, rtc_usr_institucional WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.club = $club_id AND rtc_usr_institucional.verifica_club = '0' ORDER BY apellido, nombre";
+$result = mysql_query($sql);
+
+?> 
+<div class="tabla_ppl"><h2>Miembros Pendientes: <?php echo mysql_num_rows($result); ?></h2></div>
+
+<?php while($row = mysql_fetch_assoc($result))
+{ ?>    
+<div class="tabla_ppl">
+	<form action="socios.php" method="post">
+		<div class="tabla_izquierda"><?php echo $row['nombre']." ".$row['apellido']; ?></div>
+		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /><input name="suid" id="suid" type="hidden" value="<?php echo $row['user_id'];  ?>" /><input type="submit" name="submit" id="submit" value="Aprobar" /></div>
 	</form>
 </div> <!-- Final de tabla -->
 <?php } ?> 
