@@ -236,6 +236,11 @@ input {
 	font-size: x-small;
 }
 
+.enlinea {
+	display:inline;
+	padding: 10px;
+}
+
 
 /*
 ESTILO PARA EL MENU DE ADMINISTRACION

@@ -30,12 +30,6 @@
        	<!-- submenu de submenu-->
 		<ul>
 		<?php if ($nivel_admin) {?>	<li><a href="accesso_rrhh.php">Dar Acceso</a></li><?php } ?>
-		<li><span class="dir">Eventos</span>
-    	   	<!-- submenu de submenu-->
-			<ul>
-			<?php if ($nivel_admin) {?>	<li><a href="rrhh_eventos_inscripciones.php">Inscripciones</a></li><?php } ?>
-			</ul>
-		</li>
 		<li><span class="dir">Importar</span>
     	   	<!-- submenu de submenu-->
 			<ul>
@@ -56,4 +50,15 @@
 		<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="descargas_rrhh.php">Descargas</a></li><?php } ?>
 		</ul>
 	</li>
+    
+	<li><span class="dir">Eventos</span>
+        <!-- submenu-->
+		<ul>
+			<?php if ($nivel_admin) {?>	<li><a href="#">Configuracion</a></li><?php } ?>
+			<?php if ($nivel_admin) {?>	<li><a href="eventos_preinscripciones.php">pre Inscripciones</a></li><?php } ?>
+			<?php if ($nivel_admin) {?>	<li><a href="eventos_inscripciones.php">Inscriptos</a></li><?php } ?>
+			<?php if ($nivel_admin) {?>	<li><a href="#">Tesoreria</a></li><?php } ?>
+		</ul>
+	</li>
+    
 </ul>

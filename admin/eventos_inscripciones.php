@@ -3,7 +3,7 @@ include 'header.php';
 
 $esadmin=false;
 
-if ($nivel_admin) {
+if ($nivel_evento OR $nivel_admin) {
 		$esadmin=true;
 }
 
@@ -11,7 +11,15 @@ if (!$_SESSION['logged'] || !$esadmin) {
 	header("Location: index.php");
 }
 
-if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Alta") {
+if (isset($_POST['evento'])){
+	$evento=intval($_POST['evento']);
+} else if (isset($_GET['evento'])) {
+		$evento=intval($_GET['evento']);
+	} else {
+		$evento=0;
+}
+
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Alta Directa") {
 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
@@ -48,9 +56,34 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 
 
 ?>
-<h2>Inscribir Asistentes al ERAUP 2011</h2>
+<div>
+  <h2>Inscriptos</h2>
+</div>
+<div>
+<form id="form1" name="form1" method="POST" action="eventos_inscripciones.php">Seleccione un evento:
 <?php
-		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito FROM rtc_clubes, rtc_eventos_inscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_inscripciones.evento_id='1' AND rtc_eventos_inscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_inscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
+	$sql1 = "SELECT * FROM rtc_eventos ORDER BY nombre"; // MEJORAR LA BUSQUEDA PARA DEVOLVER NOMBRE DEL EVENTO, DISTRITO y CLUB
+	$resultado = mysql_query($sql1);
+	echo "<select name=\"evento\" id=\"evento\" onchange=\"location.href='eventos_inscripciones.php?evento='+this.value\" >";
+	echo "<option value=\"0\" selected > </option>";
+	while ($rowtmp = mysql_fetch_assoc($resultado))
+	{
+		echo "<option value=\"{$rowtmp['id']}\">{$rowtmp['nombre']}</option>";	
+	}
+	echo "</select>";
+?>
+</form>
+</div>
+<?php if ($evento!='0') {
+	$sql="SELECT nombre FROM rtc_eventos WHERE id='$evento' LIMIT 1";
+	$result = mysql_query($sql);
+	$row = mysql_fetch_assoc($result);
+	
+?>
+
+<h2>Inscriptos a <?php echo $row['nombre'];?></h2>
+<?php
+		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito FROM rtc_clubes, rtc_eventos_inscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_inscripciones.evento_id='$evento' AND rtc_eventos_inscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_inscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 		$result_p = mysql_query($sql_p);
 		$cantidad_inscriptos = mysql_num_rows($result_p);
 		echo "Total de Inscriptos: ".$cantidad_inscriptos." <br />";
@@ -60,16 +93,16 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			$nombre = mysql_real_escape_string($rows['nombre'])." ".mysql_real_escape_string($rows['apellido']); 
 			$distrito = mysql_real_escape_string($rows['distrito']); 
 
-			?><form id="form" name="form" method="POST" action="rrhh_eventos_inscripciones.php"> <?php 
+			?><form id="form" name="form" method="POST" action="eventos_inscripciones.php"> <?php 
 
 			echo $nombre." (".$distrito."): ";
-			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="1" /><input type="submit" name="button" id="button" value="Baja" />
+			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input type="submit" name="button" id="button" value="Baja" />
 			</form>
 <?php 
 		}
 ?>
 
-<form id="form" name="form" method="POST" action="rrhh_eventos_inscripciones.php"> <?php 
+<form id="form" name="form" method="POST" action="eventos_inscripciones.php"> <?php 
 
 	$sql1 = "SELECT rtc_usr_personales.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito FROM rtc_usr_personales, rtc_usr_institucional, rtc_distritos WHERE rtc_usr_personales.user_id=rtc_usr_institucional.user_id  AND rtc_usr_institucional.distrito=rtc_distritos.id_distrito ORDER BY rtc_distritos.distrito, rtc_usr_personales.nombre, rtc_usr_personales.apellido";
 //	echo $sql1;
@@ -82,8 +115,9 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 	}
 	echo "</select>";
 
-			?><input name="evento" type="hidden" value="1" /><input type="submit" name="button" id="button" value="Alta" />
+			?><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input type="submit" name="button" id="button" value="Alta Directa" />
 			</form>
 
-<?php include 'footer.php';?>
+<?php } // Final del IF EVENTO != 0
+include 'footer.php';?>
 
