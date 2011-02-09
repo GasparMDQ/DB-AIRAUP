@@ -3,10 +3,21 @@ include 'includes/header.php';
 require_once 'includes/permisos.php';
 require_once 'includes/funciones.php';
 
+$fecha_de_hoy=date('Y-m-d');
+
+$sql="SELECT * FROM rtc_eventos, rtc_clubes, rtc_distritos WHERE rtc_eventos.fecha_inicio>='$fecha_de_hoy' AND rtc_eventos.club_id=rtc_clubes.id_club AND rtc_eventos.distrito_id=rtc_distritos.id_distrito ORDER BY rtc_eventos.fecha_inicio LIMIT 5";
+$result_listado=mysql_query($sql);
+
 ?>
 <div>
 <h3>¡Bienvenido!</h3>
 <p>&lt;listado de eventos proximos (5 eventos)&gt;</p>
+<?php
+	while ($listado_eventos=mysql_fetch_assoc($result_listado)) {
+		echo "<p>".$listado_eventos['nombre']." - ".$listado_eventos['club']." (".$listado_eventos['distrito'].") - ".$listado_eventos['fecha_inicio']."</p>";
+	}
+
+?>
 </div>
 <?php // SI ESTA LOGUEADO
 if ($_SESSION['logged']) {
