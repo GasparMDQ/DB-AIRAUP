@@ -113,7 +113,7 @@ if ($error==false) {
 		$fdm =  date('c');
 		$fua =  date('c');
 		$faa =  date('c');
-		$cla = hash('sha512', $uid.$clave['var'].'1s3a3l7t');
+		$cla = hash('sha512', $user_id.$clave['var'].'1s3a3l7t');
 		$sql = sprintf("INSERT INTO rtc_usr_login (user_id, clave, email, fecha_de_creacion, fecha_de_modificacion, fecha_ultimo_acceso, fecha_acceso_actual) VALUES ('$user_id', '$cla', '$em', '$fdc', '$fdm', '$fua', '$faa')");
 //		echo "PASAME LO QUE SIGUE: ".$sql."<br />";
 		$result = mysql_query($sql); //Ingreso los datos de login a la tabla que corresponden
