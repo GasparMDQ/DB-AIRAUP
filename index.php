@@ -5,7 +5,6 @@ require_once 'includes/funciones.php';
 
 $fecha_de_hoy=date('Y-m-d');
 
-//$sql="SELECT * FROM rtc_eventos, rtc_clubes, rtc_distritos WHERE rtc_eventos.fecha_inicio>='$fecha_de_hoy' AND rtc_eventos.club_id=rtc_clubes.id_club AND rtc_eventos.distrito_id=rtc_distritos.id_distrito ORDER BY rtc_eventos.fecha_inicio LIMIT 5";
 $sql="SELECT * FROM rtc_eventos WHERE rtc_eventos.fecha_inicio>='$fecha_de_hoy' ORDER BY rtc_eventos.fecha_inicio LIMIT 5";
 $result_listado=mysql_query($sql);
 
@@ -35,7 +34,7 @@ $result_listado=mysql_query($sql);
 			$distrito=$row_datos['distrito'];
 		}
 		$fecha=date_create($listado_eventos['fecha_inicio']);
-		echo date_format($fecha, 'd-m-Y')." - ".$listado_eventos['nombre']." - ".$club." (".$distrito.")<br />";
+		echo "<a href='detalle_evento.php?evento=".$listado_eventos['id']."'>".date_format($fecha, 'd-m-Y')." - ".$listado_eventos['nombre']." - ".$club." (".$distrito.")</a><br />";
 	}
 
 ?>
