@@ -26,26 +26,23 @@ if ($evento!=0 AND $mesa!=0 AND $_POST['button']="Generar Listado") {
 
 //GENERA LISTADO
 
-	$sql="SELECT mesa, coord_1_id, coord_2_id FROM rtc_eventos_mesa WHERE id='$mesa' AND evento_id='$evento' LIMIT 1";
+	$sql="SELECT mesa FROM rtc_eventos_mesa WHERE id='$mesa' AND evento_id='$evento' LIMIT 1";
 	$result= mysql_query ($sql);
 	$row=mysql_fetch_assoc($result);
 	$mesa_nombre=$row['mesa']; // nombre de mesa
-	$c1id=$row['coord_1_id'];
-	$c2id=$row['coord_2_id'];
-	$sql="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$c1id' LIMIT 1";
+
+	$sql="SELECT rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_usr_personales.user_id FROM rtc_usr_personales, rtc_eventos_mesa_coordinadores WHERE rtc_eventos_mesa_coordinadores.mesa_id='$mesa' AND rtc_usr_personales.user_id=rtc_eventos_mesa_coordinadores.user_id ORDER BY rtc_usr_personales.nombre, rtc_usr_personales.apellido";
 	$result=mysql_query($sql);
-	$row=mysql_fetch_assoc($result);
-	$coordina1=$row['nombre']." ".$row['apellido']; // coordinador 1
-	$sql="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$c2id' LIMIT 1";
-	$result=mysql_query($sql);
-	$row=mysql_fetch_assoc($result);
-	$coordina2=$row['nombre']." ".$row['apellido']; // coordinador 2
+	$coordinadores="";
+	while($row = mysql_fetch_assoc($result)){
+		$coordinadores= $coordinadores.$row['nombre']." ".$row['apellido']." | ";
+	}
 
 ?>
 <div><h2>Listados de Participantes</h2></div>
 <div>
 <h2>Mesa: <?php echo $mesa_nombre; ?></h2>
-<h3>Coordinadores: <?php echo $coordina1." | ".$coordina2; ?></h3>
+<h3>Coordinadores: <?php echo $coordinadores; ?></h3>
 <table width="90%" border="0">
   <tr><th>Distrito</th><th>Nombre</th><th>E-Mail</th></tr>
 

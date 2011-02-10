@@ -2,6 +2,7 @@
 include 'header.php';
 
 $esadmin=false;
+$nivel_evento=false;
 
 if ($nivel_evento OR $nivel_admin) {
 		$esadmin=true;
@@ -95,7 +96,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			$club = mysql_real_escape_string($rows['club']); 
 
 			?><form id="form" name="form" method="POST" action="eventos_inscripciones.php"> 
-  <input type="submit" name="button2" id="button2" value="Baja" />
+  <input type="submit" name="button" id="button" value="Baja" />
   <?php 
 
 			echo  "(".$distrito." | ".$club.") ".$nombre;

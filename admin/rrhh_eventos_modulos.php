@@ -123,7 +123,7 @@ if (isset($_POST['user']) && isset($_POST['modulo']) && isset($_POST['mesa']) &&
 <form id="form1" name="form1" method="POST" action="rrhh_eventos_modulos.php">
 Seleccione una mesa:
 <?php
-	$sql1 = "SELECT * FROM rtc_eventos, rtc_eventos_mesa ORDER BY rtc_eventos.nombre, rtc_eventos_mesa.mesa";
+	$sql1 = "SELECT * FROM rtc_eventos, rtc_eventos_mesa WHERE rtc_eventos_mesa.evento_id=rtc_eventos.id ORDER BY rtc_eventos.nombre, rtc_eventos_mesa.mesa";
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"mesa\" id=\"mesa\" onchange=\"location.href='rrhh_eventos_modulos.php?mesa='+this.value\" >";
 	echo "<option value=\"0\" selected > </option>";
@@ -143,43 +143,6 @@ Seleccione una mesa:
 	$row_a=mysql_fetch_assoc($result_a);
 	$evento=$row_a['evento_id'];
 	$mesa_nombre=$row_a['mesa'];
-	$coordinador_1=$row_a['coord_1_id'];
-	$coordinador_2=$row_a['coord_2_id'];
-	$coordinador_3=$row_a['coord_3_id'];
-	$coordinador_4=$row_a['coord_4_id'];
-	$coordinador_5=$row_a['coord_5_id'];
-	$coordinador_6=$row_a['coord_6_id'];
-		$sql_c="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$coordinador_1' LIMIT 1";
-		$result_c=mysql_query($sql_c);
-		$row_c = mysql_fetch_assoc($result_c);
-		$coord1= $row_c['nombre']." ".$row_c['apellido'];
-
-		$sql_c="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$coordinador_2' LIMIT 1";
-		$result_c=mysql_query($sql_c);
-		$row_c = mysql_fetch_assoc($result_c);
-		$coord2= $row_c['nombre']." ".$row_c['apellido'];
-
-		$sql_c="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$coordinador_3' LIMIT 1";
-		$result_c=mysql_query($sql_c);
-		$row_c = mysql_fetch_assoc($result_c);
-		$coord3= $row_c['nombre']." ".$row_c['apellido'];
-
-		$sql_c="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$coordinador_4' LIMIT 1";
-		$result_c=mysql_query($sql_c);
-		$row_c = mysql_fetch_assoc($result_c);
-		$coord4= $row_c['nombre']." ".$row_c['apellido'];
-
-		$sql_c="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$coordinador_5' LIMIT 1";
-		$result_c=mysql_query($sql_c);
-		$row_c = mysql_fetch_assoc($result_c);
-		$coord5= $row_c['nombre']." ".$row_c['apellido'];
-
-		$sql_c="SELECT nombre, apellido FROM rtc_usr_personales WHERE user_id='$coordinador_6' LIMIT 1";
-		$result_c=mysql_query($sql_c);
-		$row_c = mysql_fetch_assoc($result_c);
-		$coord6= $row_c['nombre']." ".$row_c['apellido'];
-
-
 
 	$sql="SELECT * FROM rtc_eventos WHERE id='$evento' LIMIT 1";
 	$result=mysql_query($sql);
@@ -189,12 +152,13 @@ Seleccione una mesa:
 ?>
 <h2>Encuentro: <?php echo $evento_nombre; ?></h2>
 <h3>Mesa: <?php echo $mesa_nombre; ?></h3>
-Coordinador: <?php echo $coord1; ?><br />
-Coordinador: <?php echo $coord2; ?><br />
-Coordinador: <?php echo $coord3; ?><br />
-Coordinador: <?php echo $coord4; ?><br />
-Coordinador: <?php echo $coord5; ?><br />
-Coordinador: <?php echo $coord6; ?>
+<?php 
+			$sql_c="SELECT rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_usr_personales.user_id FROM rtc_usr_personales, rtc_eventos_mesa_coordinadores WHERE rtc_eventos_mesa_coordinadores.mesa_id='$mesa' AND rtc_usr_personales.user_id=rtc_eventos_mesa_coordinadores.user_id ORDER BY rtc_usr_personales.nombre, rtc_usr_personales.apellido";
+			$result_c=mysql_query($sql_c);
+			while($row_c = mysql_fetch_assoc($result_c)){
+				echo "Coordinador: ".$row_c['nombre']." ".$row_c['apellido']." (".$row_c['user_id'].")<br />";
+			}
+?>
 </div>
 <div>
 <h2>Modulos</h2>
@@ -215,6 +179,9 @@ Coordinador: <?php echo $coord6; ?>
 <?php 
 	$sql="SELECT * FROM rtc_eventos_mesa_modulos WHERE mesa_id='$mesa' ORDER BY fin, modulo";
 	$result=mysql_query($sql);
+?>
+<h3>Cantidad de modulos: <?php echo mysql_num_rows($result); ?></h3>
+<?php
 	while($row = mysql_fetch_assoc($result)) {
 		$modulo_id=$row['id'];
 		$modulo_nombre=$row['modulo'];
