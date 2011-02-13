@@ -232,7 +232,7 @@ if ($error==false) {
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td>Se ha registrado con éxito al usuario <?php echo $email['var'];?>. Para ver o modificar su perfil acceda desde el menú de socios.</td>
+      <td>Se ha registrado con éxito al usuario <?php echo $email['var'];?>. Para ver o modificar su perfil acceda desde la administracion de datos personales.</td>
       <td>&nbsp;</td>
     </tr>
   </table>

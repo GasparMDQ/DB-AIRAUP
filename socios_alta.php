@@ -99,6 +99,71 @@ if (isset($_POST['apellido'])&& $_POST['apellido']!='') {
 	$apellido['error']="*";
 }
 
+///// CHEQUEO DE LA PARTE INSTITUCIONAL
+
+if (isset($_POST['programa_ri'])&& $_POST['programa_ri']!='0') {
+	$programari['var']=substr(htmlspecialchars($_POST['programa_ri']),0,40);
+	$programari['error']="";
+} else {
+	$programari['var'] = 0;
+	$error=true;
+	$programari['error']="*";
+}
+
+if (isset($_POST['otroprograma'])&& $programari['var']=='-1'&& $_POST['otroprograma']!='') {
+	$otroprograma['var']=substr(htmlspecialchars($_POST['otroprograma']),0,40);
+	$otroprograma['error']="";
+} else {
+	$otroprograma['var'] = "";
+	if ($programari['var']=='-1') {
+		$error=true;
+		$otroprograma['error']="*";
+	}
+}
+
+if (isset($_POST['distrito'])&& $_POST['distrito']!='0') {
+	$distrito['var']=substr(htmlspecialchars($_POST['distrito']),0,40);
+	$distrito['error']="";
+} else {
+	$distrito['var'] = 0;
+	$error=true;
+	$distrito['error']="*";
+}
+
+if (isset($_POST['club'])&& $_POST['club']!='0') {
+	$club['var']=substr(htmlspecialchars($_POST['club']),0,80);
+	$club['error']="";
+} else {
+	$club['var'] = 0;
+	$error=true;
+	$club['error']="*";
+}
+
+if (isset($_POST['otrodistrito'])&& $distrito['var']=='-1' && $_POST['otrodistrito']!='') {
+	$otrodistrito['var']=substr(htmlspecialchars($_POST['otrodistrito']),0,40);
+	$otrodistrito['error']="";
+} else {
+	$otrodistrito['var'] = "";
+	if ($distrito['var']=='-1') {
+		$error=true;
+		$otrodistrito['error']="*";
+	}
+}
+
+if (isset($_POST['otroclub'])&& $club['var']=='-1' && $_POST['otroclub']!='') {
+	$otroclub['var']=substr(htmlspecialchars($_POST['otroclub']),0,80);
+	$otroclub['error']="";
+} else {
+	$otroclub['var'] = "";
+	if ($club['var']=='-1') {
+		$error=true;
+		$otroclub['error']="*";
+	}
+}
+
+
+///// FIN DEL CHEQUEO DE LA PARTE INSTIUCIONAL
+
 //Si estan todas las variables, se procede a verificar que los datos ingresados sean correctos.
 if ($error==false) {
 		if ($_SESSION['logged']) {
@@ -127,6 +192,19 @@ if ($error==false) {
 		$sql = sprintf("INSERT INTO rtc_usr_personales (user_id, nombre, apellido) VALUES ('$userid', '$nom', '$ape')");
 //		echo "PASAME LO QUE SIGUE: ".$sql."<br />";
 		$result = mysql_query($sql); //Ingreso el nombre y apellido a la tabla de datos personales (y creo la entrada)
+
+		$programa_ri=$programari['var'];
+		$oprograma=$otroprograma['var'];
+		$distrito=$distrito['var'];
+		$odistrito=$otrodistrito['var'];
+		$club=$club['var'];
+		$oclub=$otroclub['var'];
+		$sql = sprintf("INSERT INTO rtc_usr_institucional (user_id, programa_ri, oprograma, distrito, odistrito, club, oclub) VALUES ('$userid', '$programa_ri', '$oprograma', '$distrito', '$odistrito', '$club', '$oclub')");
+		$result = mysql_query($sql); //Ingreso la informacion de club y distrito a la tabla de datos institucionales(y creo la entrada)
+		
+		$cuerpo ="<html><head><title>Base de Datos AIRAUP - Pedido de Agregado de Datos</title></head><body><h3>Base de Datos de A.I.R.A.U.P.</h3><p>El usuario <strong>".$userid."</strong> inform&oacute; de nuevos valores para agregar en las listas desplegables.</p><p>Los mismo son:</p><table width=\"100%\" border=\"0\"><tr><td>Campo</td><td>id</td><td>Otro</td></tr><tr><td>Distrito</td><td>".$distrito."</td><td>".$odistrito."</td></tr><tr><td>Club</td><td>".$club."</td><td>".$oclub."</td></tr><tr><td>Programa RI:</td><td>".$programa_ri."</td><td>".$oprograma."</td></tr></table><p>&nbsp;</p><p>Una vez agregados a las tablas, modificar el usuario para que su informaci&oacute;n se corresponda con la actualizaci&oacute;n.</p><p align=\"right\">Geek Team<br>RRHH AIRAUP</p></body></html>";
+		$asunto = "Base de Datos AIRAUP - Agregado de Datos";
+		if ($dist=='-1' || $clu=='-1' || $prog=='-1') { mail("gasparmdq@gmail.com",$asunto,$cuerpo,$encabezado); }
 		
 		
 //ENVIO DE MAIL CON CONFIRMACION DE ALTA Y DATOS DE USUARIO
@@ -155,7 +233,7 @@ if ($error==false) {
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td>Se ha registrado con éxito al usuario <?php echo $email['var'];?>. Para ver o modificar su perfil acceda desde el menú de socios.</td>
+      <td>Se ha registrado con éxito al usuario <?php echo $email['var'];?>. Para ver o modificar su perfil acceda desde  la administracion de datos personales.</td>
       <td>&nbsp;</td>
     </tr>
   </table>
@@ -211,6 +289,98 @@ if ($error==false) {
       <td width="40">&nbsp;</td>
       <td>Apellido:</td>
       <td align="left">        <input title="Ingrese su apellido" name="apellido" type="text" id="apellido" size="30" maxlength="40" value="<?php echo $apellido['var'];  ?>"/>&nbsp;<span style="color:#FF0000"><?php echo $apellido['error'];?></span>      </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td align="left">&nbsp;</td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Programa de RI:</td>
+      <td align="left">
+	<?php 
+	$sql = "SELECT * FROM rtc_cfg_programas ORDER BY programa";
+	$result = mysql_query($sql);
+	echo "<select name=\"programa_ri\" id=\"programa_ri\">";
+	echo "<option value=\"0\">Seleccione Programa</option>";
+	$sel='';
+	while($row = mysql_fetch_assoc($result))
+	{
+		if ($row['id_programa']==$programari['var']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$row['id_programa']}\" {$sel} >{$row['programa']}</option>";
+	}
+?>
+	<option value="-1" <?php if ($programari['var']=='-1') {echo 'selected="selected"';}?> >Otro Programa</option>
+</select>&nbsp;<span style="color:#FF0000"> <?php echo $programari['error'];?> </span></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Otro Programa</td>
+      <td align="left"><input title="Pertenece a otro programa? Ingreselo aqui" name="otroprograma" type="text" id="otroprograma" size="30" maxlength="40" value="<?php echo $otroprograma['var'];  ?>"/>&nbsp;<span style="color:#FF0000"><?php if ($programari['var']=='-1') {echo $otroprograma['error'];}?></span>	  </td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Distrito:</td>
+      <td align="left">
+	<?php 
+	$sql = "SELECT * FROM rtc_distritos ORDER BY distrito";
+	$result = mysql_query($sql);
+	echo "<select name=\"distrito\" id=\"distrito\" onchange=\"getClub(this.value)\" >";
+	echo "<option value=\"0\">Seleccione Distrito</option>";
+	$sel='';
+	while($row = mysql_fetch_assoc($result))
+	{
+		if ($row['id_distrito']==$distrito['var']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$row['id_distrito']}\" {$sel} >{$row['distrito']}</option>";
+	}
+?>
+	<option value="-1" <?php if ($distrito['var']=='-1') {echo 'selected="selected"';}?>>Otro Distrito</option>
+</select>&nbsp;<span style="color:#FF0000"><?php echo $distrito['error'];?></span></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>Club:</td>
+      <td align="left"> <div  id="clubdiv">
+	<?php 
+	echo "<select name=\"club\" id=\"club\">";
+if ($distrito['var'] == '0') {
+	echo "<option value=\"0\">Elija Distrito</option>";
+} else if ($distrito['var']!= '-1') {
+		echo "<option value=\"0\">Seleccione Club</option>";
+}
+	$distmp = $distrito['var'];
+	$sql = "SELECT * FROM rtc_clubes WHERE id_distrito = '$distmp' ORDER BY club";
+	$result = mysql_query($sql);
+	while($row = mysql_fetch_assoc($result))
+	{
+		if ($row['id_club']==$club['var']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$row['id_club']}\" {$sel} >{$row['club']}</option>";
+	}
+	?>
+	<option value="-1" <?php if ($club['var']=='-1') {echo 'selected="selected"';}?> >Otro Club</option></select>&nbsp;<span style="color:#FF0000"><?php echo $club['error'];?></span>      </div></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Otro Distrito</td>
+      <td align="left"><input title="No figura tu distrito? Ingresalo aqui" name="otrodistrito" type="text" id="otrodistrito" size="30" maxlength="10" value="<?php echo $otrodistrito['var'];  ?>"/>&nbsp;<span style="color:#FF0000"><?php if ($distrito['var']=='-1') {echo $otrodistrito['error'];}?></span></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Otro Club</td>
+      <td align="left"><input title="No figura tu club? Ingresalo aqui" name="otroclub" type="text" id="otroclub" size="30" maxlength="80" value="<?php echo $otroclub['var'];  ?>"/>&nbsp;<span style="color:#FF0000"><?php if ($club['var']=='-1') {echo $otroclub['error'];}?></span></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td width="40">&nbsp;</td>
