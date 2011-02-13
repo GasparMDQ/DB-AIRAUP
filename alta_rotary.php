@@ -43,7 +43,7 @@ if ($clave['var']!=$clave2['var']) {
 
 if (isset($_POST['email'])) {
 	$email['var']=substr(htmlspecialchars($_POST['email']),0,64);
-
+	$notemail=false;
 	if(filter_var($email['var'], FILTER_VALIDATE_EMAIL)!='0') {
 		$correo = mysql_real_escape_string(strtolower($email['var']));
 		$sql = sprintf("SELECT * FROM rtc_usr_login WHERE " . "email = \"$correo\" LIMIT 1");
@@ -56,8 +56,18 @@ if (isset($_POST['email'])) {
 			$email['error']="";
 		}
 	} else {
-		$error=true;
-		$email['error']="La dirección de correo no es valida";
+		$username = mysql_real_escape_string(strtolower($email['var']));
+		$sql = sprintf("SELECT * FROM rtc_usr_login WHERE user_id = \"$username\" LIMIT 1");
+		$result = mysql_query($sql);
+		$row = mysql_fetch_object($result);
+		if ( $row ) {
+			$error=true;
+			$email['error']="El nombre de usuario ya esta en uso";
+		} else {
+			$email['error']="";
+			$notemail=true;
+		}
+
 	}
 } else {
 	$email['var']="";
@@ -156,7 +166,11 @@ if ($error==false) {
 		}
 //ACA VA SQL PARA AGREGAR EL REGISTRO
 		$user_id = mysql_real_escape_string($email['var']);
-		$em = mysql_real_escape_string($email['var']);
+		if ($notemail) {
+			$em = "";
+		} else {
+			$em = mysql_real_escape_string($email['var']);
+		}
 		$nom = mysql_real_escape_string($nombre['var']);
 		$ape = mysql_real_escape_string($apellido['var']); 
 		$fdc =  date('c');
@@ -168,15 +182,28 @@ if ($error==false) {
 //		echo "PASAME LO QUE SIGUE: ".$sql."<br />";
 		$result = mysql_query($sql); //Ingreso los datos de login a la tabla que corresponden
 
-		$sql = sprintf("SELECT * FROM rtc_usr_login WHERE email='$em' LIMIT 1");
+		$sql = sprintf("SELECT uid FROM rtc_usr_login WHERE user_id='$user_id' LIMIT 1");
 		$result = mysql_query($sql);
 		$row = mysql_fetch_assoc($result);
 		$userid = $row['uid'];
 //		Consigo el UID del usuario recien creado
 		
 		$sql = sprintf("INSERT INTO rtc_usr_personales (user_id, nombre, apellido) VALUES ('$userid', '$nom', '$ape')");
-//		echo "PASAME LO QUE SIGUE: ".$sql."<br />";
 		$result = mysql_query($sql); //Ingreso el nombre y apellido a la tabla de datos personales (y creo la entrada)
+
+		$programa_ri=$programari['var'];
+		$oprograma=$otroprograma['var'];
+		$distrito=$distrito['var'];
+		$odistrito=$otrodistrito['var'];
+		$club=$club['var'];
+		$oclub=$otroclub['var'];
+		$sql = sprintf("INSERT INTO rtc_usr_institucional (user_id, programa_ri, oprograma, distrito, odistrito, club, oclub) VALUES ('$userid', '$programa_ri', '$oprograma', '$distrito', '$odistrito', '$club', '$oclub')");
+		$result = mysql_query($sql); //Ingreso la informacion de club y distrito a la tabla de datos institucionales(y creo la entrada)
+		
+		$cuerpo ="<html><head><title>Base de Datos AIRAUP - Pedido de Agregado de Datos</title></head><body><h3>Base de Datos de A.I.R.A.U.P.</h3><p>El usuario <strong>".$userid."</strong> inform&oacute; de nuevos valores para agregar en las listas desplegables.</p><p>Los mismo son:</p><table width=\"100%\" border=\"0\"><tr><td>Campo</td><td>id</td><td>Otro</td></tr><tr><td>Distrito</td><td>".$distrito."</td><td>".$odistrito."</td></tr><tr><td>Club</td><td>".$club."</td><td>".$oclub."</td></tr><tr><td>Programa RI:</td><td>".$programa_ri."</td><td>".$oprograma."</td></tr></table><p>&nbsp;</p><p>Una vez agregados a las tablas, modificar el usuario para que su informaci&oacute;n se corresponda con la actualizaci&oacute;n.</p><p align=\"right\">Geek Team<br>RRHH AIRAUP</p></body></html>";
+		$asunto = "Base de Datos AIRAUP - Agregado de Datos";
+		if ($dist=='-1' || $clu=='-1' || $prog=='-1') { mail("gasparmdq@gmail.com",$asunto,$cuerpo,$encabezado); }
+
 		
 		
 //ENVIO DE MAIL CON CONFIRMACION DE ALTA Y DATOS DE USUARIO
@@ -185,7 +212,7 @@ if ($error==false) {
 		$encabezado = "MIME-Version: 1.0" . "\r\n";
 		$encabezado .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 		$encabezado .= "From: Base de Datos de AIRAUP <base@airaup.org>";
-		mail($em,$asunto,$cuerpo,$encabezado);
+ 		if (!$notemail) { mail($em,$asunto,$cuerpo,$encabezado); }
 ?>
    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -233,7 +260,7 @@ if ($error==false) {
     </tr>
     <tr>
       <td width="40">&nbsp;</td>
-      <td>Email:</td>
+      <td>Email o DNI:</td>
       <td align="left"><input title="Ingrese su direccion de correo electronico" name="email" type="text" id="email" size="30" maxlength="64" value="<?php echo $email['var'];  ?>"/>
       &nbsp;<span style="color:#FF0000"><?php echo $email['error'];?></span></td>
     </tr>
