@@ -11,8 +11,12 @@
 // $nivel_club_id= INT					[id_club] del que tiene administracion
 // $nivel_club_presidente= TRUE|FALSE	Es el Presidente del club
 //
+// $nivel_usuario= TRUE|FALSE			Similar a revisar la variable de session $_SESSION['logged']
 // $nivel_usuario_club_id= INT			[id_club] al que el usuario pertenece
 // $nivel_usuario_distrito_id= INT		[id_distrito] al que el usuario pertenece
+// $nivel_usuario_programa= INT			[id_programa] al que el usuario pertenece
+//
+// $nivel_rrhh= TRUE|FALSE				Posee nivel de administracion de RRHH
 //
 // Hay que tomar en cuenta las siguientes restricciones:
 // 	-Solo se puede presidir un club al que se pertenece
@@ -58,6 +62,7 @@ if ($_SESSION['logged']) {
 	//Cargo el ID del club y del distrito al que pertenece el socio
 	$nivel_usuario_club_id=$club_c;
 	$nivel_usuario_distrito_id=$distrito_c;
+	$nivel_usuario_programa=$row_u['programa_ri'];
 
 	//Verifica si el user es RDR o ADMIN DISTRITAL
 	$sql_p = "SELECT * FROM rtc_distritos WHERE (uid_rdr = '$uid_c' OR uid_admin = '$uid_c') AND id_distrito = '$distrito_c' LIMIT 1";

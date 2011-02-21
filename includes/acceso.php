@@ -3,11 +3,8 @@
 <?php
 if ($_SESSION['logged']) { ?>
 	<div id="admindiv">
-		<form id="admin" name="admin" method="post" action="#">
-		  Administrar  
-		  <input type="button" name="dpbutton" id="dpbutton" value="Datos Personales" onclick="window.location = '/socios_perfil.php';">
-
-	
+	<ul><li>Administrar</li>
+	<li><a href="/socios_perfil.php">Datos Personales</a></li>
 <?php 
 	//Verifica si es administrador del sitio
 	$consulta = $_SESSION['uid'];
@@ -15,7 +12,7 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-	        	<input type="button" name="bdbutton" id="bdbutton" value="Base de Datos" onclick="window.location = '/admin/index.php';">
+		<li><a href="/admin/index.php">Base de Datos</a></li>
 	<?php }
 
 	//Verifica si es administrador o rdr de algun distrito
@@ -24,7 +21,7 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-	        	<input type="button" name="bdbutton" id="bdbutton" value="Distrito" onclick="window.location = '/admin/clubes.php';">
+		<li><a href="/admin/clubes.php">Distrito</a></li>
 	<?php }
 
 	//Verifica si es administrador o presidente de algun club
@@ -33,7 +30,7 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-	<input type="button" name="bdbutton2" id="bdbutton2" value="Club" onclick="window.location = '/admin/socios.php';" />
+		<li><a href="/admin/socios.php">Club</a></li>
 	<?php }
 	
 	//Verifica si es administrador de RRHH
@@ -42,11 +39,11 @@ if ($_SESSION['logged']) { ?>
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
-       	  <input type="button" name="bdbutton" id="bdbutton" value="RRHH" onclick="window.location = '/admin/index.php';">
+		<li><a href="/admin/index.php">RRHH</a></li>
 	<?php } ?>
 
-		</form>
-	</div> <!--Fin del div #admindiv -->
+	</ul>
+</div> <!--Fin del div #admindiv -->
 
 		<div id="userdiv"><form id="logout" name="formulario_logout" method="post" action="/procesa/logout.php"><?php echo $_SESSION['username']?>
 			<input type="submit" name="salir" id="salir" value="Salir" /></form>

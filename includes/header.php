@@ -28,6 +28,8 @@ if (!isset($_SESSION['uid']) ) {
 <div id="header">
 	<?php include 'includes/menu.php'; ?>
 	<?php include 'includes/acceso.php'; ?>
+<div class="separadorB"></div>
+	<?php include 'includes/notificaciones.php'; ?>
 </div>
 <div class="separadorB"></div>
 <div id="mainContent">
