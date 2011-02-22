@@ -58,7 +58,7 @@
 			<?php if ($nivel_admin) {?>	<li><a href="eventos_preinscripciones.php">pre Inscripciones</a></li><?php } ?>
 			<?php if ($nivel_admin) {?>	<li><a href="eventos_inscripciones.php">Inscriptos</a></li><?php } ?>
 			<?php if ($nivel_admin) {?>	<li><a href="#">Tesoreria</a></li><?php } ?>
-			<?php if ($nivel_admin) {?>	<li><a href="#">Autorizaciones Pendientes</a></li><?php } ?>
+			<?php if ($nivel_admin) {?>	<li><a href="eventos_autoriza.php">Autorizaciones Pendientes</a></li><?php } ?>
 		</ul>
 	</li>
     

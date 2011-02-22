@@ -17,8 +17,17 @@ $row=mysql_fetch_assoc($result);
 
 $baja="";
 $preinscripcion="";
+$fecha_inicio=$row['fecha_inicio'];
 $fecha_fin=$row['fecha_fin'];
 $user_id=$_SESSION['uid'];
+$email_contacto=$row['email_contacto'];
+$nombre_evento=$row['nombre'];
+
+if ($row['ticket']=="") {
+	$ticket="no definido";
+} else {
+	$ticket="$ ".number_format($row['ticket'], 2, ',', '.');
+}
 
 //PREINSCRIPCION
 if (isset($_POST['button']) AND $_POST['button']=="Preinscribirme" AND $nivel_usuario) {
@@ -82,6 +91,7 @@ if (isset($_POST['button']) AND $_POST['button']=="Dar de baja" AND $nivel_usuar
 		$sql_status="SELECT * FROM rtc_eventos_preinscripciones WHERE evento_id='$evento' AND user_id='$user_id' LIMIT 1";
 		$result_status=mysql_query($sql_status);
 		if (mysql_num_rows($result_status)) {
+			$row=mysql_fetch_assoc($result_status);
 			//VER QUE LE FALTA
 			if ($row['ok_club']) {
 				$alarma="muestra_verde";
@@ -89,7 +99,6 @@ if (isset($_POST['button']) AND $_POST['button']=="Dar de baja" AND $nivel_usuar
 				$alarma="muestra_alarma";
 			}
 			$status="<div class=\"enlinea\"><span class=\"".$alarma."\">Club</span></div>";
-			
 			if ($row['ok_distrito']) {
 				$alarma="muestra_verde";
 			} else {
@@ -129,14 +138,22 @@ if ($fecha_fin<date('Y-m-d')) {
 	
 ?>
 
-<div><h2><?php echo $row['nombre']; ?></h2></div>
+<div><h2><?php echo $nombre_evento; ?></h2></div>
+<?php 
+setlocale(LC_ALL, 'es_ES');
+?>
+<div class="texto_general">Del <?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_inicio)); ?> al <?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_fin)); ?></div>
+<?php 
+setlocale(LC_ALL, '');
+?>
 
 <?php if ($nivel_usuario) {?>
-<div class="texto_general">Estado de la inscripcion: <?php echo $status; ?></div>
+<div>Estado de la inscripcion: <span class="texto_general"><?php echo $status; ?></span></div>
 <?php } ?>
 
-<div>mail principal de contacto con el encuentro</div>
-<div>detalles del encuentro</div>
+<div>Contacto: <span class="texto_general"><?php echo $email_contacto; ?></span></div>
+<div>Ticket: <span class="texto_general"><?php echo $ticket; ?></span></div>
+<div>detalles del encuentro en breve</div>
 <?php if ($nivel_usuario) {?>
 <div><form action="detalle_evento.php" method="post">
   <input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
