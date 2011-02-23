@@ -18,6 +18,10 @@
 //
 // $nivel_rrhh= TRUE|FALSE				Posee nivel de administracion de RRHH
 //
+// $nivel_evento= TRUE|FALSE			Posee nivel de coordinador del evento
+// $nivel_evento_id= INT				[id_evento] del que tiene permisos || <DEPRECATED> Como un usuario puede tener varios roles en distintos eventos, el ID se debe calcular en el momento de consultar por un evento determinado
+// $nivel_evento_tesoreria= TRUE|FALSE	Posee nivel de tesorero del evento
+//
 // Hay que tomar en cuenta las siguientes restricciones:
 // 	-Solo se puede presidir un club al que se pertenece
 //	-Solo se puede administrar un club al que se pertenece
@@ -39,6 +43,8 @@ $nivel_club_id=0;
 $nivel_club_presidente=false;
 $nivel_usuario=false;
 $nivel_rrhh=false;
+$nivel_evento=false;
+$nivel_evento_tesoreria=false;
 
 
 if ($_SESSION['logged']) {
@@ -101,6 +107,23 @@ if ($_SESSION['logged']) {
 		$nivel_rrhh=true;
 	}
 
+	//Verifica si el user es Coordinador de algun Evento
+	$uid_c = $_SESSION['uid'];
+	$sql_p = "SELECT * FROM rtc_eventos_coordinadores WHERE user_id = '$uid_c' LIMIT 1";
+	$result_p = mysql_query($sql_p);
+	$row_p = mysql_num_rows($result_p);
+	if ($row_p) {
+		$nivel_evento=true;
+	}
+
+	//Verifica si el user es Tesorero del algun Evento
+	$uid_c = $_SESSION['uid'];
+	$sql_p = "SELECT * FROM rtc_eventos_tesoreria WHERE user_id = '$uid_c' LIMIT 1";
+	$result_p = mysql_query($sql_p);
+	$row_p = mysql_num_rows($result_p);
+	if ($row_p) {
+		$nivel_evento_tesoreria=true;
+	}
 
 } 
 ?>

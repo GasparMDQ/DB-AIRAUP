@@ -34,14 +34,14 @@ if (!$resp->is_valid) {
 
 //Recupero de variables y verificacion de que esten todas. En caso de que alguna falte, se el indicador de error la marca.
 if (isset($_POST['clave']) && $_POST['clave']!='') {
-	$clave['var']=substr(htmlspecialchars($_POST['clave']),0,16);
+	$clave['var']=substr(htmlspecialchars($_POST['clave']),0,32);
 	$clave['error']="";
 } else {
 	$clave['var']="";
 	$clave['error']="*";
 }
 if (isset($_POST['clave2'])) {
-	$clave2['var']=substr(htmlspecialchars($_POST['clave2']),0,16);
+	$clave2['var']=substr(htmlspecialchars($_POST['clave2']),0,32);
 } else {
 	$clave2['var']="";
 }
@@ -53,7 +53,7 @@ if ($clave['var']!=$clave2['var']) {
 } else {
 	if (strlen($clave['var'])<8) {
 		$error=true;
-		$clave['error']="La clave debe tener entre 8 y 16 caracteres";
+		$clave['error']="La clave debe tener entre 8 y 32 caracteres";
 	}
 }
 
@@ -268,12 +268,12 @@ if ($error==false) {
     <tr>
       <td width="40">&nbsp;</td>
       <td>Clave:</td>
-      <td align="left">        <input title="La clave debe tener entre 8 y 16 caracteres" required name="clave" type="password" id="clave" size="30" maxlength="16" value="<?php echo $clave['var'];  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave['error'];?></span>      </td>
+      <td align="left">        <input title="La clave debe tener entre 8 y 32 caracteres" required name="clave" type="password" id="clave" size="30" maxlength="32" value="<?php echo $clave['var'];  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave['error'];?></span>      </td>
     </tr>
     <tr>
       <td width="40">&nbsp;</td>
       <td>Repetir la Clave:</td>
-      <td align="left"><input title="Repita la clave" required name="clave2" type="password" id="clave2" size="30" maxlength="16" value="<?php echo $clave2['var'];  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave2['error'];?></span> </td>
+      <td align="left"><input title="Repita la clave" required name="clave2" type="password" id="clave2" size="30" maxlength="32" value="<?php echo $clave2['var'];  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave2['error'];?></span> </td>
     </tr>
     <tr>
       <td width="40">&nbsp;</td>

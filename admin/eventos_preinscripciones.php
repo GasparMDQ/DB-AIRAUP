@@ -2,7 +2,6 @@
 include 'header.php';
 
 $esadmin=false;
-$nivel_evento=false;
 
 if ($nivel_evento OR $nivel_admin) {
 		$esadmin=true;
@@ -11,6 +10,8 @@ if ($nivel_evento OR $nivel_admin) {
 if (!$_SESSION['logged'] || !$esadmin) {
 	header("Location: index.php");
 }
+
+$user_id= $_SESSION['uid']; // ID DEL USUARIO QUE ACCEDE AL MENU
 
 if (isset($_POST['evento'])){
 	$evento=intval($_POST['evento']);
@@ -59,7 +60,11 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 <div>
 <form id="form1" name="form1" method="POST" action="eventos_preinscripciones.php">Seleccione un evento:
 <?php
-	$sql1 = "SELECT * FROM rtc_eventos ORDER BY nombre"; // MEJORAR LA BUSQUEDA PARA DEVOLVER NOMBRE DEL EVENTO, DISTRITO y CLUB
+	if ($nivel_admin) {
+		$sql1 = "SELECT rtc_eventos.nombre, rtc_eventos.id FROM rtc_eventos ORDER BY nombre"; // MEJORAR LA BUSQUEDA PARA DEVOLVER NOMBRE DEL EVENTO, DISTRITO y CLUB
+	} else {
+		$sql1 = "SELECT rtc_eventos.nombre, rtc_eventos.id FROM rtc_eventos, rtc_eventos_coordinadores WHERE rtc_eventos_coordinadores.evento_id=rtc_eventos.id AND rtc_eventos_coordinadores.user_id='$user_id' ORDER BY nombre"; // MEJORAR LA BUSQUEDA PARA DEVOLVER NOMBRE DEL EVENTO, DISTRITO y CLUB
+	}
 	$resultado = mysql_query($sql1);
 	echo "<select name=\"evento\" id=\"evento\" onchange=\"location.href='eventos_preinscripciones.php?evento='+this.value\" >";
 	echo "<option value=\"0\" selected > </option>";
@@ -71,7 +76,16 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 ?>
 </form>
 </div>
-<?php if ($evento!='0') {
+<?php
+	$sql="SELECT * FROM rtc_eventos_coordinadores WHERE evento_id='$evento' AND user_id='$user_id' LIMIT 1";
+	$result = mysql_query($sql);
+	$nivel_evento_id=false;
+	if (mysql_num_rows($result) OR $nivel_admin) {
+		$nivel_evento_id=true;
+	}
+	
+	
+	if ($evento!='0' AND $nivel_evento_id) { //VERIFICA QUE SEA ADMIN DE ESE EVENTO
 	$sql="SELECT nombre FROM rtc_eventos WHERE id='$evento' LIMIT 1";
 	$result = mysql_query($sql);
 	$row = mysql_fetch_assoc($result);

@@ -91,27 +91,35 @@ if (isset($_POST['button']) AND $_POST['button']=="Dar de baja" AND $nivel_usuar
 		$sql_status="SELECT * FROM rtc_eventos_preinscripciones WHERE evento_id='$evento' AND user_id='$user_id' LIMIT 1";
 		$result_status=mysql_query($sql_status);
 		if (mysql_num_rows($result_status)) {
-			$row=mysql_fetch_assoc($result_status);
+			$row_status=mysql_fetch_assoc($result_status);
+			$status="";
 			//VER QUE LE FALTA
-			if ($row['ok_club']) {
+			if ($row_status['ok_club']) {
 				$alarma="muestra_verde";
 			} else {
 				$alarma="muestra_alarma";
 			}
-			$status="<div class=\"enlinea\"><span class=\"".$alarma."\">Club</span></div>";
-			if ($row['ok_distrito']) {
+			if (!$row['ok_club']) {
+				$status=$status."<div class=\"enlinea\"><span class=\"".$alarma."\">Club</span></div>";
+			}
+			
+			if ($row_status['ok_distrito']) {
 				$alarma="muestra_verde";
 			} else {
 				$alarma="muestra_alarma";
 			}
-			$status=$status."<div class=\"enlinea\"><span class=\"".$alarma."\">Distrito</span></div>";
+			if (!$row['ok_distrito']) {
+				$status=$status."<div class=\"enlinea\"><span class=\"".$alarma."\">Distrito</span></div>";
+			}
 
-			if ($row['ok_tesoreria']) {
+			if ($row_status['ok_tesoreria']) {
 				$alarma="muestra_verde";
 			} else {
 				$alarma="muestra_alarma";
 			}
-			$status=$status."<div class=\"enlinea\"><span class=\"".$alarma."\">Tesoreria</span></div>";
+			if (!$row['ok_tesoreria']) {
+				$status=$status."<div class=\"enlinea\"><span class=\"".$alarma."\">Pago</span></div>";
+			}
 
 		}
 	}

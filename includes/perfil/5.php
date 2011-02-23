@@ -24,13 +24,13 @@ if (isset($_POST['userid'])&& $_POST['userid']!='') {
 
 
 if (isset($_POST['clave']) && $_POST['clave']!='') {
-	$clave=substr(htmlspecialchars($_POST['clave']),0,16);
+	$clave=substr(htmlspecialchars($_POST['clave']),0,32);
 	$clave_error="";
 } else {
 	$clave="";
 }
 if (isset($_POST['clave2'])) {
-	$clave2=substr(htmlspecialchars($_POST['clave2']),0,16);
+	$clave2=substr(htmlspecialchars($_POST['clave2']),0,32);
 } else {
 	$clave2="";
 }
@@ -49,7 +49,7 @@ if ($clave!=$clave2) {
 }
 
 if (isset($_POST['claveold']) && $_POST['claveold']!='') {
-	$claveold=substr(htmlspecialchars($_POST['claveold']),0,16);
+	$claveold=substr(htmlspecialchars($_POST['claveold']),0,32);
 	$pass = hash('sha512', $userid.$claveold.'1s3a3l7t');
 	$sql = sprintf("SELECT * FROM rtc_usr_login WHERE clave = '$pass' LIMIT 1");
 	$result = mysql_query($sql);
@@ -139,13 +139,13 @@ if ($error==false) {
     <tr>
       <td width="40">&nbsp;</td>
       <td>Nueva contraseña:</td>
-      <td align="left">        <input title="La clave debe tener entre 8 y 16 caracteres" name="clave" type="password" id="clave" size="30" maxlength="16" value="<?php echo $clave;  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave_error;?></span>      </td>
+      <td align="left">        <input title="La clave debe tener entre 8 y 32 caracteres" name="clave" type="password" id="clave" size="30" maxlength="32" value="<?php echo $clave;  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave_error;?></span>      </td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>
       <td width="40">&nbsp;</td>
       <td>Repetir la nueva contraseña:</td>
-      <td align="left"><input title="Repita la clave" name="clave2" type="password" id="clave2" size="30" maxlength="16" value="<?php echo $clave2;  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave2_error;?></span> </td>
+      <td align="left"><input title="Repita la clave" name="clave2" type="password" id="clave2" size="30" maxlength="32" value="<?php echo $clave2;  ?>" />&nbsp;<span style="color:#FF0000"><?php echo $clave2_error;?></span> </td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>
@@ -158,7 +158,7 @@ if ($error==false) {
     <tr>
       <td>&nbsp;</td>
       <td>Contraseña actual:</td>
-      <td align="left"><input title="La clave debe tener entre 8 y 16 caracteres" name="claveold" type="password" id="claveold" size="30" maxlength="16" value="" />&nbsp;<span style="color:#FF0000"><?php echo $claveold_error;?></span></td>
+      <td align="left"><input title="La clave debe tener entre 8 y 16 caracteres" name="claveold" type="password" id="claveold" size="30" maxlength="32" value="" />&nbsp;<span style="color:#FF0000"><?php echo $claveold_error;?></span></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

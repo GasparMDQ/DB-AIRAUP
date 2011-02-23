@@ -8,7 +8,7 @@ if ($_SESSION['logged']) { ?>
 <?php 
 	//Verifica si es administrador del sitio
 	$consulta = $_SESSION['uid'];
-	$sql = sprintf("SELECT * FROM rtc_admin WHERE " . "uid = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_admin WHERE uid = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
@@ -17,7 +17,7 @@ if ($_SESSION['logged']) { ?>
 
 	//Verifica si es administrador o rdr de algun distrito
 	$consulta = $_SESSION['uid'];
-	$sql = sprintf("SELECT * FROM rtc_distritos WHERE " . "uid_rdr = \"$consulta\" OR uid_admin = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_distritos WHERE uid_rdr = \"$consulta\" OR uid_admin = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
@@ -26,7 +26,7 @@ if ($_SESSION['logged']) { ?>
 
 	//Verifica si es administrador o presidente de algun club
 	$consulta = $_SESSION['uid'];
-	$sql = sprintf("SELECT * FROM rtc_clubes WHERE " . "uid_presidente = \"$consulta\" OR uid_admin = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_clubes WHERE uid_presidente = \"$consulta\" OR uid_admin = \"$consulta\" LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
@@ -52,8 +52,8 @@ if ($_SESSION['logged']) { ?>
 	<div id="userdiv">
 		<form id="login" name="formulario_login" method="post" action="/procesa/login.php">
         	Email / Usuario:
-        	  <input name="user" type="text" id="user" size="10" maxlength="32" />
-	        Contraseña:<input name="pass" type="password" id="pass" size="10" maxlength="16" /><input type="submit" name="entrar" id="entrar" value="Entrar" /><br /><input type="button" name="registro" id="registro"  value="Registrarse" onclick="window.location = '/socios_alta.php';">
+        	  <input name="user" type="text" id="user" size="10" maxlength="64" />
+	        Contraseña:<input name="pass" type="password" id="pass" size="10" maxlength="32" /><input type="submit" name="entrar" id="entrar" value="Entrar" /><br /><input type="button" name="registro" id="registro"  value="Registrarse" onclick="window.location = '/socios_alta.php';">
 		</form>
 	</div>
 	<?php if ($_SESSION['failed']) { ?>

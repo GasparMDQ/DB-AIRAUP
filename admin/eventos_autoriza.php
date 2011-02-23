@@ -4,9 +4,9 @@ include 'header.php';
 $esadmin=false;
 $nivel_evento=false;
 
-//if ($nivel_evento OR $nivel_admin) {
+if ($nivel_admin OR $nivel_evento OR $nivel_distrito OR $nivel_club) {
 		$esadmin=true;
-//}
+}
 
 if (!$_SESSION['logged'] || !$esadmin) {
 	header("Location: index.php");
@@ -119,7 +119,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 				$disabled="";
 			}
 			if(!$requiere_tesoreria){
-				echo "<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Autoriza Tesoreria\"/>";
+				echo "<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Autoriza Pago\"/>";
 			} else {
 				echo "<div class=\"enlinea\">No requiere pago de se&ntilde;a </div>";
 			}
