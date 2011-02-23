@@ -26,9 +26,15 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
 
 // VERIFICAR QUE EL USUARIO CUENTA CON LOS PERMISOS NECESARIOS PARA ESTE TIPO DE AUTORIZACION
-
-	$sql="UPDATE rtc_eventos_preinscripciones SET ok_distrito='1' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+	$sql="SELECT * FROM rtc_usr_institucional WHERE rtc_usr_institucional.user_id='$user_act' AND rtc_usr_institucional.distrito='$nivel_distrito_id' LIMIT 1";
 	$result=mysql_query($sql);
+
+	if ($nivel_admin OR ($nivel_distrito AND mysql_num_rows($result))){
+		$sql="UPDATE rtc_eventos_preinscripciones SET ok_distrito='1' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+		$result=mysql_query($sql);
+	} else {
+		echo "No esta autorizado a realizar esta accion";
+	}
 }
 
 if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Desautoriza RDR") {
@@ -36,11 +42,56 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
 
-
-	$sql="UPDATE rtc_eventos_preinscripciones SET ok_distrito='0' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+// VERIFICAR QUE EL USUARIO CUENTA CON LOS PERMISOS NECESARIOS PARA ESTE TIPO DE AUTORIZACION
+	$sql="SELECT * FROM rtc_usr_institucional WHERE rtc_usr_institucional.user_id='$user_act' AND rtc_usr_institucional.distrito='$nivel_distrito_id' LIMIT 1";
 	$result=mysql_query($sql);
+
+	if ($nivel_admin OR ($nivel_distrito AND mysql_num_rows($result))){
+		$sql="UPDATE rtc_eventos_preinscripciones SET ok_distrito='0' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+		$result=mysql_query($sql);
+	} else {
+		echo "No esta autorizado a realizar esta accion";
+	}
+
 }
  // FIN OK DISTRITAL 
+
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Autoriza Club") {
+
+	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
+	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
+
+// VERIFICAR QUE EL USUARIO CUENTA CON LOS PERMISOS NECESARIOS PARA ESTE TIPO DE AUTORIZACION
+	$sql="SELECT * FROM rtc_usr_institucional WHERE rtc_usr_institucional.user_id='$user_act' AND rtc_usr_institucional.club='$nivel_club_id' LIMIT 1";
+	$result=mysql_query($sql);
+
+	if ($nivel_admin OR ($nivel_club AND mysql_num_rows($result))){
+		$sql="UPDATE rtc_eventos_preinscripciones SET ok_club='1' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+		$result=mysql_query($sql);
+	} else {
+		echo "No esta autorizado a realizar esta accion";
+	}
+}
+
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Desautoriza Club") {
+
+	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
+	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
+
+// VERIFICAR QUE EL USUARIO CUENTA CON LOS PERMISOS NECESARIOS PARA ESTE TIPO DE AUTORIZACION
+	$sql="SELECT * FROM rtc_usr_institucional WHERE rtc_usr_institucional.user_id='$user_act' AND rtc_usr_institucional.club='$nivel_club_id' LIMIT 1";
+	$result=mysql_query($sql);
+
+	if ($nivel_admin OR ($nivel_club AND mysql_num_rows($result))){
+		$sql="UPDATE rtc_eventos_preinscripciones SET ok_club='0' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+		$result=mysql_query($sql);
+	} else {
+		echo "No esta autorizado a realizar esta accion";
+	}
+
+}
+ // FIN OK CLUB
+
 
 
 
@@ -64,11 +115,11 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 <?php
 		//SI ES ADMIN VE TODAS LAS AUTORIZACIONES, SINO SOLO LAS DE SU DISTRITO Y/O CLUB
 		if ($nivel_admin) {
-			$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
+			$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria, rtc_usr_institucional.distrito, rtc_usr_institucional.club FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 		} else if ($nivel_distrito) {
-			$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club AND rtc_usr_institucional.distrito='$nivel_distrito_id' ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
+			$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria, rtc_usr_institucional.distrito, rtc_usr_institucional.club FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club AND rtc_usr_institucional.distrito='$nivel_distrito_id' ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 		} else if ($nivel_club) {
-			$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club AND rtc_usr_institucional.club='$nivel_club_id' ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
+			$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria, rtc_usr_institucional.distrito, rtc_usr_institucional.club FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club AND rtc_usr_institucional.club='$nivel_club_id' ORDER BY rtc_distritos.distrito, rtc_clubes.club, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 		} else {
 			//VER QUE HACER ACA
 		}
@@ -87,7 +138,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			echo "<div class=\"enlinea\">".$nombre." (".$distrito.")</div>";
 			
 			$disabled="disabled";
-			if ($nivel_club) {
+			if ($nivel_admin OR ($nivel_club AND $nivel_club_id==$rows['club'])) {
 				$disabled="";
 			}
 			if(!$requiere_club){
@@ -101,7 +152,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			}
 			
 			$disabled="disabled";
-			if ($nivel_distrito) {
+			if ($nivel_admin OR ($nivel_distrito AND $nivel_distrito_id==$rows['distrito'])) {
 				$disabled="";
 			}
 			if(!$requiere_distrito){
@@ -125,7 +176,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			}
 			
 			if ($rows['ok_club'] AND $rows['ok_distrito'] AND $rows['ok_tesoreria']) {
-				echo "<div class=\"enlinea\">Esperando confirmacion del organizador</div>";
+				echo "<div class=\"enlinea\"><span class=\"muestro_amarillo\">Esperando confirmacion del organizador</span></div>";
 			}
 			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" />
 </form>

@@ -22,6 +22,7 @@ $fecha_fin=$row['fecha_fin'];
 $user_id=$_SESSION['uid'];
 $email_contacto=$row['email_contacto'];
 $nombre_evento=$row['nombre'];
+$error_muestra="";
 
 if ($row['ticket']=="") {
 	$ticket="no definido";
@@ -69,8 +70,9 @@ if (isset($_POST['button']) AND $_POST['button']=="Dar de baja" AND $nivel_usuar
 		$sql="SELECT * FROM rtc_eventos_inscripciones WHERE user_id='$user_id' AND evento_id='$evento' LIMIT 1";
 		$result=mysql_query($sql);
 		if (mysql_num_rows($result)) {
-			$sql="DELETE FROM rtc_eventos_inscripciones WHERE evento_id='$evento' AND user_id='$user_id'";
-			$result=mysql_query($sql);
+//			$sql="DELETE FROM rtc_eventos_inscripciones WHERE evento_id='$evento' AND user_id='$user_id'";
+//			$result=mysql_query($sql);
+			$error_muestra="Ya fue aceptada su inscripcion. Para pedir la baja contacte al coordinador";
 		} else {
 			echo "NO ESTA PREINSCRIPTO";
 		}
@@ -82,11 +84,11 @@ if (isset($_POST['button']) AND $_POST['button']=="Dar de baja" AND $nivel_usuar
 	$result=mysql_query($sql);
 	$row=mysql_fetch_assoc($result);
 
-	$status="No estas inscripto a este evento";
+	$status="<div class=\"enlinea\"><span class=\"muestra_amarillo\">No estas inscripto a este evento</span></div>";
 	$sql_status="SELECT * FROM rtc_eventos_inscripciones WHERE evento_id='$evento' AND user_id='$user_id' LIMIT 1";
 	$result_status=mysql_query($sql_status);
 	if (mysql_num_rows($result_status)) {
-		$status="Ya estas inscripto a este evento";
+		$status="<div class=\"enlinea\"><span class=\"muestra_verde\">Ya estas inscripto a este evento</span></div>";
 	} else {
 		$sql_status="SELECT * FROM rtc_eventos_preinscripciones WHERE evento_id='$evento' AND user_id='$user_id' LIMIT 1";
 		$result_status=mysql_query($sql_status);
@@ -145,7 +147,6 @@ if ($fecha_fin<date('Y-m-d')) {
 }
 	
 ?>
-
 <div><h2><?php echo $nombre_evento; ?></h2></div>
 <?php 
 setlocale(LC_ALL, 'es_ES');
@@ -168,5 +169,6 @@ setlocale(LC_ALL, '');
   <input <?php echo $preinscripcion; ?> type="submit" name="button" value="Preinscribirme" />
   <input <?php echo $baja; ?> type="submit" name="button" value="Dar de baja" />
 </form></div>
+<div class="muestra_alarma"><?php echo $error_muestra; ?></div>
 <?php } ?>
 <?php include 'includes/footer.php'; ?>
