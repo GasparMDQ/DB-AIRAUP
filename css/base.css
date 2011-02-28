@@ -336,3 +336,9 @@ ESTILO PARA EL MENU DE ADMINISTRACION
 	font-size: x-small;
 }
 
+#map_canvas {
+	width: 320px;
+	height: 240px;
+	float:right;
+	margin-right:5px;
+}

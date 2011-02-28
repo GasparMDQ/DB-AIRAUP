@@ -13,9 +13,10 @@
 <link href="/css/base.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="java/ajax.js"></script>
 <script type="text/javascript" src="java/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 
-<body class="body">
+<body class="body" onload="initialize()">
 <?php
 require 'includes/class.php';
 if (!isset($_SESSION['uid']) ) {
