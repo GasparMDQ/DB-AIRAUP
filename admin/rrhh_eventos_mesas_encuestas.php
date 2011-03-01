@@ -27,31 +27,34 @@ if (isset($_POST['mesa'])){
 // AGREGAR RESPUESTAS
 if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Agregar" ) {
 
-
+	$mesa=$_POST['mesa_id'];
+	$sql="SELECT * FROM rtc_rrhh_encuestas, rtc_rrhh_encuestas_preguntas WHERE rtc_rrhh_encuestas.mesa='1' AND rtc_rrhh_encuestas.id=rtc_rrhh_encuestas_preguntas.encuesta_id";
+	$result=mysql_query($sql);
+	$numero_sql=mysql_num_rows($result);
 
 	$numero = count($_POST); // COMPARAR CON UN MYSQL_NUM_ROWS PARA VER SI ESTAN TODAS LAS VARIABLES DE LA ENCUESTA
-	$tags = array_keys($_POST); // obtiene los nombres de las varibles que coinciden con 'pregunta_id'
-	$valores = array_values($_POST);// obtiene los valores de las varibles que coinciden con 'respuesta'
 
-	$variables_sql="(";
-	$valores_sql="(";
-	// crea las variables y les asigna el valor
-	for($i=0;$i<$numero;$i++){ 
-		$variables_sql=$variables_sql."(".$tags[$i].")";
-		$valores_sql=$valores_sql."'".$valores[$i]."'";
-		if ($i!=numero) {
-			$variables_sql=$variables_sql.",";
-			$valores_sql=$valores_sql.",";
+	if ($numero_sql==($numero-2)) { //Se restan 2 valores por las variables 'button' y 'mesa_id'
+
+		$tags = array_keys($_POST); // obtiene los nombres de las varibles que coinciden con 'pregunta_id'
+		$valores = array_values($_POST);// obtiene los valores de las varibles que coinciden con 'respuesta'
+
+		// crea las variables y les asigna el valor
+		for($i=0;$i<$numero;$i++){ //eliminar las claves 'button' y 'mesa_id'
+			$sql="INSERT INTO rtc_rrhh_encuestas_respuestas (pregunta_id, respuesta, destino_id) VALUES ('".$tags[$i]."', '".$valores[$i]."','".$mesa."')";
+			if($tags[$i]!="button" AND $tags[$i]!="mesa_id" AND $valores[$i]!="") {
+				echo $sql."<br />";
+			}
 		}
-		$variables_sql=$variables_sql.")";
-		$valores_sql=$valores_sql.")";
+	} else {
+		echo "Faltan preguntas";
 	}
 
-
-
-
-
-
+	$sql="SELECT evento_id FROM rtc_eventos_mesa WHERE id='$mesa' LIMIT 1";
+	$result=mysql_query($sql);
+	$row=mysql_fetch_assoc($result);
+	$evento=$row['evento_id'];
+	
 //	$m_nombre = mysql_real_escape_string(substr(htmlspecialchars($_POST['mesa_nombre']),0,40));
 //	$m_c = mysql_real_escape_string(substr(htmlspecialchars($_POST['coordinador']),0,10));
 //	$m_ev = mysql_real_escape_string(substr(htmlspecialchars($_POST['evento']),0,10));
@@ -69,6 +72,14 @@ if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Ag
 //	$mesa=0;
 }
 
+if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Finalizar Carga" ) {
+	$mesa=$_POST['mesa_id'];
+	$sql="SELECT evento_id FROM rtc_eventos_mesa WHERE id='$mesa' LIMIT 1";
+	$result=mysql_query($sql);
+	$row=mysql_fetch_assoc($result);
+	$evento=$row['evento_id'];
+	$mesa="";
+}
 ?>
 <div><h2>Carga de Encuestas de Mesas</h2></div>
 <div>
@@ -100,8 +111,33 @@ if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Ag
 	<div>
 	<h2>Mesas</h2>
 	<?php if ($mesa!=""){ 
-		// INGRESAR CODIGO QUE MUESTRE LAS PREGUNTAS DE ESTA MESA
-		// BOTONES (AGREGAR) (FINALIZAR CARGA)
+		$sql="SELECT rtc_rrhh_encuestas_preguntas.pregunta, rtc_rrhh_encuestas_preguntas.id, rtc_rrhh_encuestas_preguntas.numerica FROM rtc_rrhh_encuestas, rtc_rrhh_encuestas_preguntas WHERE rtc_rrhh_encuestas.mesa='1' AND rtc_rrhh_encuestas.id=rtc_rrhh_encuestas_preguntas.encuesta_id";
+		$result=mysql_query($sql);
+		?>
+		<form id="form" name="form" method="POST" action="rrhh_eventos_mesas_encuestas.php">
+		<table id="tabla_clubes">
+        <?php
+		while($row = mysql_fetch_assoc($result)) {
+			$pregunta=$row['pregunta'];
+			$id=$row['id'];
+			$numerica=$row['numerica'];
+			if($numerica) {
+				$opciones="size=\"2\" maxlength=\"1\"";
+			} else {
+				$opciones="size=\"30\" maxlength=\"240\"";
+			}
+			?>
+			<tr><td><label for="<?php echo $id; ?>"><?php echo $pregunta; ?></label></td>
+			<td><input name="<?php echo $id; ?>" type="text" id="<?php echo $id; ?>" <?php echo $opciones; ?> /></td></tr>
+	        <?php
+		}
+		?>
+        </table>
+		<input name="mesa_id" type="hidden" id="mesa_id" value="<?php echo $mesa; ?>" />
+		<input type="submit" name="button" id="button" value="Agregar" />
+		<input type="submit" name="button" id="button" value="Finalizar Carga" />
+		</form>
+  <?php
 	} else {
  		$sql="SELECT * FROM rtc_eventos_mesa WHERE evento_id='$evento' ORDER BY mesa";
 		$result=mysql_query($sql);
