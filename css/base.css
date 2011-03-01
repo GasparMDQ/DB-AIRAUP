@@ -161,7 +161,11 @@ body {
 	font-size: small;
 }
 
-
+.texto_general_simple {
+	color: white;
+	text-decoration: none;
+	font-size: small;
+}
 
 .tacceso {
 	width: 100%;

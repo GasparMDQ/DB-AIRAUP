@@ -45,6 +45,8 @@
 			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_modulos.php">Modulos y Asistencia</a></li><?php } ?>
 			<?php if ($nivel_admin OR $nivel_rrhh) {?><li><a href="rrhh_eventos_mesas_inc.php">Mesas - Inscribir Socios</a></li><?php } ?>
 			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_eventos_mesas_listado.php">Listados por Mesa</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_eventos_mesas_encuestas.php">Encuestas de Mesas</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="rrhh_eventos_coordinadores_encuestas.php">Encuestas de Coordinadores</a></li><?php } ?>
 			</ul>
 		</li>
 		<?php if ($nivel_admin OR $nivel_rrhh) {?>	<li><a href="descargas_rrhh.php">Descargas</a></li><?php } ?>

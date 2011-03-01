@@ -41,21 +41,23 @@ function initialize() {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-	codeAddress()
+	codeAddress(true)
 }
 
 
-function codeAddress() {
-    var address = document.getElementById("direccion").value;
-    if (geocoder) {
-      geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          map.setCenter(results[0].geometry.location);
-          var marker = new google.maps.Marker({
-              map: map, 
-              position: results[0].geometry.location
-          });
-        }
-      });
-    }
-  }
+function codeAddress(flag) {
+	var address = document.getElementById("direccion").value;
+	if (geocoder) {
+		geocoder.geocode( { 'address': address}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				map.setCenter(results[0].geometry.location);
+				if (flag) {
+					var marker = new google.maps.Marker({
+						map: map, 
+						position: results[0].geometry.location
+					});
+				}
+			}
+		});
+	}
+}

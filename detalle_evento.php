@@ -26,6 +26,7 @@ $nombre_evento=$row['nombre'];
 $predio_nombre=$row['predio_nombre'];
 $predio_direccion=$row['predio_direccion'];
 $forma_de_pago=$row['forma_de_pago'];
+$descripcion=$row['descripcion'];
 $error_muestra="";
 
 if ($row['ticket']=="") {
@@ -151,34 +152,39 @@ if ($fecha_fin<date('Y-m-d')) {
 }
 	
 ?>
-<script language="javascript">Initialize()</script>
 <div><h2><?php echo $nombre_evento; ?></h2></div>
 <?php 
 setlocale(LC_ALL, 'es_ES');
 ?>
+<p>
 <div class="texto_general">Del <?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_inicio)); ?> al <?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_fin)); ?></div>
-<div id="map_canvas"></div>
-
-<?php if ($nivel_usuario) {?>
-<div>Estado de la inscripcion: <span class="texto_general"><?php echo $status; ?></span></div>
-<?php } ?>
-
-<div>Contacto: <span class="texto_general"><?php echo $email_contacto; ?></span></div>
-<div>Ticket: <span class="texto_general"><?php echo $ticket; ?></span></div>
-
-<div>Cierre de las inscripciones: <span class="texto_general"><?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_inscripciones)); ?></span></div>
-<div>Lugar: <span class="texto_general"><?php echo $predio_nombre; ?></span></div>
-<div>Direccion: <a href="javascript: codeAddress()"><span class="texto_general"><?php echo $predio_direccion; ?></span></a></div>
 <input id="direccion" name="direccion" type="hidden" value="<?php echo $predio_direccion; ?>" />
-
+<div id="map_canvas"></div>
+<div><span class="texto_general_simple"><?php echo $descripcion; ?></span></div>
+</p>
+<p>
 <?php if ($nivel_usuario) {?>
-<div>Forma de pago: <span class="texto_general"><?php echo $forma_de_pago; ?></span></div>
+<div><span class="texto_general_simple">Estado de la inscripcion:</span> <span class="texto_general"><?php echo $status; ?></span></div>
 <?php } ?>
+<div><span class="texto_general_simple">Contacto: </span><span class="texto_general"><?php echo $email_contacto; ?></span></div>
+<div><span class="texto_general_simple">Ticket: </span><span class="texto_general"><?php echo $ticket; ?></span></div>
+<div><span class="texto_general_simple">Cierre de las inscripciones: </span><span class="texto_general"><?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_inscripciones)); ?></span></div>
+</p>
 
+<p>
+<div><span class="texto_general_simple">Lugar: </span><span class="texto_general"><?php echo $predio_nombre; ?></span></div>
+<div><span class="texto_general_simple">Direccion: </span><a href="javascript: codeAddress(false)"><span class="texto_general"><?php echo $predio_direccion; ?></span></a></div>
+<?php if ($nivel_usuario) {?>
+<div><span class="texto_general_simple">Forma de pago</span><br />
+<span class="texto_general"><?php echo $forma_de_pago; ?></span>
+</div>
+
+<?php } ?>
 <div>mas detalles del encuentro en breve</div>
 <?php 
 setlocale(LC_ALL, 'es_ES');
 ?>
+</p>
 
 <?php if ($nivel_usuario) {?>
 <div><form action="detalle_evento.php" method="post">
