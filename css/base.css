@@ -345,4 +345,12 @@ ESTILO PARA EL MENU DE ADMINISTRACION
 	height: 240px;
 	float:right;
 	margin-right:5px;
+	clear:both;
+}
+
+#logo_evento {
+	width: 320px;
+	float:right;
+	margin-right:5px;
+	clear:both;
 }

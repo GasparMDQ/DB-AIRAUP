@@ -31,6 +31,14 @@
 		$result=mysql_query($sql);
 		$autorizaciones_pendientes=$autorizaciones_pendientes+mysql_num_rows($result);
 	}
+	
+	if ($nivel_evento_tesoreria) {
+		$user_id=$_SESSION['uid'];
+		//Verifica si tiene autorizaciones de pagos a eventos pendientes de aprobacion
+		$sql="SELECT * FROM rtc_eventos_preinscripciones, rtc_eventos_tesoreria WHERE rtc_eventos_tesoreria.user_id='$user_id' AND rtc_eventos_tesoreria.evento_id=rtc_eventos_preinscripciones.evento_id AND rtc_eventos_preinscripciones.ok_tesoreria='0'";
+		$result=mysql_query($sql);
+		$autorizaciones_pendientes=$autorizaciones_pendientes+mysql_num_rows($result);
+	}
 
 	if ($autorizaciones_pendientes) {
 		echo "<a href=\"/admin/eventos_autoriza.php\">Tiene ".$autorizaciones_pendientes." autorizaciones pendientes </a>";

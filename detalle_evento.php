@@ -27,6 +27,7 @@ $predio_nombre=$row['predio_nombre'];
 $predio_direccion=$row['predio_direccion'];
 $forma_de_pago=$row['forma_de_pago'];
 $descripcion=$row['descripcion'];
+$logo=$row['logo'];
 $error_muestra="";
 
 if ($row['ticket']=="") {
@@ -152,17 +153,26 @@ if ($fecha_fin<date('Y-m-d')) {
 }
 	
 ?>
+<p>
+<?php 
+if ($logo!=""){
+?>
+	<div id="logo_evento"><img src="images/logos/<?php echo $logo; ?>" border="0"/></div>
+<?php 
+}
+?>
 <div><h2><?php echo $nombre_evento; ?></h2></div>
+</p>
 <?php 
 setlocale(LC_ALL, 'es_ES');
 ?>
 <p>
 <div class="texto_general">Del <?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_inicio)); ?> al <?php echo strftime ("%A %d de %B de %Y", strtotime($fecha_fin)); ?></div>
-<input id="direccion" name="direccion" type="hidden" value="<?php echo $predio_direccion; ?>" />
-<div id="map_canvas"></div>
 <div><span class="texto_general_simple"><?php echo $descripcion; ?></span></div>
 </p>
 <p>
+<input id="direccion" name="direccion" type="hidden" value="<?php echo $predio_direccion; ?>" />
+<div id="map_canvas"></div>
 <?php if ($nivel_usuario) {?>
 <div><span class="texto_general_simple">Estado de la inscripcion:</span> <span class="texto_general"><?php echo $status; ?></span></div>
 <?php } ?>
