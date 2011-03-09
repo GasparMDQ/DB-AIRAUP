@@ -92,6 +92,42 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 }
  // FIN OK CLUB
 
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Autoriza Pago") {
+
+	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
+	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
+
+// VERIFICAR QUE EL USUARIO CUENTA CON LOS PERMISOS NECESARIOS PARA ESTE TIPO DE AUTORIZACION
+	$sql="SELECT * FROM rtc_eventos_tesoreria WHERE rtc_eventos_tesoreria.user_id='$nivel_usuario_id' AND rtc_eventos_tesoreria.evento_id='$evento_act' LIMIT 1";
+	$result=mysql_query($sql);
+
+	if ($nivel_admin OR ($nivel_evento_tesoreria AND mysql_num_rows($result))){
+		$sql="UPDATE rtc_eventos_preinscripciones SET ok_tesoreria='1' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+		$result=mysql_query($sql);
+	} else {
+		echo "No esta autorizado a realizar esta accion";
+	}
+}
+
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Desautoriza Pago") {
+
+	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
+	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
+
+// VERIFICAR QUE EL USUARIO CUENTA CON LOS PERMISOS NECESARIOS PARA ESTE TIPO DE AUTORIZACION
+	$sql="SELECT * FROM rtc_eventos_tesoreria WHERE rtc_eventos_tesoreria.user_id='$nivel_usuario_id' AND rtc_eventos_tesoreria.evento_id='$evento_act' LIMIT 1";
+	$result=mysql_query($sql);
+
+	if ($nivel_admin OR ($nivel_evento_tesoreria AND mysql_num_rows($result))){
+		$sql="UPDATE rtc_eventos_preinscripciones SET ok_tesoreria='0' WHERE user_id='$user_act' AND evento_id='$evento_act' ";
+		$result=mysql_query($sql);
+	} else {
+		echo "No esta autorizado a realizar esta accion";
+	}
+
+}
+ // FIN OK TESORERIA
+
 
 
 
@@ -139,7 +175,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 
 			$linea_de_codigo=$linea_de_codigo."<form id=\"form\" name=\"form\" method=\"POST\" action=\"eventos_autoriza.php\">";
 
-			$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">".$nombre." (".$distrito.")</div>";
+			$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\"><a href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">".$nombre."</a> (".$distrito.")</div>";
 			
 			$disabled="disabled";
 			if ($nivel_admin OR ($nivel_club AND $nivel_club_id==$rows['club'])) {

@@ -16,6 +16,7 @@ if ($nivel_club OR $nivel_distrito OR $nivel_admin OR $nivel_rrhh) {
 if (!$_SESSION['logged'] || !$esadmin) {
 	header("Location: ../index.php");
 }
+	require_once '../includes/funciones.php';
 
 	
 ?>

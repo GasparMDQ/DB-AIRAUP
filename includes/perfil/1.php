@@ -190,6 +190,23 @@ if ((isset($_POST['perfil_publico'])) AND ($error==false)) {
 		}
 	}
 
+if (isset($_POST['contacto_nombre'])) {
+	$contacto_nombre=substr(htmlspecialchars($_POST['contacto_nombre']),0,80);
+} else {
+	$contacto_nombre= $usuario['contacto_nombre'];
+}
+if (isset($_POST['contacto_telefono'])) {
+	$contacto_telefono=substr(htmlspecialchars($_POST['contacto_telefono']),0,30);
+} else {
+	$contacto_telefono = $usuario['contacto_telefono'];
+}
+if (isset($_POST['contacto_relacion'])) {
+	$contacto_relacion=substr(htmlspecialchars($_POST['contacto_relacion']),0,40);
+} else {
+	$contacto_relacion = $usuario['contacto_relacion'];
+}
+
+
 //Si estan todas las variables, se procede a modificarlos datos ingresados.
 if ($error==false) {
 
@@ -220,7 +237,12 @@ if ($error==false) {
 		$per = mysql_real_escape_string($perfil['var']);
 		$fdn =  date_format( date_create($anio.'-'.$mes.'-'.$dia['var']),'Y-m-d');
 		$fdm =  date('c');
-		$sql = sprintf("UPDATE rtc_usr_personales SET nombre = '$nom', apellido = '$ape', fecha_de_nacimiento = '$fdn', tipo_de_documento = '$tdni', numero_de_documento = '$dni', ocupacion = '$ocu', direccion = '$dire', ciudad = '$ciud', ociudad = '$ociud', codigo_postal = '$zip', provincia = '$prov', oprovincia = '$oprov', pais = '$pai', opais = '$opai', telefono = '$tel', celular = '$cel', fecha_de_modificacion = '$fdm', perfil_publico = '$per' WHERE user_id='$user'");
+		$contacto_nombre = mysql_real_escape_string($contacto_nombre);
+		$contacto_telefono = mysql_real_escape_string($contacto_telefono);
+		$contacto_relacion = mysql_real_escape_string($contacto_relacion);
+		
+		
+		$sql = sprintf("UPDATE rtc_usr_personales SET nombre = '$nom', apellido = '$ape', fecha_de_nacimiento = '$fdn', tipo_de_documento = '$tdni', numero_de_documento = '$dni', ocupacion = '$ocu', direccion = '$dire', ciudad = '$ciud', ociudad = '$ociud', codigo_postal = '$zip', provincia = '$prov', oprovincia = '$oprov', pais = '$pai', opais = '$opai', telefono = '$tel', celular = '$cel', fecha_de_modificacion = '$fdm', perfil_publico = '$per', contacto_nombre = '$contacto_nombre', contacto_telefono = '$contacto_telefono', contacto_relacion = '$contacto_relacion' WHERE user_id='$user'");
 		$result = mysql_query($sql);
 
 //ENVIO DE MAIL CON CONFIRMACION DE ALTA Y DATOS DE USUARIO
@@ -321,12 +343,19 @@ $usuario = mysql_fetch_assoc($result);
       <td width="40">&nbsp;</td>
       <td>Tipo de Documento:</td>
       <td align="left">
-        <select name="tipo_de_documento" id="tipo_de_documento">
-			<option value="0" <?php if ($tipodni['var']=='0') { echo 'selected="selected"'; } ?>>Elija tipo</option>
-			<option value="1" <?php if ($tipodni['var']=='1') { echo 'selected="selected"'; } ?>>Cedula de Identidad</option>
-			<option value="2" <?php if ($tipodni['var']=='2') { echo 'selected="selected"'; } ?>>Documento Nacional de Identidad</option>
-			<option value="3" <?php if ($tipodni['var']=='3') { echo 'selected="selected"'; } ?>>Pasaporte</option>
-        </select>&nbsp;<span style="color:#FF0000"><?php echo $tipodni['error'];?></span></td>
+	<?php 
+	$sql = "SELECT * FROM rtc_cfg_tipos_de_documentos ORDER BY tipo";
+	$result = mysql_query($sql);
+	echo "<select name=\"tipo_de_documento\" id=\"tipo_de_documento\">";
+	echo "<option value=\"0\" >Elija tipo</option>";
+	$sel='';
+	while($row = mysql_fetch_assoc($result))
+	{
+		if ($row['id']==$tipodni['var']) { $sel = 'selected="selected"';} else {$sel = '';}
+		echo "<option value=\"{$row['id']}\" {$sel} >{$row['tipo']}</option>";
+	}
+	?>
+</select>&nbsp;<span style="color:#FF0000"><?php echo $tipodni['error'];?></span></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>
@@ -466,6 +495,33 @@ if ($pais['var'] == '0') {
       <td>Perfil público:</td>
       <td align="left">        <input title="Elija si sus datos seran publicos o privados" name="perfil_publico" type="checkbox" id="perfil_publico" value="1" <?php if ($perfil['var']=='1') { echo "checked=\"checked\"";}  ?>/>
       <input name="perfil_publico_verifica" type="hidden" id="perfil_publico_verifica" value="1" /></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center"><p>&nbsp;</p></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><h2>Contacto en caso de Emergecias</h2></td>
+      <td align="left">&nbsp;</td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Nombre:</td>
+      <td align="left">        <input name="contacto_nombre" type="text" id="contacto_nombre" size="30" maxlength="80" value="<?php echo $contacto_nombre;  ?>"/>&nbsp;</td>
+      <td align="left">&nbsp;</td>
+    </tr>
+	<tr>
+        <td width="40">&nbsp;</td>
+        <td>Número de Teléfono:</td>
+      <td align="left">        <input name="contacto_telefono" type="text" id="contacto_telefono" size="30" maxlength="30" value="<?php echo $contacto_telefono;  ?>"/></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="40">&nbsp;</td>
+      <td>Relacion:</td>
+      <td align="left">        <input name="contacto_relacion" type="text" id="contacto_relacion" size="30" maxlength="40" value="<?php echo $contacto_relacion;  ?>"/></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

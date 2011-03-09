@@ -61,6 +61,7 @@
 			<?php if ($nivel_admin OR $nivel_evento) {?>	<li><a href="eventos_inscripciones.php">Inscriptos</a></li><?php } ?>
 			<?php if ($nivel_admin OR $nivel_evento OR $nivel_evento_tesoreria) {?>	<li><a href="#">Tesoreria</a></li><?php } ?>
 			<?php if ($nivel_admin OR $nivel_evento OR $nivel_distrito OR $nivel_club) {?>	<li><a href="eventos_autoriza.php">Autorizaciones Pendientes</a></li><?php } ?>
+			<?php if ($nivel_admin OR $nivel_evento OR $nivel_distrito OR $nivel_club) {?>	<li><a href="eventos_fichas.php">Fichas</a></li><?php } ?>
 		</ul>
 	</li>
     

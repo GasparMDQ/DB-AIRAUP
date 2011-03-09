@@ -30,4 +30,11 @@ function user_porcen($uid,$ev,$me,$op) { // (User_id, Evento_id, Mesa_id, Opcion
 	}
 }
 
+function getAge($mysql_date) {
+	list($y,$m,$d) = explode("-",$mysql_date);
+    $age = date('Y')-$y;
+	date('md')<$m.$d ? $age--:null;
+    return $age;
+}
+
 ?>

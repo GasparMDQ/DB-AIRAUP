@@ -12,6 +12,7 @@
 // $nivel_club_presidente= TRUE|FALSE	Es el Presidente del club
 //
 // $nivel_usuario= TRUE|FALSE			Similar a revisar la variable de session $_SESSION['logged']
+// $nivel_usuario_id= INT				[id] del usuario 
 // $nivel_usuario_club_id= INT			[id_club] al que el usuario pertenece
 // $nivel_usuario_distrito_id= INT		[id_distrito] al que el usuario pertenece
 // $nivel_usuario_programa= INT			[id_programa] al que el usuario pertenece
@@ -49,7 +50,8 @@ $nivel_evento_tesoreria=false;
 
 if ($_SESSION['logged']) {
 	$nivel_usuario=true;
-
+	$nivel_usuario_id=$_SESSION['uid'];
+	
 	//Verifica si el user es ADMIN del Sitio
 	$uid_c = $_SESSION['uid'];
 	$sql_p = "SELECT * FROM rtc_admin WHERE uid = '$uid_c' LIMIT 1";

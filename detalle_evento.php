@@ -192,7 +192,7 @@ setlocale(LC_ALL, 'es_ES');
 <?php } ?>
 <div>mas detalles del encuentro en breve</div>
 <?php 
-setlocale(LC_ALL, 'es_ES');
+setlocale(LC_ALL, '');
 ?>
 </p>
 
