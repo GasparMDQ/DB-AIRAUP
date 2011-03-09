@@ -20,7 +20,7 @@ if (isset($_POST['evento'])){
 		$evento=0;
 }
 
-if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Autoriza RDR") {
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button_si']) && $_POST['button_si']=="RDR") {
 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
@@ -37,7 +37,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 	}
 }
 
-if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Desautoriza RDR") {
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button_no']) && $_POST['button_no']=="RDR") {
 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
@@ -56,7 +56,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 }
  // FIN OK DISTRITAL 
 
-if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Autoriza Club") {
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button_si']) && $_POST['button_si']=="Club") {
 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
@@ -73,7 +73,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 	}
 }
 
-if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Desautoriza Club") {
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button_no']) && $_POST['button_no']=="Club") {
 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
@@ -92,7 +92,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 }
  // FIN OK CLUB
 
-if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Autoriza Pago") {
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button_si']) && $_POST['button_si']=="Pago") {
 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
@@ -109,7 +109,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 	}
 }
 
-if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) && $_POST['button']=="Desautoriza Pago") {
+if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button_no']) && $_POST['button_no']=="Pago") {
 
 	$user_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['user']),0,10))); 
 	$evento_act = mysql_real_escape_string(intval(substr(htmlspecialchars($_POST['evento']),0,10)));
@@ -133,7 +133,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 
 ?>
 <div>
-  <h2>Autorizaciones</h2>
+  <h2>Autorizaciones</h2><div class="enlinea"><span class="texto_general">Codigo de color: </span><span class="muestra_verde">Autorizados</span> | <span class="muestra_alarma">Desautorizados</span></div>
 </div>
 <?php
 	$hoy=date("c");
@@ -173,9 +173,8 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			$nombre = mysql_real_escape_string($rows['nombre'])." ".mysql_real_escape_string($rows['apellido']); 
 			$distrito = mysql_real_escape_string($rows['distrito_nombre']); 
 
-			$linea_de_codigo=$linea_de_codigo."<form id=\"form\" name=\"form\" method=\"POST\" action=\"eventos_autoriza.php\">";
+			?><form id="form" name="form" method="POST" action="eventos_autoriza.php"> <?php
 
-			$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\"><a href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">".$nombre."</a> (".$distrito.")</div>";
 			
 			$disabled="disabled";
 			if ($nivel_admin OR ($nivel_club AND $nivel_club_id==$rows['club'])) {
@@ -185,12 +184,12 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 
 			if(!$requiere_club){
 				if($rows['ok_club']) {
-					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Desautoriza Club\"/>";
+					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button_no\" id=\"button_no\" class=\"muestra_verde\" value=\"Club\"/>";
 				} else {
-					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Autoriza Club\"/>";
+					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button_si\" id=\"button_si\" class=\"muestra_alarma\" value=\"Club\"/>";
 				}
 			} else {
-				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">No requiere autorizacion del club </div>";
+				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">No club </div>";
 			}
 			
 			$disabled="disabled";
@@ -200,12 +199,12 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			}
 			if(!$requiere_distrito){
 				if($rows['ok_distrito']) {
-					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Desautoriza RDR\"/>";
+					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button_no\" id=\"button_no\" class=\"muestra_verde\" value=\"RDR\"/>";
 				} else {
-					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Autoriza RDR\"/>";
+					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button_si\" id=\"button_si\" class=\"muestra_alarma\" value=\"RDR\"/>";
 				}
 			} else {
-				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">No requiere autorizacion del distrito </div>";
+				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">No distrito </div>";
 			}
 
 			$disabled="disabled";
@@ -219,14 +218,16 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			}
 			if(!$requiere_tesoreria){
 				if($rows['ok_tesoreria']) {
-					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Desautoriza Pago\"/>";
+					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button_no\" id=\"button_no\" class=\"muestra_verde\" value=\"Pago\"/>";
 				} else {
-					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button\" id=\"button\" value=\"Autoriza Pago\"/>";
+					$linea_de_codigo=$linea_de_codigo."<input ".$disabled." type=\"submit\" name=\"button_si\" id=\"button_si\" class=\"muestra_alarma\" value=\"Pago\"/>";
 				}
 			} else {
-				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">No requiere pago de se&ntilde;a </div>";
+				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">No se&ntilde;a </div>";
 			}
-			
+
+			$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\"> <a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">Ficha</a> ".$nombre." (".$distrito.")</div>";
+
 			if ($rows['ok_club'] AND $rows['ok_distrito'] AND $rows['ok_tesoreria']) {
 				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\"><span class=\"muestra_amarillo\">Esperando confirmacion del organizador</span></div>";
 			}

@@ -293,6 +293,24 @@ input {
 	padding: 10px;
 }
 
+.boton {
+	padding: 2px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #717171;
+	border-top-left-radius: 3px 3px;
+	border-top-right-radius: 3px 3px;
+	border-bottom-right-radius: 3px 3px;
+	border-bottom-left-radius: 3px 3px;	
+	-webkit-box-align: center;
+	text-align: center;
+	color: buttontext !important;	
+	font-weight: normal !important;
+	background-color: buttonface;
+	box-sizing: border-box;	
+}
+
 
 /*
 ESTILO PARA EL MENU DE ADMINISTRACION

@@ -103,11 +103,10 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			$user_id = mysql_real_escape_string($rows['user_id']); 
 			$nombre = mysql_real_escape_string($rows['nombre'])." ".mysql_real_escape_string($rows['apellido']); 
 			$distrito = mysql_real_escape_string($rows['distrito']); 
-
+		
+			$codigo="";
 			?><form id="form" name="form" method="POST" action="eventos_preinscripciones.php"> <?php 
 
-			echo "<div class=\"enlinea\">".$nombre." (".$distrito.")</div>";
-			
 			$disabled="";
 			if ($rows['ok_club']) {
 				$alarma="muestra_verde";
@@ -115,7 +114,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 				$alarma="muestra_alarma";
 				$disabled="disabled";
 			}
-			echo "<div class=\"enlinea\"><span class=\"".$alarma."\">Club</span></div>";
+			$codigo=$codigo."<div class=\"enlinea\"><span class=\"".$alarma."\">Club</span></div>";
 			
 			if ($rows['ok_distrito']) {
 				$alarma="muestra_verde";
@@ -123,7 +122,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 				$alarma="muestra_alarma";
 				$disabled="disabled";
 			}
-			echo "<div class=\"enlinea\"><span class=\"".$alarma."\">Distrito</span></div>";
+			$codigo=$codigo."<div class=\"enlinea\"><span class=\"".$alarma."\">Distrito</span></div>";
 
 			if ($rows['ok_tesoreria']) {
 				$alarma="muestra_verde";
@@ -131,9 +130,9 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 				$alarma="muestra_alarma";
 				$disabled="disabled";
 			}
-			echo "<div class=\"enlinea\"><span class=\"".$alarma."\">Tesoreria</span></div>";
+			$codigo=$codigo."<div class=\"enlinea\"><span class=\"".$alarma."\">Tesoreria</span></div>";
 
-			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input <?php echo $disabled;?> type="submit" name="button" id="button" value="Confirmar Inscripcion" />
+			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input <?php echo $disabled;?> type="submit" name="button" id="button" value="Confirmar Inscripcion" /><?php echo $codigo."<div class=\"enlinea\"><a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">Ficha</a> ".$nombre." (".$distrito.")</div>";?>
 			</form>
 <?php 
 		}

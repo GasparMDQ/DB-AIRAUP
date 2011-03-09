@@ -75,7 +75,7 @@ if ($_SESSION['logged']) {
 	//Verifica si el user es RDR o ADMIN DISTRITAL
 	$sql_p = "SELECT * FROM rtc_distritos WHERE (uid_rdr = '$uid_c' OR uid_admin = '$uid_c') AND id_distrito = '$distrito_c' LIMIT 1";
 	$result_p = mysql_query($sql_p);
-	$row_p = mysql_num_rows($result_p);
+	$row_p = mysql_fetch_assoc($result_p);
 	if ($row_p) {
 		$nivel_distrito=true;
 		$nivel_distrito_id=$distrito_c;
@@ -88,7 +88,7 @@ if ($_SESSION['logged']) {
 	//Verifica si el user es MIEMBRO DEL CLUB
 	$sql_p = "SELECT * FROM rtc_clubes WHERE (uid_presidente = '$uid_c' OR uid_admin = '$uid_c') AND id_club = '$club_c' LIMIT 1";
 	$result_p = mysql_query($sql_p);
-	$row_p = mysql_num_rows($result_p);
+	$row_p = mysql_fetch_assoc($result_p);
 	$nivel_club_id=$club_c;
 	if ($row_p) {
 		$nivel_club=true;

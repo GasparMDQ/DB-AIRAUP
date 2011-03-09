@@ -131,6 +131,8 @@ if ($user_id!=0) {
 	</p>
 <?php } else { ?>
 	<p>
+    	Tel&eacute;fono: <?php echo $datos_personales['telefono'];?><br />
+    	Celular: <?php echo $datos_personales['celular'];?><br />
     	Domicilio: <?php echo $datos_personales['direccion'].", ".$ciudad['ciudad'].", ".$provincia['provincia'].", ".$pais['pais'];?><br />
 	    Email: <?php echo $datos_login['email'];?><br />
 		<?php echo $tipo_dni['tipo'];?>: <?php echo $datos_personales['numero_de_documento'];?><br />
