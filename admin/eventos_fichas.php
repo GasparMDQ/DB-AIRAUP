@@ -98,12 +98,11 @@ if ($user_id!=0) {
 	</p>
 <?php } else { ?>
 	<p>
+		<?php if ($datos_institucionales['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span><br />"; } else { ?>
+        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_institucionales['fecha_de_modificacion']));?><br />
+		<?php } ?>
     	Edad: <?php echo getAge($datos_personales['fecha_de_nacimiento']);?><br />
 		<?php echo $programa['programa'];?> Club <?php echo $club['club'];?>, Distrito <?php echo $distrito['distrito'];?>
-		<?php if ($datos_institucionales['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<br /><span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span>"; } else { ?>
-        <br />
-        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_institucionales['fecha_de_modificacion']));?>
-		<?php } ?>
 	</p>
     <?php } ?>
 </div>
@@ -131,16 +130,15 @@ if ($user_id!=0) {
 	</p>
 <?php } else { ?>
 	<p>
+		<?php if ($datos_personales['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span><br />"; } else { ?>
+        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_personales['fecha_de_modificacion']));?><br />
+		<?php } ?>
     	Tel&eacute;fono: <?php echo $datos_personales['telefono'];?><br />
     	Celular: <?php echo $datos_personales['celular'];?><br />
     	Domicilio: <?php echo $datos_personales['direccion'].", ".$ciudad['ciudad'].", ".$provincia['provincia'].", ".$pais['pais'];?><br />
 	    Email: <?php echo $datos_login['email'];?><br />
 		<?php echo $tipo_dni['tipo'];?>: <?php echo $datos_personales['numero_de_documento'];?><br />
 	    Fecha de Nacimiento: <?php echo strftime ("%d de %B de %Y", strtotime($datos_personales['fecha_de_nacimiento'])) ;?>
-		<?php if ($datos_personales['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<br /><span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span>"; } else { ?>
-        <br />
-        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_personales['fecha_de_modificacion']));?>
-		<?php } ?>
 	</p>
     <?php } ?>
 </div>
@@ -152,6 +150,11 @@ if ($user_id!=0) {
     	<span class="muestra_alarma">Nunca ingresados</span>
 	</p>
 <?php } else { ?>
+    <p>
+		<?php if ($datos_salud['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span>"; } else { ?>
+        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_salud['fecha_de_modificacion']));?>
+		<?php } ?>
+    <p>
   <p>
     	Obra Social: <?php echo $datos_salud['obrasocial'];?><br />
     	N&uacute;mero de Afiliado: <?php echo $datos_salud['nroobrasocial'];?>
@@ -187,11 +190,6 @@ if ($user_id!=0) {
 		&iquest;Presenta alg&uacute;n tipo de limitaci&oacute;n f&iacute;sica? <?php if ($datos_salud['limitacionfisica']) { echo "Si<br />"; } else { echo "No<br />";} ?>
 		Otros problemas de salud: <?php echo $datos_salud['otrossalud'];?><br />
 	</p>
-    <p>
-		<?php if ($datos_salud['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span>"; } else { ?>
-        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_salud['fecha_de_modificacion']));?>
-		<?php } ?>
-    <p>
 <?php } ?>
 </div>
 
@@ -204,13 +202,12 @@ if ($user_id!=0) {
 	</p>
 <?php } else { ?>
 	<p>
+		<?php if ($datos_personales['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span><br />"; } else { ?>
+        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_personales['fecha_de_modificacion']));?><br />
+		<?php } ?>
     	Nombre: <?php echo $datos_personales['contacto_nombre'];?><br />
 	    Telefono: <?php echo $datos_personales['contacto_telefono'];?><br />
 	    Relacion: <?php echo $datos_personales['contacto_relacion'];?>
-		<?php if ($datos_personales['fecha_de_modificacion']=="0000-00-00 00:00:00") { echo "<br /><span class=\"muestra_amarillo\">DATOS SIN ACTUALIZAR</span>"; } else { ?>
-        <br />
-        Actualizados al <?php echo strftime ("%d de %B de %Y", strtotime($datos_personales['fecha_de_modificacion']));?>
-		<?php } ?>
 	</p>
     <?php } ?>
 </div>

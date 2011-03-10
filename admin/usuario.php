@@ -243,7 +243,7 @@ if ($user_id != '') {
 		// CIUDAD
 			$ciudad_id = $row_p['ciudad'];
 			if ( $ciudad_id== "-1" ) {
-      			echo "<input name=\"ciudad\" type=\"text\" \"ciudad\" size=\"30\" maxlength=\"40\" value=\"{$row_p['ociudad']}\">";
+      			echo "<input name=\"ciudad\" type=\"text\" id=\"ciudad\" size=\"30\" maxlength=\"40\" value=\"{$row_p['ociudad']}\">";
 				$modi = true;
 			} else {
 				$sql = "SELECT * FROM rtc_ciudades WHERE id_ciudades='$ciudad_id' ORDER BY ciudad";
