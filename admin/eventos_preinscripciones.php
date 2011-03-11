@@ -94,13 +94,14 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 
 <h2>Estado de Preinscripciones a <?php echo $row['nombre'];?></h2>
 <?php
-		$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club ORDER BY rtc_distritos.distrito, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_clubes.club";
+		$sql_p = "SELECT rtc_eventos_preinscripciones.user_id, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_distritos.distrito, rtc_eventos_preinscripciones.ok_distrito, rtc_eventos_preinscripciones.ok_club, rtc_eventos_preinscripciones.ok_tesoreria, rtc_usr_login.email FROM rtc_clubes, rtc_eventos_preinscripciones, rtc_usr_institucional, rtc_distritos, rtc_usr_personales, rtc_usr_login WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id = rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito = rtc_distritos.id_distrito AND rtc_usr_personales.user_id = rtc_eventos_preinscripciones.user_id AND rtc_usr_institucional.club=rtc_clubes.id_club AND rtc_eventos_preinscripciones.user_id = rtc_usr_login.uid ORDER BY rtc_distritos.distrito, rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_clubes.club";
 		$result_p = mysql_query($sql_p);
 		$cantidad_inscriptos = mysql_num_rows($result_p);
 		echo "Total de Preinscriptos: ".$cantidad_inscriptos." <br />";
 		while($rows = mysql_fetch_assoc($result_p))
 		{
 			$user_id = mysql_real_escape_string($rows['user_id']); 
+			$email = mysql_real_escape_string($rows['email']); 
 			$nombre = mysql_real_escape_string($rows['nombre'])." ".mysql_real_escape_string($rows['apellido']); 
 			$distrito = mysql_real_escape_string($rows['distrito']); 
 		
@@ -132,7 +133,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			}
 			$codigo=$codigo."<div class=\"enlinea\"><span class=\"".$alarma."\">Tesoreria</span></div>";
 
-			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input <?php echo $disabled;?> type="submit" name="button" id="button" value="Confirmar Inscripcion" /><?php echo $codigo."<div class=\"enlinea\"><a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">Ficha</a> ".$nombre." (".$distrito.")</div>";?>
+			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input <?php echo $disabled;?> type="submit" name="button" id="button" value="Confirmar Inscripcion" /><?php echo $codigo."<div class=\"enlinea\"><a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">Ficha</a> ".$nombre." - ".$email." (".$distrito.")</div>";?>
 			</form>
 <?php 
 		}
