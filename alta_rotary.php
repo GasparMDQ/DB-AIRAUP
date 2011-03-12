@@ -250,7 +250,7 @@ if ($error==false) {
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td><h1>Alta de Socios</h1></td>
+      <td><h1>Inscripción a la conferencia </h1></td>
       <td align="left">&nbsp;</td>
     </tr>
     <tr>

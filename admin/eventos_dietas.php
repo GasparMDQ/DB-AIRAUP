@@ -61,7 +61,7 @@ if (isset($_POST['evento'])){
 	
 ?>
 
-<h2>Asistentes a <?php echo $row['nombre'];?> con menu especial</h2>
+<h2>Inscriptos a <?php echo $row['nombre'];?> con menu especial</h2>
 <?php
 		$sql_p = "SELECT rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_usr_salud.dietaesp, rtc_usr_salud.dietaespdesc, rtc_usr_salud.dietaveg, rtc_usr_salud.dietavegdesc, rtc_distritos.distrito, rtc_usr_personales.user_id FROM rtc_eventos_inscripciones, rtc_usr_personales, rtc_usr_salud, rtc_usr_institucional, rtc_distritos WHERE rtc_eventos_inscripciones.evento_id='$evento' AND rtc_usr_salud.user_id=rtc_eventos_inscripciones.user_id AND (rtc_usr_salud.dietaesp='1' OR rtc_usr_salud.dietaveg='1') AND rtc_usr_salud.user_id=rtc_usr_personales.user_id AND rtc_usr_salud.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=rtc_distritos.id_distrito ORDER BY rtc_distritos.distrito, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
 		$result_p = mysql_query($sql_p);
@@ -84,6 +84,28 @@ if (isset($_POST['evento'])){
 		}
 ?>
 
+<h2>Preinscriptos a <?php echo $row['nombre'];?> con menu especial</h2>
+<?php
+		$sql_p = "SELECT rtc_usr_personales.nombre, rtc_usr_personales.apellido, rtc_usr_salud.dietaesp, rtc_usr_salud.dietaespdesc, rtc_usr_salud.dietaveg, rtc_usr_salud.dietavegdesc, rtc_distritos.distrito, rtc_usr_personales.user_id FROM rtc_eventos_preinscripciones, rtc_usr_personales, rtc_usr_salud, rtc_usr_institucional, rtc_distritos WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_usr_salud.user_id=rtc_eventos_preinscripciones.user_id AND (rtc_usr_salud.dietaesp='1' OR rtc_usr_salud.dietaveg='1') AND rtc_usr_salud.user_id=rtc_usr_personales.user_id AND rtc_usr_salud.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=rtc_distritos.id_distrito ORDER BY rtc_distritos.distrito, rtc_usr_personales.apellido, rtc_usr_personales.nombre";
+		$result_p = mysql_query($sql_p);
+		echo "Total de Especiales: ".mysql_num_rows($result_p)." <br />";
+		while($rows = mysql_fetch_assoc($result_p))
+		{
+			$user_id = mysql_real_escape_string($rows['user_id']);
+			$nombre = mysql_real_escape_string($rows['nombre'])." ".mysql_real_escape_string($rows['apellido']); 
+			$distrito = mysql_real_escape_string($rows['distrito']); 
+
+?>
+			<p>
+				<?php echo "<div class=\"texto_general\">".$nombre." (".$distrito.")</div>"; ?>
+				Vegetariano: <?php if ($rows['dietaveg']) { echo "Si<br />"; } else { echo "No<br />";} ?>
+				<?php if ($rows['dietaveg']) { echo "Detalle: ".$rows['dietavegdesc']."<br />"; } ?>
+				Dieta Especial: <?php if ($rows['dietaesp']) { echo "Si<br />"; } else { echo "No<br />";} ?>
+				<?php if ($rows['dietaesp']) { echo "Detalle: ".$rows['dietaespdesc']."<br />"; } ?>
+			</p>
+<?php			
+		}
+?>
 
 <?php } // Final del IF EVENTO != 0
 include 'footer.php';?>
