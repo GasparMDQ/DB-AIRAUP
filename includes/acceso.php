@@ -8,7 +8,7 @@ if ($_SESSION['logged']) { ?>
 <?php 
 	//Verifica si es administrador del sitio
 	$consulta = $_SESSION['uid'];
-	$sql = sprintf("SELECT * FROM rtc_admin WHERE uid = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_admin WHERE uid = '$consulta' LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
@@ -17,7 +17,7 @@ if ($_SESSION['logged']) { ?>
 
 	//Verifica si es administrador o rdr de algun distrito
 	$consulta = $_SESSION['uid'];
-	$sql = sprintf("SELECT * FROM rtc_distritos WHERE uid_rdr = \"$consulta\" OR uid_admin = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_distritos WHERE uid_rdr = '$consulta' OR uid_admin = '$consulta' LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
@@ -26,7 +26,7 @@ if ($_SESSION['logged']) { ?>
 
 	//Verifica si es administrador o presidente de algun club
 	$consulta = $_SESSION['uid'];
-	$sql = sprintf("SELECT * FROM rtc_clubes WHERE uid_presidente = \"$consulta\" OR uid_admin = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_clubes WHERE uid_presidente = '$consulta' OR uid_admin = '$consulta' LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>
@@ -35,7 +35,7 @@ if ($_SESSION['logged']) { ?>
 	
 	//Verifica si es administrador de RRHH
 	$consulta = $_SESSION['uid'];
-	$sql = sprintf("SELECT * FROM rtc_rrhh_admin WHERE user_id = \"$consulta\" LIMIT 1");
+	$sql = sprintf("SELECT * FROM rtc_rrhh_admin WHERE user_id = '$consulta' LIMIT 1");
 	$result = mysql_query($sql);
 	$row = mysql_fetch_object($result);
 	if ($row) { ?>

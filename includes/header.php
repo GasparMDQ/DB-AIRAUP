@@ -16,13 +16,13 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 
-<body class="body" onload="initialize()">
+<body class="body" onLoad="initialize()">
 <?php
 require 'includes/class.php';
 if (!isset($_SESSION['uid']) ) {
 	session_defaults();
 }
-
+require_once 'includes/permisos.php';
 ?>
 
 <div id="container">

@@ -54,14 +54,14 @@ if ($_SESSION['logged']) {
 	
 	//Verifica si el user es ADMIN del Sitio
 	$uid_c = $_SESSION['uid'];
-	$sql_p = "SELECT * FROM rtc_admin WHERE uid = '$uid_c' LIMIT 1";
+	$sql_p = "SELECT * FROM rtc_admin WHERE uid = '$nivel_usuario_id' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_num_rows($result_p);
 	if ($row_p) {
 		$nivel_admin=true;
 	}
 
-	$sql_u = "SELECT * FROM rtc_usr_institucional WHERE user_id = '$uid_c' LIMIT 1";
+	$sql_u = "SELECT * FROM rtc_usr_institucional WHERE user_id = '$nivel_usuario_id' LIMIT 1";
 	$result_u = mysql_query($sql_u);
 	$row_u = mysql_fetch_assoc($result_u);
 	$club_c=$row_u['club'];
@@ -73,27 +73,27 @@ if ($_SESSION['logged']) {
 	$nivel_usuario_programa=$row_u['programa_ri'];
 
 	//Verifica si el user es RDR o ADMIN DISTRITAL
-	$sql_p = "SELECT * FROM rtc_distritos WHERE (uid_rdr = '$uid_c' OR uid_admin = '$uid_c') AND id_distrito = '$distrito_c' LIMIT 1";
+	$sql_p = "SELECT * FROM rtc_distritos WHERE (uid_rdr = '$nivel_usuario_id' OR uid_admin = '$nivel_usuario_id') AND id_distrito = '$distrito_c' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_fetch_assoc($result_p);
 	if ($row_p) {
 		$nivel_distrito=true;
 		$nivel_distrito_id=$distrito_c;
-		if ($row_p['uid_rdr']==$uid_c) {
+		if ($row_p['uid_rdr']=='$nivel_usuario_id') {
 			$nivel_distrito_rdr=true;
 		} else {
 			$nivel_distrito_rdr=false;
 		}
 	}
 	//Verifica si el user es MIEMBRO DEL CLUB
-	$sql_p = "SELECT * FROM rtc_clubes WHERE (uid_presidente = '$uid_c' OR uid_admin = '$uid_c') AND id_club = '$club_c' LIMIT 1";
+	$sql_p = "SELECT * FROM rtc_clubes WHERE (uid_presidente = '$nivel_usuario_id' OR uid_admin = '$nivel_usuario_id') AND id_club = '$club_c' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_fetch_assoc($result_p);
 	$nivel_club_id=$club_c;
 	if ($row_p) {
 		$nivel_club=true;
 		$nivel_club_id=$club_c;
-		if ($row_p['uid_presidente']==$uid_c) {
+		if ($row_p['uid_presidente']=='$nivel_usuario_id') {
 			$nivel_club_presidente=true;
 		} else {
 			$nivel_club_presidente=false;
@@ -102,7 +102,7 @@ if ($_SESSION['logged']) {
 	
 	//Verifica si el user es ADMIN de RRHH
 	$uid_c = $_SESSION['uid'];
-	$sql_p = "SELECT * FROM rtc_rrhh_admin WHERE user_id = '$uid_c' LIMIT 1";
+	$sql_p = "SELECT * FROM rtc_rrhh_admin WHERE user_id = '$nivel_usuario_id' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_num_rows($result_p);
 	if ($row_p) {
@@ -111,7 +111,7 @@ if ($_SESSION['logged']) {
 
 	//Verifica si el user es Coordinador de algun Evento
 	$uid_c = $_SESSION['uid'];
-	$sql_p = "SELECT * FROM rtc_eventos_coordinadores WHERE user_id = '$uid_c' LIMIT 1";
+	$sql_p = "SELECT * FROM rtc_eventos_coordinadores WHERE user_id = '$nivel_usuario_id' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_num_rows($result_p);
 	if ($row_p) {
@@ -120,7 +120,7 @@ if ($_SESSION['logged']) {
 
 	//Verifica si el user es Tesorero del algun Evento
 	$uid_c = $_SESSION['uid'];
-	$sql_p = "SELECT * FROM rtc_eventos_tesoreria WHERE user_id = '$uid_c' LIMIT 1";
+	$sql_p = "SELECT * FROM rtc_eventos_tesoreria WHERE user_id = '$nivel_usuario_id' LIMIT 1";
 	$result_p = mysql_query($sql_p);
 	$row_p = mysql_num_rows($result_p);
 	if ($row_p) {
