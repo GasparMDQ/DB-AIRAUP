@@ -229,7 +229,7 @@ if ($club_id!=0) {
 { ?>    
 <div class="tabla_ppl">
 	<form action="socios.php" method="post">
-		<div class="tabla_izquierda"><?php echo $row['nombre']." ".$row['apellido']." (".$row['user_id'].")"; ?></div>
+		<div class="tabla_izquierda"><a class="boton" href="eventos_fichas.php?user_id=<?php echo $row['user_id']; ?>">Ficha</a>  <?php echo $row['nombre']." ".$row['apellido']." (".$row['user_id'].")"; ?></div>
 		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /><input name="suid" id="suid" type="hidden" value="<?php echo $row['user_id'];  ?>" /><input type="submit" name="submit" id="submit" value="Dar de Baja" /></div>
 	</form>
 </div> <!-- Final de tabla -->
@@ -245,7 +245,7 @@ $result = mysql_query($sql);
 { ?>    
 <div class="tabla_ppl">
 	<form action="socios.php" method="post">
-		<div class="tabla_izquierda"><?php echo $row['nombre']." ".$row['apellido']." (".$row['user_id'].")"; ?></div>
+		<div class="tabla_izquierda"><a class="boton" href="eventos_fichas.php?user_id=<?php echo $row['user_id']; ?>">Ficha</a>  <?php echo $row['nombre']." ".$row['apellido']." (".$row['user_id'].")"; ?></div>
 		<div class="tabla_derecha"><input name="club" type="hidden" id="club" value="<?php echo $club_id; ?>" /><input name="suid" id="suid" type="hidden" value="<?php echo $row['user_id'];  ?>" /><input type="submit" name="submit" id="submit" value="Aprobar" /></div>
 	</form>
 </div> <!-- Final de tabla -->
