@@ -28,7 +28,7 @@ if (isset($_POST['mesa'])){
 if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Agregar" ) {
 
 	$mesa=$_POST['mesa_id'];
-	$sql="SELECT * FROM rtc_rrhh_encuestas, rtc_rrhh_encuestas_preguntas WHERE rtc_rrhh_encuestas.mesa='1' AND rtc_rrhh_encuestas.id=rtc_rrhh_encuestas_preguntas.encuesta_id";
+	$sql="SELECT * FROM rtc_rrhh_encuestas, rtc_rrhh_encuestas_preguntas WHERE rtc_rrhh_encuestas.mesa='0' AND rtc_rrhh_encuestas.id=rtc_rrhh_encuestas_preguntas.encuesta_id";
 	$result=mysql_query($sql);
 	$numero_sql=mysql_num_rows($result);
 
@@ -84,11 +84,11 @@ if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Fi
 ?>
 <div><h2>Carga de Encuestas de Mesas</h2></div>
 <div>
-<form id="form1" name="form1" method="POST" action="rrhh_eventos_mesas_encuestas.php">Seleccione un evento:
+<form id="form1" name="form1" method="POST" action="rrhh_eventos_coordinadores_encuestas.php">Seleccione un evento:
 <?php
 	$sql1 = "SELECT * FROM rtc_eventos ORDER BY nombre";
 	$resultado = mysql_query($sql1);
-	echo "<select name=\"evento\" id=\"evento\" onchange=\"location.href='rrhh_eventos_mesas_encuestas.php?evento='+this.value\" >";
+	echo "<select name=\"evento\" id=\"evento\" onchange=\"location.href='rrhh_eventos_coordinadores_encuestas.php?evento='+this.value\" >";
 	echo "<option value=\"0\" selected > </option>";
 	while ($rowtmp = mysql_fetch_assoc($resultado))
 	{
@@ -116,12 +116,12 @@ if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Fi
 		$row = mysql_fetch_assoc($result);
 		$mesa_nombre=$row['mesa'];
 		?>
-			<h2>Mesa: <?php echo $mesa_nombre; ?></h2>
+			<h2>Coordinador: <?php echo $mesa_nombre; ?></h2>
 		<?php 
-		$sql="SELECT rtc_rrhh_encuestas_preguntas.pregunta, rtc_rrhh_encuestas_preguntas.id, rtc_rrhh_encuestas_preguntas.numerica FROM rtc_rrhh_encuestas, rtc_rrhh_encuestas_preguntas WHERE rtc_rrhh_encuestas.mesa='1' AND rtc_rrhh_encuestas.id=rtc_rrhh_encuestas_preguntas.encuesta_id";
+		$sql="SELECT rtc_rrhh_encuestas_preguntas.pregunta, rtc_rrhh_encuestas_preguntas.id, rtc_rrhh_encuestas_preguntas.numerica FROM rtc_rrhh_encuestas, rtc_rrhh_encuestas_preguntas WHERE rtc_rrhh_encuestas.mesa='0' AND rtc_rrhh_encuestas.id=rtc_rrhh_encuestas_preguntas.encuesta_id";
 		$result=mysql_query($sql);
 		?>
-		<form id="form" name="form" method="POST" action="rrhh_eventos_mesas_encuestas.php">
+		<form id="form" name="form" method="POST" action="rrhh_eventos_coordinadores_encuestas.php">
 		<table id="tabla_clubes">
         <?php
 		while($row = mysql_fetch_assoc($result)) {
@@ -155,7 +155,7 @@ if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Fi
 			?>
 			<p>
 			Mesa: <?php echo $mesa_nombre; ?><br />
-			<form id="form1" name="form1" method="POST" action="rrhh_eventos_mesas_encuestas.php">
+			<form id="form1" name="form1" method="POST" action="rrhh_eventos_coordinadores_encuestas.php">
 				<input name="mesa" type="hidden" id="mesa" value="<?php echo $mesa_id; ?>" />
 				<input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
 				<input type="submit" name="button" id="button" value="Cargar encuestas" />
