@@ -49,7 +49,13 @@ if ($user_id!=0) {
 	$result=mysql_query($sql);
 	if ($nivel_evento AND mysql_num_rows($result)) {
 		$permiso=true;
-	}	//ES COORDINADOR
+	}	//ES COORDINADOR INSCRIPTO
+
+	$sql="SELECT * FROM rtc_eventos_coordinadores, rtc_eventos_preinscripciones WHERE rtc_eventos_preinscripciones.user_id='$user_id' AND rtc_eventos_preinscripciones.evento_id=rtc_eventos_coordinadores.evento_id AND rtc_eventos_coordinadores.user_id='$nivel_usuario_id' LIMIT 1";
+	$result=mysql_query($sql);
+	if ($nivel_evento AND mysql_num_rows($result)) {
+		$permiso=true;
+	}	//ES COORDINADOR PREINSCRIPTO
 
 	if ($permiso) {
 
