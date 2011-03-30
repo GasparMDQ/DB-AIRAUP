@@ -175,11 +175,18 @@ if (isset($_POST['mesa_id']) && isset($_POST['button']) && $_POST['button']=="Fi
 						$sql="SELECT AVG(respuesta) as promedio FROM rtc_rrhh_encuestas_respuestas WHERE pregunta_id='$pregunta_id' AND destino_id='$mesa'";
 						$result_prom=mysql_query($sql);
 						$promedio=mysql_fetch_assoc($result_prom);						
-						$opciones="size=\"2\" maxlength=\"1\"";
 					?>
-					<tr><td><label for="<?php echo $id; ?>"><?php echo $pregunta; ?></label></td>
+					<tr><td><?php echo $pregunta; ?></td>
 					<td><?php echo number_format($promedio['promedio'], 2, '.', ''); ?></td></tr>
 			        <?php
+					} else {
+						$sql="SELECT respuesta FROM rtc_rrhh_encuestas_respuestas WHERE pregunta_id='$pregunta_id' AND destino_id='$mesa'";
+						$result_prom=mysql_query($sql);
+					?>
+					<tr><td><?php echo $pregunta; ?></td>
+					<td><?php while ($respuestas=mysql_fetch_assoc($result_prom)) { echo $respuestas['respuesta']." | ";} ?></td></tr>
+			        <?php
+
 					}
 				}
 				?>
