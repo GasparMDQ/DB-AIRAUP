@@ -196,10 +196,18 @@ setlocale(LC_ALL, '');
 ?>
 </p>
 
-<?php if ($nivel_usuario) {?>
+<?php if ($nivel_usuario) {
+	$fecha_hoy=date('Y-m-d');
+	if ($fecha_hoy<=$fecha_inscripciones) {
+		$habilita="";
+	} else {
+		$habilita="disabled";
+	}
+
+?>
 <div><form action="detalle_evento.php" method="post">
   <input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
-  <input <?php echo $preinscripcion; ?> type="submit" name="button" value="Preinscribirme" />
+  <input name="button" type="submit" <?php echo $habilita; ?> value="Preinscribirme" <?php echo $preinscripcion; ?> true />
   <input <?php echo $baja; ?> type="submit" name="button" value="Dar de baja" />
 </form></div>
 <div class="muestra_alarma"><?php echo $error_muestra; ?></div>
