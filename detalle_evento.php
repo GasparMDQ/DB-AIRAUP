@@ -36,8 +36,14 @@ if ($row['ticket']=="") {
 	$ticket="$ ".number_format($row['ticket'], 2, ',', '.');
 }
 
+$en_fecha=false;
+$fecha_hoy=date('Y-m-d');
+if ($fecha_hoy<=$fecha_inscripciones) {
+	$en_fecha=true;
+}
+
 //PREINSCRIPCION
-if (isset($_POST['button']) AND $_POST['button']=="Preinscribirme" AND $nivel_usuario) {
+if (isset($_POST['button']) AND $_POST['button']=="Preinscribirme" AND $nivel_usuario AND $en_fecha) {
 
 	$sql="SELECT * FROM rtc_eventos_inscripciones WHERE user_id='$user_id' AND evento_id='$evento' LIMIT 1";
 	$result=mysql_query($sql);
