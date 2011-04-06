@@ -25,6 +25,8 @@ $email_contacto=$row['email_contacto'];
 $nombre_evento=$row['nombre'];
 $predio_nombre=$row['predio_nombre'];
 $predio_direccion=$row['predio_direccion'];
+$predio_lat=$row['direccion_lat'];
+$predio_long=$row['direccion_long'];
 $forma_de_pago=$row['forma_de_pago'];
 $descripcion=$row['descripcion'];
 $logo=$row['logo'];
@@ -178,6 +180,8 @@ setlocale(LC_ALL, 'es_ES');
 </p>
 <p>
 <input id="direccion" name="direccion" type="hidden" value="<?php echo $predio_direccion; ?>" />
+<input id="lat" name="lat" type="hidden" value="<?php echo $predio_lat; ?>" />
+<input id="long" name="long" type="hidden" value="<?php echo $predio_long; ?>" />
 <div id="map_canvas"></div>
 <?php if ($nivel_usuario) {?>
 <div><span class="texto_general_simple">Estado de la inscripcion:</span> <span class="texto_general"><?php echo $status; ?></span></div>

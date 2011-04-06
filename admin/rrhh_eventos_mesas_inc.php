@@ -33,11 +33,16 @@ if (isset($_POST['mesa']) && isset($_POST['user']) && isset($_POST['evento']) &&
 } // FIN ACTUALIZAR DATOS
 
 
+////////////////////////////////////////////
+$evento_id=2;// SE DEFINE EL EVENTO A CARGAR
+////////////////////////////////////////////
+
+
 ?>
 <h2>Inscribir Asistentes a Mesas del ERAUP 2011</h2>
 <?php
 //		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_eventos_inscripciones.mesa_id FROM rtc_eventos_inscripciones, rtc_importa_inscriptos_eraup2011, rtc_usr_login WHERE rtc_eventos_inscripciones.user_id=rtc_usr_login.uid AND rtc_usr_login.email=rtc_importa_inscriptos_eraup2011.email AND rtc_eventos_inscripciones.evento_id='1' ORDER BY rtc_importa_inscriptos_eraup2011.mesa, rtc_importa_inscriptos_eraup2011.distrito, rtc_eventos_inscripciones.mesa_id, rtc_eventos_inscripciones.user_id";
-		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_eventos_inscripciones.mesa_id FROM rtc_eventos_inscripciones, rtc_usr_institucional, rtc_distritos WHERE evento_id='1' AND rtc_eventos_inscripciones.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=rtc_distritos.id_distrito ORDER BY rtc_distritos.distrito, rtc_eventos_inscripciones.mesa_id";
+		$sql_p = "SELECT rtc_eventos_inscripciones.user_id, rtc_eventos_inscripciones.mesa_id FROM rtc_eventos_inscripciones, rtc_usr_institucional, rtc_distritos WHERE evento_id='".$evento_id."' AND rtc_eventos_inscripciones.user_id=rtc_usr_institucional.user_id AND rtc_usr_institucional.distrito=rtc_distritos.id_distrito ORDER BY rtc_distritos.distrito, rtc_eventos_inscripciones.mesa_id";
 //		echo $sql_p;
 		$result_p = mysql_query($sql_p);
 		while($rows = mysql_fetch_assoc($result_p))
@@ -72,19 +77,10 @@ if (isset($_POST['mesa']) && isset($_POST['user']) && isset($_POST['evento']) &&
 			$row=mysql_fetch_assoc($result);
 			$em=$row['email'];
 
-			$sql="SELECT mesa FROM rtc_importa_inscriptos_eraup2011 WHERE email='$em' LIMIT 1";
-			$result=mysql_query($sql);
-			$row=mysql_fetch_assoc($result);
-			if ($row) {
-				$mesa=$row['mesa'];
-			} else {
-				$mesa=0;
-			}
-
 			?><form id="form" name="form" method="POST" action="rrhh_eventos_mesas_inc.php"> <?php 
 
-			echo $nombre." ".$apellido." (".$distrito." - ".$club." - ".$mesa."): ";
-			$sql1 = "SELECT * FROM rtc_eventos_mesa WHERE evento_id='1' ORDER BY mesa";
+			echo $nombre." ".$apellido." (".$distrito." - ".$club."): ";
+			$sql1 = "SELECT * FROM rtc_eventos_mesa WHERE evento_id='".$evento_id."' ORDER BY mesa";
 			$resultado = mysql_query($sql1);
 			$sel='';
 			echo "<select name=\"mesa\" id=\"mesa\">";
@@ -95,7 +91,7 @@ if (isset($_POST['mesa']) && isset($_POST['user']) && isset($_POST['evento']) &&
 				echo "<option value=\"{$rowtmp['id']}\" {$sel}>{$rowtmp['mesa']}</option>";	
 			}
 			echo "</select>";
-			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="1" /><input type="submit" name="button" id="button" value="Actualizar" />
+			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento_id;?>" /><input type="submit" name="button" id="button" value="Actualizar" />
 			</form>
 <?php 
 		}

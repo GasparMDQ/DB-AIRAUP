@@ -47,7 +47,18 @@ function initialize() {
 
 function codeAddress(flag) {
 	var address = document.getElementById("direccion").value;
-	if (geocoder) {
+	var lat = document.getElementById("lat").value;
+	var long = document.getElementById("long").value;
+	if (lat!='' && long!='') {
+ 		var myLatlng = new google.maps.LatLng(lat,long);
+		map.setCenter(myLatlng);
+ 		if (flag) {
+			var marker = new google.maps.Marker({
+				map: map, 
+				position: myLatlng
+			});
+		}
+	} else if (geocoder) {
 		geocoder.geocode( { 'address': address}, function(results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				map.setCenter(results[0].geometry.location);
