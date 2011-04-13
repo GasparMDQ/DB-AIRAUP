@@ -42,6 +42,12 @@ if ($evento!=0) {
 		$permiso=true;
 	}	//ES COORDINADOR
 
+	$sql="SELECT * FROM rtc_eventos WHERE id='$evento' LIMIT 1";
+	$result=mysql_query($sql);
+	$row=mysql_fetch_assoc($result);
+	$titulo_evento=$row['nombre'];
+
+
 	if ($permiso) {
 
 		$sql_loop="SELECT rtc_eventos_preinscripciones.user_id FROM rtc_eventos_preinscripciones, rtc_usr_personales WHERE rtc_eventos_preinscripciones.evento_id='$evento' AND rtc_eventos_preinscripciones.user_id=rtc_usr_personales.user_id ORDER BY rtc_usr_personales.nombre, rtc_usr_personales.apellido";
@@ -63,7 +69,7 @@ function Header()
     //Movernos a la derecha
 //    $this->Cell(80);
     //Título
-    $this->Cell(0,10,'Campamento Tetradistrital');
+    $this->Cell(0,10,$titulo_evento);
     //Salto de línea
     $this->Ln(10);
 }

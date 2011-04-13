@@ -4,7 +4,7 @@ include 'header.php';
 $esadmin=false;
 $nivel_evento=false;
 
-if ($nivel_admin OR $nivel_evento OR $nivel_distrito OR $nivel_club) {
+if ($nivel_admin OR $nivel_evento OR $nivel_distrito OR $nivel_club OR $nivel_evento_tesoreria) {
 		$esadmin=true;
 }
 
