@@ -58,7 +58,7 @@ if ($_SESSION['logged']) { ?>
 	</div>
 	<?php if ($_SESSION['failed']) { ?>
     	<div id="errordiv"><span style='color: #FF0000'>Nombre de Usuario o Contrase&ntilde;a Incorrectos</span></div>
-    	<div id="recupera"><a href="recupera.php">recupera tu contraseña</a></div>
+    	<div id="recupera"><a class="muestra_alarma" href="recupera.php">recupera tu contraseña</a></div>
   <?php } ?>
 <?php }?>
 <!-- Fin del div #acceso -->
