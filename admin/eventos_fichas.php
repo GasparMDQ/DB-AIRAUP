@@ -19,6 +19,14 @@ if (isset($_POST['user_id'])){
 		$user_id=0;
 }
 
+if (isset($_POST['evento'])){
+	$evento=intval($_POST['evento']);
+} else if (isset($_GET['evento'])) {
+		$evento=intval($_GET['evento']);
+	} else {
+		$evento=0;
+}
+
 
 //	COMIENZO DEL CUERPO
 
@@ -79,6 +87,18 @@ if ($user_id!=0) {
 		$sql = "SELECT * FROM rtc_usr_salud WHERE user_id = '$user_id' LIMIT 1";
 		$result = mysql_query($sql);
 		$datos_salud = mysql_fetch_assoc($result);
+		
+		if ($evento!=0) {
+			$notas= "";
+			$sql = "SELECT notas FROM rtc_eventos_preinscripciones WHERE user_id = '$user_id' AND evento_id = '$evento' LIMIT 1";
+			$result = mysql_query($sql);
+			$row = mysql_fetch_assoc($result);
+			$notas = $notas.$row['notas'];
+			$sql = "SELECT notas FROM rtc_eventos_inscripciones WHERE user_id = '$user_id' AND evento_id = '$evento' LIMIT 1";
+			$result = mysql_query($sql);
+			$row = mysql_fetch_assoc($result);
+			$notas = $notas.$row['notas'];
+		}
 ?>
 <div>
 	<h1>Ficha de <?php echo $datos_personales['nombre']." ".$datos_personales['apellido']; ?></h1>
@@ -221,6 +241,14 @@ if ($user_id!=0) {
     <?php } ?>
 </div>
 
+<?php if ($notas!="") { ?>
+<div>
+	<h2>Notas</h2>
+	<p>
+		<?php echo $notas; ?>
+	</p>
+</div>
+<?php } ?>
 
 <?php
 	setlocale(LC_ALL, '');

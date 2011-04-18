@@ -226,7 +226,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button_no'
 				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\">No se&ntilde;a </div>";
 			}
 
-			$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\"> <a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">Ficha</a> ".$nombre." (".$distrito.")</div>";
+			$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\"> <a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."&evento=".$evento."\">Ficha</a> ".$nombre." (".$distrito.")</div>";
 
 			if ($rows['ok_club'] AND $rows['ok_distrito'] AND $rows['ok_tesoreria']) {
 				$linea_de_codigo=$linea_de_codigo."<div class=\"enlinea\"><span class=\"muestra_amarillo\">Esperando confirmacion del organizador</span></div>";

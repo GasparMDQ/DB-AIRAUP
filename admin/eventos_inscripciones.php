@@ -112,7 +112,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			$email = mysql_real_escape_string($rows['email']); 
 
 			?><form id="form" name="form" method="POST" action="eventos_inscripciones.php"> 
-  <input type="submit" name="button" id="button" value="Baja" /> <a class="boton" href="eventos_fichas.php?user_id=<?php echo $user_id;?>">Ficha</a>
+  <input type="submit" name="button" id="button" value="Baja" /> <a class="boton" href="eventos_fichas.php?user_id=<?php echo $user_id;?>&evento=<?php echo $evento;?>">Ficha</a>
   <?php 
 
 			echo  " (".$distrito." | ".$club.") ".$nombre." - ".$email;

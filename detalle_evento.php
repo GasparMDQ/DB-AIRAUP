@@ -63,7 +63,8 @@ if (isset($_POST['button']) AND $_POST['button']=="Preinscribirme" AND $nivel_us
 			$ok_club=$row['ok_club'];
 			$ok_distrito=$row['ok_distrito'];
 			$ok_tesoreria=$row['ok_tesoreria'];
-			$sql="INSERT INTO rtc_eventos_preinscripciones (evento_id, user_id, ok_club, ok_distrito, ok_tesoreria) VALUES ('$evento','$user_id','$ok_club','$ok_distrito','$ok_tesoreria')";
+			$notas=mysql_real_escape_string(htmlspecialchars($_POST['notas']));
+			$sql="INSERT INTO rtc_eventos_preinscripciones (evento_id, user_id, ok_club, ok_distrito, ok_tesoreria, notas) VALUES ('$evento','$user_id','$ok_club','$ok_distrito','$ok_tesoreria','$notas')";
 			$result=mysql_query($sql);
 			$preinscripcion="disabled";
 		}
@@ -199,25 +200,26 @@ setlocale(LC_ALL, 'es_ES');
 <span class="texto_general"><?php echo $forma_de_pago; ?></span>
 </div>
 
-<?php } ?>
-<div>mas detalles del encuentro en breve</div>
-<?php 
+<?php } 
 setlocale(LC_ALL, '');
 ?>
 </p>
 
 <?php if ($nivel_usuario) {
 	$fecha_hoy=date('Y-m-d');
-	if ($fecha_hoy<=$fecha_inscripciones) {
-		$habilita="";
-	} else {
-		$habilita="disabled";
+	if ($fecha_hoy>$fecha_inscripciones) {
+		$preinscripcion="disabled";
 	}
 
 ?>
 <div><form action="detalle_evento.php" method="post">
+<?php if ($preinscripcion=="") {?>
+  <div><span class="texto_general_simple">Si no asiste a todo el encuentro especifique los dias que SI va aqui:</span><br />
+    <textarea name="notas" id="notas" cols="45" rows="5"></textarea>
+  </div>
+<?php } ?>
   <input name="evento" type="hidden" id="evento" value="<?php echo $evento; ?>" />
-  <input name="button" type="submit" <?php echo $habilita; ?> value="Preinscribirme" <?php echo $preinscripcion; ?> true />
+  <input name="button" type="submit" value="Preinscribirme" <?php echo $preinscripcion; ?> true />
   <input <?php echo $baja; ?> type="submit" name="button" value="Dar de baja" />
 </form></div>
 <div class="muestra_alarma"><?php echo $error_muestra; ?></div>

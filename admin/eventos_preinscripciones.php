@@ -40,7 +40,13 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 		$result=mysql_query($sql);
 		if (mysql_num_rows($result)) {
 		//VERIFICAR LOS OK DE LA PREINSCRIPCION
-			$sql="INSERT INTO rtc_eventos_inscripciones (user_id, evento_id) VALUES ('$user_act','$evento_act')";
+			$notas= "";
+			$sql = "SELECT notas FROM rtc_eventos_preinscripciones WHERE user_id = '$user_id' AND evento_id = '$evento' LIMIT 1";
+			$result = mysql_query($sql);
+			$row = mysql_fetch_assoc($result);
+			$notas = $notas.$row['notas'];
+			
+			$sql="INSERT INTO rtc_eventos_inscripciones (user_id, evento_id, notas) VALUES ('$user_act','$evento_act','$notas')";
 			if (mysql_query($sql)) {
 					$sql = "DELETE FROM rtc_eventos_preinscripciones WHERE evento_id='$evento_act' AND user_id='$user_act'";
 					$result = mysql_query($sql);
@@ -133,7 +139,7 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 			}
 			$codigo=$codigo."<div class=\"enlinea\"><span class=\"".$alarma."\">Tesoreria</span></div>";
 
-			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input <?php echo $disabled;?> type="submit" name="button" id="button" value="Confirmar Inscripcion" /><?php echo $codigo."<div class=\"enlinea\"><a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."\">Ficha</a> ".$nombre." - ".$email." (".$distrito.")</div>";?>
+			?><input name="user" type="hidden" value="<?php echo $user_id;?>" /><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input <?php echo $disabled;?> type="submit" name="button" id="button" value="Confirmar Inscripcion" /><?php echo $codigo."<div class=\"enlinea\"><a class=\"boton\" href=\"eventos_fichas.php?user_id=".$rows['user_id']."&evento=".$evento."\">Ficha</a> ".$nombre." - ".$email." (".$distrito.")</div>";?>
 			</form>
 <?php 
 		}
