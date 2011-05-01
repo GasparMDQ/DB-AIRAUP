@@ -73,7 +73,8 @@ if ($evento!=0) {
 		$permiso=true;
 	}	//ES ADMIN
 
-	$sql="SELECT * FROM rtc_eventos_coordinadores, rtc_eventos_inscripciones WHERE rtc_eventos_inscripciones.evento_id=rtc_eventos_coordinadores.evento_id AND rtc_eventos_coordinadores.user_id='$nivel_usuario_id' LIMIT 1";
+//	$sql="SELECT * FROM rtc_eventos_coordinadores, rtc_eventos_inscripciones WHERE rtc_eventos_inscripciones.evento_id=rtc_eventos_coordinadores.evento_id AND rtc_eventos_coordinadores.user_id='$nivel_usuario_id' LIMIT 1";
+	$sql="SELECT * FROM rtc_eventos_coordinadores WHERE rtc_eventos_coordinadores.user_id='$nivel_usuario_id' LIMIT 1";
 	$result=mysql_query($sql);
 	if ($nivel_evento AND mysql_num_rows($result)) {
 		$permiso=true;
