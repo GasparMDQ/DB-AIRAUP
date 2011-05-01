@@ -5,6 +5,43 @@ require_once '../includes/permisos.php';
 require_once '../includes/funciones.php';
 require('../includes/mysql_table.php');
 
+
+class PDF extends FPDF
+{
+
+function Header()
+{
+	global $titulo_evento;
+
+    //Logo
+//    $this->Image('../images/logos/'.$logo,10,8,33);
+    //Arial bold 15
+    $this->SetFont('Arial','B',15);
+    //Movernos a la derecha
+//    $this->Cell(80);
+    //Título
+    $this->Cell(0,10,$titulo_evento,0,1,'L');
+    //Salto de línea
+    $this->Ln(10);
+}
+
+function Footer()
+{
+    //Posición: a 1,5 cm del final
+    $this->SetY(-15);
+    //Arial italic 8
+    $this->SetFont('Arial','I',8);
+    //Número de página
+    $this->Cell(0,10,'Ficha '.$this->PageNo().'/{nb}',0,0,'C');
+}
+}
+
+
+
+
+
+
+
 $esadmin=false;
 
 if ($nivel_admin OR $nivel_evento) {
@@ -42,46 +79,19 @@ if ($evento!=0) {
 		$permiso=true;
 	}	//ES COORDINADOR
 
-	$sql="SELECT * FROM rtc_eventos WHERE id='$evento' LIMIT 1";
-	$result=mysql_query($sql);
-	$row=mysql_fetch_assoc($result);
-	$titulo_evento=$row['nombre'];
 	if ($permiso) {
 
 		$sql_loop="SELECT rtc_eventos_inscripciones.user_id FROM rtc_eventos_inscripciones, rtc_usr_personales WHERE rtc_eventos_inscripciones.evento_id='$evento' AND rtc_eventos_inscripciones.user_id=rtc_usr_personales.user_id ORDER BY rtc_usr_personales.nombre, rtc_usr_personales.apellido";
 		$result_loop=mysql_query($sql_loop);
 
 
+	$sql="SELECT * FROM rtc_eventos WHERE id='$evento' LIMIT 1";
+	$result=mysql_query($sql);
+	$row=mysql_fetch_assoc($result);
+	$titulo_evento=$row['nombre'];
 
 // ARRANCA EL PDF CON DEFINICIONES PREVIAS AL LOOP DE DATOS
 
-class PDF extends FPDF
-{
-
-function Header()
-{
-    //Logo
-//    $this->Image('../images/logos/'.$logo,10,8,33);
-    //Arial bold 15
-    $this->SetFont('Arial','B',15);
-    //Movernos a la derecha
-//    $this->Cell(80);
-    //Título
-    $this->Cell(0,10,'Encuentro del Tridente',0,1,'L');
-    //Salto de línea
-    $this->Ln(10);
-}
-
-function Footer()
-{
-    //Posición: a 1,5 cm del final
-    $this->SetY(-15);
-    //Arial italic 8
-    $this->SetFont('Arial','I',8);
-    //Número de página
-    $this->Cell(0,10,'Ficha '.$this->PageNo().'/{nb}',0,0,'C');
-}
-}
 	$pdf=new PDF('P','mm','A4');
 	$pdf->AliasNbPages();
 

@@ -137,7 +137,10 @@ if (isset($_POST['user']) && isset($_POST['evento']) && isset($_POST['button']) 
 
 			?><input name="evento" type="hidden" value="<?php echo $evento;?>" /><input type="submit" name="button" id="button" value="Alta Directa" />
 			</form>
-
+<div>
+	<a href="eventos_fichas_pdf.php?evento=<?php echo $evento;?>"><img src="../images/pdf_icon.png" width="64" height="64" border="0" /><br />
+  Bajar Fichas</a>
+</div>
 <?php } // Final del IF EVENTO != 0
 include 'footer.php';?>
 
